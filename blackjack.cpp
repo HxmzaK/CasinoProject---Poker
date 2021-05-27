@@ -10,6 +10,7 @@
 #include <iostream>
 #include <vector> 
 #include <algorithm> // for random random_shuffle
+#include <random>
 using namespace std;
 
 
@@ -43,8 +44,9 @@ void Deal(vector<Card*>& deck, Player& player){
 }
 void Shuffle(vector<Card*>& deck){
 	//AJ
-	srand(time(0)); // seeds random so there is a different shuffle every time prgm is run
-	random_shuffle(deck.begin(), deck.end()); // randomly shuffels the deck
+	// srand(ftime(0)); // seeds random so there is a different shuffle every time prgm is run
+	auto rng = std::default_random_engine {};
+	shuffle(deck.begin(), deck.end(), rng); // randomly shuffels the deck
 }
 
 //Nick
