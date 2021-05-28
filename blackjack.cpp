@@ -11,6 +11,7 @@
 #include <vector> 
 #include <algorithm> // for random random_shuffle
 #include <random>
+#include <time.h>
 using namespace std;
 
 
@@ -44,9 +45,9 @@ void Deal(vector<Card*>& deck, Player& player){
 }
 void Shuffle(vector<Card*>& deck){
 	//AJ
-	// srand(ftime(0)); // seeds random so there is a different shuffle every time prgm is run
-	auto rng = std::default_random_engine {};
-	shuffle(deck.begin(), deck.end(), rng); // randomly shuffels the deck
+	srand(time(0)); // seeds random so there is a different shuffle every time prgm is run
+	// auto rng = std::default_random_engine {};
+	random_shuffle(deck.begin(), deck.end()); // randomly shuffels the deck
 }
 
 //Nick
@@ -204,6 +205,7 @@ int main(){
 		Deal(deck,player1);
 		Deal(deck,deal);
 
+	
 		if (player1.sumofhand()==21){
 			//AJ
 			player1.Showhand();

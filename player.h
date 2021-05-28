@@ -32,6 +32,25 @@ public:
 	 	return(account);
 	 }
 
+	 int Gethandsize(){
+		return(hand.size());
+	 }
+
+	//  bool CheckSplit(){
+	// 	if (hand.size()==2){
+	// 	if((*hand.begin())->Getvalue() == (*hand.end())->Getvalue()){
+	// 		if((*hand.begin())->Getcardtype()==1){
+	// 			return((*hand.begin())->Getsymbol() == (*hand.end())->Getsymbol());
+	// 		}
+	// 		else{
+	// 			return(true);
+	// 		}
+	// 	}
+	// 	}
+	// 	return false;
+
+	//  }
+
 	 void Printaccount(){
 	 	//AJ
 	 	// prints the amount of money that the player has
