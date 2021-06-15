@@ -36,20 +36,16 @@ public:
 		return(hand.size());
 	 }
 
-	//  bool CheckSplit(){
-	// 	if (hand.size()==2){
-	// 	if((*hand.begin())->Getvalue() == (*hand.end())->Getvalue()){
-	// 		if((*hand.begin())->Getcardtype()==1){
-	// 			return((*hand.begin())->Getsymbol() == (*hand.end())->Getsymbol());
-	// 		}
-	// 		else{
-	// 			return(true);
-	// 		}
-	// 	}
-	// 	}
-	// 	return false;
-
-	//  }
+	 bool CheckSplit(){
+		if (Gethandsize()==2){
+			if((*hand.begin())->Getcardtype()==1){
+					return((*hand.begin())->Getsymbol() == (*(hand.begin()+1))->Getsymbol());
+				}
+			if((*hand.begin())->Getvalue() == (*(hand.begin()+1))->Getvalue()){
+				return(true);			
+		}
+		return false;
+	 }
 
 	 void Printaccount(){
 	 	//AJ
