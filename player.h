@@ -13,8 +13,10 @@ class Player{
 protected:
 	//AJ
 	std::vector<Card*> hand;
+	std::vector<Card*> hand2;
 	std::string name;
 	int account;
+	int lastbet;
 public:
 	//constuctor that initializes the player
 	 Player(string name){
@@ -37,14 +39,22 @@ public:
 	 }
 
 	 bool CheckSplit(){
+	 	if(account < lastbet){ // checks if you have enough money to split
+	 		return false;
+	 	}
 		if (Gethandsize()==2){
 			if((*hand.begin())->Getcardtype()==1){
 					return((*hand.begin())->Getsymbol() == (*(hand.begin()+1))->Getsymbol());
 				}
-			if((*hand.begin())->Getvalue() == (*(hand.begin()+1))->Getvalue()){
+			if((*hand.begin())->Getvalue() == (*(hand.begin()+1))->Getvalue())
 				return(true);			
 		}
 		return false;
+	 }
+
+	 void Split(){
+	 	hand2.push_back(hand.pop_back());
+	 	account-=lastbet;	
 	 }
 
 	 void Printaccount(){
@@ -60,9 +70,17 @@ public:
 
 	 //Nick
 	 //function neatly prints the cards in hand as text that resembles a playing card
-	 virtual void Showhand(){
+	 virtual void Showhand(bool split = false){
+	 		std::vector<Card*> hand;
 	 		vector<Card*>::iterator it; 								//iterator to iterate through hand vector
 	 		std::cout << std::endl;
+
+	 		if(split){
+	 			hand = this->hand2;
+	 		}
+	 		else{
+	 			hand = this->hand;
+	 		}
 	 	 	
 	 	 	cout << name << " has: "<< sumofhand() <<std::endl;
 	 	 	for (it = hand.begin(); it != hand.end(); it++){
@@ -178,6 +196,7 @@ public:
  		}
  		else{
  			account -= amount; // takes the players bet out of their account 
+ 			lastbet = amount; // saves the last bet so program can take out same amount if split
  			return amount; // returns nonzero number to break the bet input loop
  		}
 	 }

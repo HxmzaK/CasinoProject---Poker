@@ -83,6 +83,26 @@ void userTurn(vector<Card*>& deck, Player& player){
 	}
 }
 
+void userTurn(vector<Card*>& deck, Player& player, bool splitting=true){
+	int uInput; 														// user input variable
+	while(uInput != 2 && checkWinLoss(player) == true){					//repeat until the user choses to stay
+		std::cout << "\n\nWhat would you like to do:" << std::endl;
+		std::cout << "\t1. Hit" << std::endl;
+		std::cout << "\t2. Stay" << std::endl;
+		std::cin >> uInput;
+		switch(uInput){ 												//switch statement does different actions dependent on user input
+			case 1:
+				std::cout<<std::endl;
+				std::cout<<"hit! ";
+				Deal(deck, player);
+				player.Showhand();
+				//std::cout << std::endl;
+			break;
+			case 2:
+				break;
+		}
+	}
+}
 //Nick
 void dealerTurn(vector<Card*>& deck, Player& player){ 
 	while(player.sumofhand() <= 16){									//the dealer has to hit if <= 16
