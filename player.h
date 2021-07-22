@@ -12,7 +12,7 @@ using namespace std;
 class Player{
 protected:
 	//AJ
-	std::vector<Card*> hand;
+	std::vector<Card*> hand1;
 	std::vector<Card*> hand2;
 	std::string name;
 	int account;
@@ -34,8 +34,13 @@ public:
 	 	return(account);
 	 }
 
-	 int Gethandsize(){
-		return(hand.size());
+	 int Gethandsize(bool split = false){
+		if(split){
+			return(hand2.size());
+		}
+		else{
+			return(hand1.size());
+		}
 	 }
 
 	 bool CheckSplit(){
@@ -43,17 +48,18 @@ public:
 	 		return false;
 	 	}
 		if (Gethandsize()==2){
-			if((*hand.begin())->Getcardtype()==1){
-					return((*hand.begin())->Getsymbol() == (*(hand.begin()+1))->Getsymbol());
+			if((*hand1.begin())->Getcardtype()==1){
+					return((*hand1.begin())->Getsymbol() == (*(hand1.begin()+1))->Getsymbol());
 				}
-			if((*hand.begin())->Getvalue() == (*(hand.begin()+1))->Getvalue())
+			if((*hand1.begin())->Getvalue() == (*(hand1.begin()+1))->Getvalue())
 				return(true);			
 		}
 		return false;
 	 }
 
 	 void Split(){
-	 	hand2.push_back(hand.pop_back());
+	 	hand2.push_back(hand1.back());
+	 	hand1.pop_back();
 	 	account-=lastbet;	
 	 }
 
@@ -62,27 +68,37 @@ public:
 	 	// prints the amount of money that the player has
 	 	std::cout << name << " has $" << account << " in the account\n";
 	 }
+
 	 //adds a card object pointer to the hand vector
-	 void delt(Card* card){
+	 void delt(Card* card, bool split = false){
 	 	//AJ
-	 	hand.push_back(card);
+	 	if(split){
+	 		hand2.push_back(card);
+	 	}
+	 	else{
+	 		hand1.push_back(card);
+	 	}
+	 	
 	 }
 
 	 //Nick
 	 //function neatly prints the cards in hand as text that resembles a playing card
-	 virtual void Showhand(bool split = false){
+	 virtual void Showhand(bool split = false){ // sets default to not split so an input is only needed if spliting
 	 		std::vector<Card*> hand;
+	 		int handnum = 0;
 	 		vector<Card*>::iterator it; 								//iterator to iterate through hand vector
 	 		std::cout << std::endl;
 
 	 		if(split){
 	 			hand = this->hand2;
+	 			handnum = 2;
 	 		}
 	 		else{
-	 			hand = this->hand;
+	 			hand = this->hand1;
+	 			handnum = 1;
 	 		}
 	 	 	
-	 	 	cout << name << " has: "<< sumofhand() <<std::endl;
+	 	 	cout << name << " has: "<< sumofhand(split) << "  hand" << handnum <<std::endl;
 	 	 	for (it = hand.begin(); it != hand.end(); it++){
 	 	 		std::cout << "==========     "; 						// prints the top of each card
 	 	 	}
@@ -143,29 +159,84 @@ public:
 	 	 	std::cout<<std::endl;
 	 	 }
 
-	 void clearhand(){
+	 void clearhand(bool split = false){ // sets default to not split so an input is only needed if spliting
 	 	//AJ
+	 	std::vector<Card*> hand;
 	 	vector<Card*>::iterator it; //iterator to iterate through hand vector
-	 	for (it = hand.begin(); it != hand.end(); it++){
-	 		delete *it; //delete the card pointer for each card in hand
+	 	if(split){
+	 		for (it = hand2.begin(); it != hand2.end(); it++){
+	 			delete *it; //delete the card pointer for each card in hand
+	 		}//ends for loop
+	 		hand2.clear(); // makes entire hand empty
 	 	}
-	 	hand.clear(); // makes entire hand empty
+	 	else{
+	 		for (it = hand1.begin(); it != hand1.end(); it++){
+	 			delete *it; //delete the card pointer for each card in hand
+	 		}//ends for loop
+	 		hand1.clear(); // makes entire hand empty
+	 	}
 	 }
 
 	 //Nick
-	 int sumofhand(){
+	 int sumofhand(bool split = false){
 		int sum = 0; 													//initializes sum as 0
-	 	vector<Card*>::iterator it; 									//iterator to iterate through hand vector
-	 	for (it = hand.begin(); it != hand.end(); it++){
+	 	vector<Card*>::iterator it; 
+	 	if(split){ // checks sum of split hand only
+	 		for (it = hand2.begin(); it != hand2.end(); it++){
+	 		sum += (*it)->Getvalue(); 									//ads the value of each card to the sum
+		 	}
+		 	if(sum > 21){ 													//sets the value of ace to 1 if needed otherwise its an 11
+		 		//Nick
+		 		for (it = hand2.begin(); it != hand2.end(); it++){  
+		 			if((*it)->Getsymbol() == 'A'){
+		 				(*it)->Setvalue(1); 								// changes the value of the Ace
+		 				sum = 0; 											// resets the sum to 0
+		 				for (it = hand2.begin(); it != hand2.end(); it++){
+		 					sum += (*it)->Getvalue(); 						// recalculates the sum with new value of Ace
+		 				}
+		 				break; 
+		 			}
+		 		}
+
+		 	}
+	 	}//ends if statement of split
+	 	else{
+	 		for (it = hand1.begin(); it != hand1.end(); it++){
 	 		sum += (*it)->Getvalue(); 									//ads the value of each card to the sum
 	 	}
 	 	if(sum > 21){ 													//sets the value of ace to 1 if needed otherwise its an 11
 	 		//Nick
-	 		for (it = hand.begin(); it != hand.end(); it++){  
+	 		for (it = hand1.begin(); it != hand1.end(); it++){  
 	 			if((*it)->Getsymbol() == 'A'){
 	 				(*it)->Setvalue(1); 								// changes the value of the Ace
 	 				sum = 0; 											// resets the sum to 0
-	 				for (it = hand.begin(); it != hand.end(); it++){
+	 				for (it = hand1.begin(); it != hand1.end(); it++){
+	 					sum += (*it)->Getvalue(); 						// recalculates the sum with new value of Ace
+	 				}
+	 				break; 
+	 			}
+	 		}
+
+	 	}
+	 	}//end of else form split if condition									//iterator to iterate through hand vector
+	 	
+	 	return(sum);
+	 }
+
+	 //AJ
+	 int sumofsplithand(){
+		int sum = 0; 													//initializes sum as 0
+	 	vector<Card*>::iterator it; 									//iterator to iterate through hand vector
+	 	for (it = hand2.begin(); it != hand2.end(); it++){
+	 		sum += (*it)->Getvalue(); 									//ads the value of each card to the sum
+	 	}
+	 	if(sum > 21){ 													//sets the value of ace to 1 if needed otherwise its an 11
+	 		//Nick
+	 		for (it = hand2.begin(); it != hand2.end(); it++){  
+	 			if((*it)->Getsymbol() == 'A'){
+	 				(*it)->Setvalue(1); 								// changes the value of the Ace
+	 				sum = 0; 											// resets the sum to 0
+	 				for (it = hand2.begin(); it != hand2.end(); it++){
 	 					sum += (*it)->Getvalue(); 						// recalculates the sum with new value of Ace
 	 				}
 	 				break; 
@@ -225,12 +296,12 @@ public:
 	//Nick
 	void Showhand(){												//hides one of the cards for dealer
 			vector<Card*>::iterator it; 							//iterator to iterate through hand vector
-		 	for (it = hand.begin(); it != hand.end()-1; it++){ 		//iterates through dealrs hand except the last card
+		 	for (it = hand1.begin(); it != hand1.end()-1; it++){ 		//iterates through dealrs hand except the last card
 		 		std::cout << "==========     ";						// prints the top of each card
 		 	}
 		 	std::cout << "==========     "; 						// prints the top of hidden card
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end()-1; it++){ 		//iterates through dealrs hand except the last card
+		 	for (it = hand1.begin(); it != hand1.end()-1; it++){ 		//iterates through dealrs hand except the last card
 		 		//std::cout << "=========     ";
 		 		std::cout << "|";
 		 		(*it)->printValue(); 								//prints each card in the player's hand
@@ -242,12 +313,12 @@ public:
 		 	}
 		 	std::cout << "|        |     ";
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end()-1; it++){ 		//iterates through dealrs hand except the last card
+		 	for (it = hand1.begin(); it != hand1.end()-1; it++){ 		//iterates through dealrs hand except the last card
 		 		std::cout << "|        |     "; 					//prints the sides of the card for the row
 		 	}
 		 	std::cout << "|        |     "; 						//prints the sides of the hidden card for the row
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end()-1; it++){ 		//iterates through dealrs hand except the last card
+		 	for (it = hand1.begin(); it != hand1.end()-1; it++){ 		//iterates through dealrs hand except the last card
 
 
 		 		//Nick
@@ -271,12 +342,12 @@ public:
 		 	}
 		 	std::cout << "| Hidden |     ";
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end()-1; it++){ 					//iterates through dealrs hand except the last card
+		 	for (it = hand1.begin(); it != hand1.end()-1; it++){ 					//iterates through dealrs hand except the last card
 		 		std::cout << "|        |     "; 								//prints the sides of the card for the row
 		 	}
 		 	std::cout << "|        |     "; 									//prints the sides of the hidden card for the row
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end()-1; it++){ 					//iterates through dealrs hand except the last card
+		 	for (it = hand1.begin(); it != hand1.end()-1; it++){ 					//iterates through dealrs hand except the last card
 		 		if((*it)->Getvalue() == 10){
 		 			std::cout << "|      ";
 		 		}else{
@@ -287,7 +358,7 @@ public:
 		 	}
 		 	std::cout << "|        |     ";
 		 	std::cout << std::endl;
-		 	for (it = hand.begin(); it != hand.end()-1; it++){ 					//iterates through dealrs hand except the last card
+		 	for (it = hand1.begin(); it != hand1.end()-1; it++){ 					//iterates through dealrs hand except the last card
 		 		std::cout << "==========     "; 								// Prints the bottom of each card
 		 	}
 		 	std::cout << "==========     "; 									// Prints the bottom of hidden card
@@ -300,11 +371,11 @@ public:
 			std::cout<< "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"<< std::endl;
 			std::cout << std::endl;
 			cout << name << " has: "<< sumofhand() <<std::endl;
-		 	for (it = hand.begin(); it != hand.end(); it++){
+		 	for (it = hand1.begin(); it != hand1.end(); it++){
 		 		std::cout << "==========     ";
 		 	}
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end(); it++){
+		 	for (it = hand1.begin(); it != hand1.end(); it++){
 		 		//std::cout << "=========     ";
 		 		std::cout << "|";
 		 		(*it)->printValue(); 									//prints each card in the Dealer's han
@@ -315,11 +386,11 @@ public:
 		 		}
 		 	}
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end(); it++){
+		 	for (it = hand1.begin(); it != hand1.end(); it++){
 		 		std::cout << "|        |     "; 						//prints the sides of the card for the row
 		 	}
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end(); it++){
+		 	for (it = hand1.begin(); it != hand1.end(); it++){
 		 		//Nick
 		 		//switch statement prints the name of the suit with the corresponding char
 		 		switch((*it)->Getsuit()){
@@ -341,11 +412,11 @@ public:
 		 	}
 		 	std::cout<<std::endl;
 		 	//Nick
-		 	for (it = hand.begin(); it != hand.end(); it++){
+		 	for (it = hand1.begin(); it != hand1.end(); it++){
 		 		std::cout << "|        |     "; 					//prints the sides of the card for the row
 		 	}
 		 	std::cout<<std::endl;
-		 	for (it = hand.begin(); it != hand.end(); it++){
+		 	for (it = hand1.begin(); it != hand1.end(); it++){
 		 		if((*it)->Getvalue() == 10){ 						//if statement keeps card edges in line
 		 			std::cout << "|      ";
 		 		}else{
@@ -355,7 +426,7 @@ public:
 		 		std::cout << "|     ";
 		 	}
 		 	std::cout << std::endl;
-		 	for (it = hand.begin(); it != hand.end(); it++){
+		 	for (it = hand1.begin(); it != hand1.end(); it++){
 		 		std::cout << "==========     "; 					// prints the bottom row of each card
 		 	}
 		 	std::cout<<std::endl;
