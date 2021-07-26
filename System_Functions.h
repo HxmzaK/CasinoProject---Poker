@@ -3,6 +3,56 @@
 
 #include <iostream>
 #include <string>
+#include <sqlite3.h>
+
+static int callback(void* data, int argc, char** argv, char** azColName){               
+    int i; 
+   
+        for (i = 0; i < argc; i++) 
+        { 
+            printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL"); 
+        } 
+  
+        printf("\n"); 
+        
+        return 0; 
+    }
+
+
+/*
+--------------------------------------------------------------------------------------------------
+EDIT TABLE FUNCTION:
+
+ARGUMENTS: pointer to database, sql command passed as a string, target table passed as a string
+
+Description: editTable() function will take in a database and edit the database based off the command
+             that was passed through. Ensure the command is correct syntax.
+
+--------------------------------------------------------------------------------------------------
+*/
+
+
+void editTable(sqlite3 * db, string command, string target)
+{
+    int exit = 0;
+    char * messageError;
+    string sql(command);
+
+        exit = sqlite3_exec(db, sql.c_str(), NULL, 0, &messageError); 
+
+        if (exit != SQLITE_OK) 
+        { 
+            cout << "--------------------------------------------------------- \n";
+            cout << "System Message: Error Editing " + target << std::endl; 
+            sqlite3_free(messageError); 
+        } 
+        else
+        {
+            cout << "--------------------------------------------------------- \n";            
+            cout << "System Message: "<< target +" Edited Successfully" << std::endl; 
+        }
+}
+
 
 /*
 --------------------------------------------------------------------------------------

@@ -27,82 +27,6 @@ Ticket Class (Base)
 -------------------------------------------------
 */
 
-class Player {
-    protected:
-        int id;
-        std::string name;
-        int wins;
-        int losses;
-        int gamesPlayed;
-        float amountWon;
-        float amountLost;
-        float bankAccount;
-
-    public:
-
-        Player(int id, std::string name){
-            this -> id = id;
-            this -> name = name;
-        }
-
-        //Set Functions: Games PLayed, Wins, Losses, Amount Won, Amount Lost
-
-        void setWins(int inputWins){
-            wins = inputWins;
-        }
-
-        void setLosses(int inputLosses){
-            losses = inputLosses;
-        }
-
-        void setGamesPlayed(int inputGamesPlayed){
-            gamesPlayed = inputGamesPlayed;
-        }
-        void setAmountWon(float inputAmountWon){
-            amountWon = inputAmountWon;
-        }
-
-        void setAmountLost(float inputAmountLost){
-            amountLost = inputAmountLost;
-        }
-        void setBankAccount(float inputBankAccount){
-            bankAccount = inputBankAccount;
-        }
-
-        //Get Functions: All Attributes
-        int getID(){
-            return id;
-        }
-
-        std::string getName(){
-            return name;
-        }
-
-        int getWins(){
-            return wins;
-        }
-
-        int getLosses(){
-            return losses;
-        }
-
-        int getGamePlayed(){
-            return gamesPlayed;
-        }
-
-        float getAmountWon(){
-            return amountWon;
-        }
-
-        float getAmountLost(){
-            return amountLost;
-        }
-
-        float getBankAccount(){
-            return bankAccount;
-        }
-
-};
 
 class Ticket {
 
@@ -436,24 +360,85 @@ class wayTicket : public Ticket
         }
 
 
+// class Player {
+//     protected:
+//         int id;
+//         std::string name;
+//         int wins;
+//         int losses;
+//         int gamesPlayed;
+//         float amountWon;
+//         float amountLost;
+//         float bankAccount;
 
+//     public:
 
+//         Player(int id, std::string name){
+//             this -> id = id;
+//             this -> name = name;
+//         }
 
+//         //Set Functions: Games PLayed, Wins, Losses, Amount Won, Amount Lost
 
+//         void setWins(int inputWins){
+//             wins = inputWins;
+//         }
 
+//         void setLosses(int inputLosses){
+//             losses = inputLosses;
+//         }
 
+//         void setGamesPlayed(int inputGamesPlayed){
+//             gamesPlayed = inputGamesPlayed;
+//         }
+//         void setAmountWon(float inputAmountWon){
+//             amountWon = inputAmountWon;
+//         }
+
+//         void setAmountLost(float inputAmountLost){
+//             amountLost = inputAmountLost;
+//         }
+//         void setBankAccount(float inputBankAccount){
+//             bankAccount = inputBankAccount;
+//         }
+
+//         //Get Functions: All Attributes
+//         int getID(){
+//             return id;
+//         }
+
+//         std::string getName(){
+//             return name;
+//         }
+
+//         int getWins(){
+//             return wins;
+//         }
+
+//         int getLosses(){
+//             return losses;
+//         }
+
+//         int getGamePlayed(){
+//             return gamesPlayed;
+//         }
+
+//         float getAmountWon(){
+//             return amountWon;
+//         }
+
+//         float getAmountLost(){
+//             return amountLost;
+//         }
+
+//         float getBankAccount(){
+//             return bankAccount;
+//         }
+
+// };
 
 
 };
-
-
-
-
-
-
-
-
-
 
 
 

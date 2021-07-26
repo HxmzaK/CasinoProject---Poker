@@ -10,6 +10,7 @@
 #include <cmath>
 #include <time.h>
 #include <vector>
+#include "baseclass.h"
 #include "Keno.h"
 #include "System_Functions.h"
 
@@ -21,16 +22,40 @@
 */
 int main(){
 
-    //Player Variable
-    Player player1(1234, "Player1");
+    //Player & Game Variable
+    Player player1(1001, "Keno Player 1");
+    Game Keno;
     
-    //set initial values of games played, wins, losses, amount won, and amount lost to 0
+    //Player: set initial values of games played, wins, losses, amount won, and amount lost to 0
     player1.setGamesPlayed(0);
     player1.setWins(0);
     player1.setLosses(0);
     player1.setAmountWon(0);
     player1.setAmountLost(0);
-    player1.setBankAccount(1000);
+    player1.setDeposit(0);
+    player1.setWithdraw(0);
+    //player1.setBankAccount(1000);
+
+    //Game: set initial values id, name
+    Keno.SetName("Keno");
+    Keno.SetID(1001);
+
+    //DATABASE
+    sqlite3* DB;
+
+	int exit = 0;
+    char * messageError;
+		
+    exit = sqlite3_open("casinodata.db", &DB); //open the database
+
+    //Add Game & Player to Database
+    string addGame = "INSERT INTO GAMES VALUES(" + std::to_string(Keno.getID()) + ", '"+ Keno.getName() +"', " + std::to_string(Keno.getWins()) +", " + std::to_string(Keno.getLosses()) +", " + std::to_string(Keno.getGamesPlayed()) +", " + std::to_string(Keno.getAmountWon()) +", " + std::to_string(Keno.getAmountLost()) +" );";
+    editTable(DB, addGame, "Casino Database");
+
+    string addPlayer = "INSERT INTO PLAYERS VALUES("+ std::to_string(player1.getID()) +", '"+ player1.getName() +"', '" + player1.getName() +"', " + std::to_string(player1.getBankAccount()) + ", "+ std::to_string(player1.getDeposit()) +", "+ std::to_string(player1.getWithdraw()) +", "+ std::to_string(player1.getGamePlayed()) +", "+ std::to_string(player1.getWins()) +", "+ std::to_string(player1.getLosses()) +", NULL)";
+    editTable(DB, addPlayer, "Casino Database");
+
+
 
     //Process 1: begin game (bank account starts with $1000, print player Info: ID, Name, Account Balance)
 std::cout << "██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗    ████████╗ ██████╗     ██╗  ██╗███████╗███╗   ██╗ ██████╗ \n"
@@ -59,6 +84,7 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                 std::cout << "Let's Start By Taking Out Money. Here's Your Bank Account. \n";
                 std::cout <<"Account Balance: $" << player1.getBankAccount() << "\nHow much would you like to withdraw?\n";
                 std::cin >> withdrawAmount;
+                player1.setWithdraw(withdrawAmount);
                 if (withdrawAmount > player1.getBankAccount())
                 {
                     std::cout << "You do not have enough in your account. Try Again. \n";
@@ -74,6 +100,9 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                     spendAmount = withdrawAmount;
                     accountBalance = player1.getBankAccount() - withdrawAmount;
                     player1.setBankAccount(accountBalance);
+                    string uptBalance = "UPDATE PLAYERS SET BALANCE = "+ std::to_string(accountBalance) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                    editTable(DB,uptBalance,"Players Table");
+
                     std::cout << "Great you have $" << spendAmount << " spending money! Use it wisely. \n";
                     bankInput = 0;
                 }
@@ -165,6 +194,10 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                         //add to gamesPlayed and update gamesPlayed
                         int addGames = player1.getGamePlayed() + 1;
                         player1.setGamesPlayed(addGames);
+                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                        string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                        editTable(DB, uptGamesPlayed_Games, "Games Table");
+                        editTable(DB, uptGamesPlayed_Players, "Players Table");
 
                         std::cout << "Your Profit is $" << moneyWon - ticket1.getTicketCost() << std::endl;
 
@@ -174,10 +207,16 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                             //set new amountWon for player 1
                             amountWon = player1.getAmountWon() + moneyWon; 
                             player1.setAmountWon(amountWon); 
+                            string uptAmountWon = "UPDATE GAMES SET AMOUNT_WON = "+ std::to_string(amountWon) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            editTable(DB, uptAmountWon, "Games Table");
 
                             //set new win count
                             int addWins = player1.getWins() + 1;
                             player1.setWins(addWins);
+                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptWin_Players = "UPDATE PLAYERS SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                            editTable(DB, uptWin_Games, "Games Table");
+                            editTable(DB, uptWin_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon; //update and add money to spending amount
 
@@ -189,10 +228,16 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                             //set new amountLost for player 1
                             float amountLost = ticket1.getTicketCost();
                             player1.setAmountLost(amountLost);
-
+                            string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            editTable(DB, uptAmountLost, "Games Table");
+                            
                             //set new loss count
                             int addLoss = player1.getLosses() + 1;
                             player1.setLosses(addLoss);
+                            string uptLost_Games = "UPDATE GAMES SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptLost_Players = "UPDATE PLAYERS SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                            editTable(DB, uptLost_Games, "Games Table");
+                            editTable(DB, uptLost_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon;
                         }
@@ -333,6 +378,10 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                         //add to gamesPlayed and update gamesPlayed
                         int addGames = player1.getGamePlayed() + 1;
                         player1.setGamesPlayed(addGames);
+                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                        string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                        editTable(DB, uptGamesPlayed_Games, "Games Table");
+                        editTable(DB, uptGamesPlayed_Players, "Players Table");
 
                         std::cout << "Your Profit is $" << moneyWon - ticket1.getTicketCost() << std::endl;
 
@@ -341,11 +390,17 @@ std::cout << "██╗    ██╗███████╗██╗      █�
 
                             //set new amountWon for player 1
                             amountWon = player1.getAmountWon() + moneyWon; 
-                            player1.setAmountWon(amountWon); 
+                            player1.setAmountWon(amountWon);
+                            string uptAmountWon = "UPDATE GAMES SET AMOUNT_WON = "+ std::to_string(amountWon) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            editTable(DB, uptAmountWon, "Games Table"); 
 
                             //set new win count
                             int addWins = player1.getWins() + 1;
                             player1.setWins(addWins);
+                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptWin_Players = "UPDATE PLAYERS SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                            editTable(DB, uptWin_Games, "Games Table");
+                            editTable(DB, uptWin_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon; //update and add money to spending amount
 
@@ -357,10 +412,16 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                             //set new amountLost for player 1
                             float amountLost = ticket1.getTicketCost();
                             player1.setAmountLost(amountLost);
+                            string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            editTable(DB, uptAmountLost, "Games Table");
 
                             //set new loss count
                             int addLoss = player1.getLosses() + 1;
                             player1.setLosses(addLoss);
+                            string uptLost_Games = "UPDATE GAMES SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptLost_Players = "UPDATE PLAYERS SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                            editTable(DB, uptLost_Games, "Games Table");
+                            editTable(DB, uptLost_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon;
                         }
@@ -480,6 +541,12 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                         //add to gamesPlayed and update gamesPlayed
                         int addGames = player1.getGamePlayed() + 1;
                         player1.setGamesPlayed(addGames);
+                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                        string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                        editTable(DB, uptGamesPlayed_Games, "Games Table");
+                        editTable(DB, uptGamesPlayed_Players, "Players Table");
+
+                        //calculate ticket cost and win/losses
                         int totalticketCost = 0;
                         
                         for (int i = 0; i < numberofTickets; i++)
@@ -497,10 +564,16 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                             //set new amountWon for player 1
                             amountWon = player1.getAmountWon() + moneyWon; 
                             player1.setAmountWon(amountWon); 
+                            string uptAmountWon = "UPDATE GAMES SET AMOUNT_WON = "+ std::to_string(amountWon) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            editTable(DB, uptAmountWon, "Games Table"); 
 
                             //set new win count
                             int addWins = player1.getWins() + 1;
                             player1.setWins(addWins);
+                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptWin_Players = "UPDATE PLAYERS SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                            editTable(DB, uptWin_Games, "Games Table");
+                            editTable(DB, uptWin_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon; //update and add money to spending amount
 
@@ -548,23 +621,12 @@ std::cout << "██╗    ██╗███████╗██╗      █�
                             }                    
                         }                    
                                         
-                    
-
-                    
-
                         break;
                     }
                     
                     default:
                         break;
                 }
-
-
-
-
-
-
-                
             }
     }
 
