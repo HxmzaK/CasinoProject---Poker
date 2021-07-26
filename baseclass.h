@@ -1,12 +1,14 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <sqlite3.h>
 using namespace std;
 
 class Player {
     protected:
         int id;
         std::string name;
+        std::string lname;
         int wins;
         int losses;
         int gamesPlayed; 
@@ -16,12 +18,36 @@ class Player {
 
     public:
 
-        Player(int id, std::string name){
-            this -> id = id;
-            this -> name = name;
+        Player(int id, std::string name, std::string lname){
+            this-> id = id;
+            this-> name = name;
+            this-> lname = lname;
             this-> bankAccount = 1000;
         }
 
+        //db functions
+        void add2DB(){
+            //AJ
+            sqlite3* DB;
+            char* messageError;
+            int exit = 0;
+            std::vector<std::string> container;// iniitializes vector for the selection to put results
+            exit = sqlite3_open("casinodata.db", &DB);   //open the database
+
+            std::string sql("INSERT INTO PLAYERS VALUES("+std::to_string(id)+",'"+name+"','"+lname+"',1000.0,0.0,0.0,0,0,0,0);");
+
+            exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
+
+            if (exit != SQLITE_OK) 
+            {
+                std::cerr << "Error Insert" << std::endl;
+                sqlite3_free(messageError);
+            }
+            else{
+                std::cout << "Records created Successfully!" << std::endl;
+            }
+            sqlite3_close(DB);
+        }
         //Set Functions: Games PLayed, Wins, Losses, Amount Won, Amount Lost
 
         void setWins(int inputWins){

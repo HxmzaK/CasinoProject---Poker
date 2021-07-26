@@ -9,7 +9,7 @@ static int callbacklogin(void* data, int argc, char** argv, char** azColName){
     int i; 
         for (i = 0; i < argc; i++) 
         { 
-            // https://stackoverflow.com/questions/60811670/how-do-i-store-into-a-c-variables-using-sqlite3
+            //https://stackoverflow.com/questions/60811670/how-do-i-store-into-a-c-variables-using-sqlite3
             auto &container = *static_cast<std::vector<std::string>*>(data);
             container.push_back(argv[i]); // stores the return of the selection to the container(4th arg of exec)
         } 
