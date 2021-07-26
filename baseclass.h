@@ -1,53 +1,27 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <sqlite3.h>
 using namespace std;
 
 class Player {
     protected:
         int id;
-        std::string name;
-        std::string lname;
+        string name;
         int wins;
         int losses;
         int gamesPlayed; 
         float amountWon;
-		float amountLost;
+		    float amountLost;
         float bankAccount;
 
     public:
 
-        Player(int id, std::string name, std::string lname){
-            this-> id = id;
-            this-> name = name;
-            this-> lname = lname;
+        Player(int id, string name){
+            this -> id = id;
+            this -> name = name;
             this-> bankAccount = 1000;
         }
 
-        //db functions
-        void add2DB(){
-            //AJ
-            sqlite3* DB;
-            char* messageError;
-            int exit = 0;
-            std::vector<std::string> container;// iniitializes vector for the selection to put results
-            exit = sqlite3_open("casinodata.db", &DB);   //open the database
-
-            std::string sql("INSERT INTO PLAYERS VALUES("+std::to_string(id)+",'"+name+"','"+lname+"',1000.0,0.0,0.0,0,0,0,0);");
-
-            exit = sqlite3_exec(DB, sql.c_str(), NULL, 0, &messageError);
-
-            if (exit != SQLITE_OK) 
-            {
-                std::cerr << "Error Insert" << std::endl;
-                sqlite3_free(messageError);
-            }
-            else{
-                std::cout << "Records created Successfully!" << std::endl;
-            }
-            sqlite3_close(DB);
-        }
         //Set Functions: Games PLayed, Wins, Losses, Amount Won, Amount Lost
 
         void setWins(int inputWins){
@@ -77,7 +51,7 @@ class Player {
             return id;
         }
 
-        std::string getName(){
+        string getName(){
             return name;
         }
         
@@ -112,7 +86,7 @@ class Player {
 class Game {
 private:
     int ID;
-    std::string name;
+    string name;
     int wins;
     int losses;
     int gamesPlayed;
@@ -137,7 +111,7 @@ public:
     void SetID(int ID){
         this->ID = ID;
     }
-    void SetName(std::string name){
+    void SetName(string name){
         this->name = name;
     }
     void SetWins(int wins){
@@ -206,7 +180,6 @@ class Admin:public Player {
             
         }
         ~Admin(){
-            
         }
 };
 
