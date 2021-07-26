@@ -1,3 +1,4 @@
+// OOP Final project AJ McMartin Nick Ferrara
 #pragma once
 #include <iostream>
 #include <string>

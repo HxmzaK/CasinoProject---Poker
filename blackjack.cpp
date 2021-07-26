@@ -6,7 +6,7 @@
 //
 //
 #include "deckofcards.h"
-#include "player.h"
+#include "player_bj.h"
 #include "gamefuncs_bj.h"
 #include <iostream>
 #include <vector> 
@@ -26,10 +26,11 @@ int main(){
 	string name;
 	std::cout << "Enter your name: ";
 	std::getline(cin, name); 							// user input for their name
-	Player player1(name);
-	Dealer deal("Dealer"); 								// creates a dealer named dealer
+	Player_BJ player1(name);
+	Dealer_BJ deal("Dealer"); 	
+	blackjack Game();							// creates a dealer named dealer
 	vector <Card*> deck;								// initiates vector that will become the deck
-	Makedeck(deck);										//adds all the cards to the deck
+	Game.Makedeck(deck);										//adds all the cards to the deck
 
 	//Nick
 	//got the ASCII wording from this generator
@@ -64,12 +65,12 @@ int main(){
 			if (deck.size() < 20){ // reshuffles deck when there is less than 20 cards in the deck
 				//AJ
 				std::cout << "Reshuffling the Deck\n";
-				Deletedeck(deck); // deletes what is left from old deck
-				Makedeck(deck); //make a whole new deck 
+				Game.Deletedeck(deck); // deletes what is left from old deck
+				Game.Makedeck(deck); //make a whole new deck 
 			}
 		
 		
-		Shuffle(deck); //shuffles the deck before each round 
+		Game.Shuffle(deck); //shuffles the deck before each round 
 		player1.Printaccount();//tell player how much they have before they bet 
 		
 		while (bet==0){
@@ -79,17 +80,17 @@ int main(){
 		}
 		
 		//deals first to cards to player and dealer 
-		Deal(deck,player1);
-		Deal(deck,deal);
-		Deal(deck,player1);
-		Deal(deck,deal);
+		Game.Deal(deck,player1);
+		Game.Deal(deck,deal);
+		Game.Deal(deck,player1);
+		Game.Deal(deck,deal);
 
 	
 		if (player1.sumofhand()==21){
 			//AJ
 			player1.Showhand();
 			std::cout << "Congratulations you got a Blackjack!!\n";
-			Betcalc(player1,bet,3); //distributes winnings to the player
+			Game.Betcalc(player1,bet,3); //distributes winnings to the player
 			player1.Printaccount(); // prints the money that the player has now
 		}
 		else{
@@ -110,9 +111,9 @@ int main(){
 					case 'y': {
 						player1.Split();
 						split = true;
-						Deal(deck, player1, true); // dealsa a card to each hand
-						Deal(deck, player1);
-						userTurn(deck,player1,split);
+						Game.Deal(deck, player1, true); // dealsa a card to each hand
+						Game.Deal(deck, player1);
+						Game.userTurn(deck,player1,split);
 						break;
 
 					}
@@ -127,27 +128,27 @@ int main(){
 				}
 			}//ends check split if
 
-			userTurn(deck,player1);
+			Game.userTurn(deck,player1);
 			//dealerTurn(deck,deal);
 
 
 			//Nick
-			if((checkWinLoss(player1) == false) || (checkWinLoss(player1,split) == false) ){						//if player1 < 21 dealer takes their turn
+			if((Game.checkWinLoss(player1) == false) || (Game.checkWinLoss(player1,split) == false) ){						//if player1 < 21 dealer takes their turn
 			}else{
-				dealerTurn(deck,deal);
+				Game.dealerTurn(deck,deal);
 			}
-			if(checkWinLoss(deal) == false){						// if dealer didnt bust determine winner
+			if(Game.checkWinLoss(deal) == false){						// if dealer didnt bust determine winner
 				deal.showAll();
 				std::cout<<std::endl;
 				std::cout<<"Dealer Busted" <<std::endl;
 				std::cout << "You Win!" << std::endl;
-				Betcalc(player1,bet,1); //distributes winnings to the player
+				Game.Betcalc(player1,bet,1); //distributes winnings to the player
 				if(split){
-					Betcalc(player1,bet,1);//gives second hand money too
+					Game.Betcalc(player1,bet,1);//gives second hand money too
 				}
 				player1.Printaccount(); // prints the money that the player has now
-			}else if (checkWinLoss(deal) == true){
-				determineWinner(player1,deal,bet,split);
+			}else if (Game.checkWinLoss(deal) == true){
+				Game.determineWinner(player1,deal,bet,split);
 			}
 
 
