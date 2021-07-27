@@ -3,4 +3,5 @@ jack.o
 blackjack.exe
 .vscode\settings.json
 test.o
-
+blacktest.cpp
+maintest.cpp
