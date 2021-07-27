@@ -6,12 +6,12 @@
 
 using namespace std;
 
+double singleRow();
+double doubleRow();
+double checkForMatches(string s1, string s2, string s3);
 
-class Slots : public Game, public Player
-{
-public:
 
-	void gameplay()
+int gameplay(Player player1)
 	{
 
 		int choice = 0, repeat = 1, catchEnter = 0;;
@@ -28,18 +28,16 @@ public:
 			case 1:
 
 				winnings += singleRow();
-				Player::setAmountWon(winnings);
 
 				break;
 			case 2:
 
 				winnings += doubleRow();
-				Player::setAmountWon(winnings);
 
 				break;
 			case 3:
 
-				cout << "Player Statistics:\n\nWins: " << Player::wins << "\nLosses: " << Player::losses << "\nGames Played: " << Player::gamesPlayed << "\nAmount Won: " << Player::amountWon << "\nAmount Lost: " << Player::amountLost << endl;
+				//cout << "Player Statistics:\n\nWins: " << Player::wins << "\nLosses: " << Player::losses << "\nGames Played: " << Player::gamesPlayed << "\nAmount Won: " << Player::amountWon << "\nAmount Lost: " << Player::amountLost << endl;
 
 				break;
 			case 4:
@@ -61,6 +59,9 @@ public:
 		}
 
 		cout << "See you later! Thanks for playing slots!\n\n";
+
+
+		return 0;
 	}
 
 	double singleRow()
@@ -92,7 +93,6 @@ public:
 
 		}
 
-		Player::setGamesPlayed(playcount);
 
 		cout << "\nYou have earned $" << award << ".";
 		return award;
@@ -130,7 +130,6 @@ public:
 			award += checkForMatches(spins[0][0], spins[0][1], spins[0][2]);
 			award += checkForMatches(spins[1][0], spins[1][1], spins[1][2]);
 
-			Player::setGamesPlayed(playcount);
 
 			cout << "Continue playing? (1 for yes, 0 for no): ";
 			cin >> repeat;
@@ -158,7 +157,6 @@ public:
 			cout << "Winner! You spun three cherries. Your award is $250" << endl;
 			award += 250;
 			winCount++;
-			Player::setWins(winCount);
 			
 		}
 		else if (spin1 == symbols[1] && spin2 == symbols[1] && spin3 == symbols[1])
@@ -166,38 +164,32 @@ public:
 			cout << "Winner! You spun three bars. Your award is $5000" << endl;
 			award += 5000;
 			winCount++;
-			Player::setWins(winCount);
 		}
 		else if (spin1 == symbols[2] && spin2 == symbols[2] && spin3 == symbols[2])
 		{
 			cout << "Winner! You spun three oranges. Your award is $500" << endl;
 			award += 500;
 			winCount++;
-			Player::setWins(winCount);
 		}
 		else if (spin1 == symbols[3] && spin2 == symbols[3] && spin3 == symbols[3])
 		{
 			cout << "Winner! You spun three melons. Your award is $750" << endl;
 			award += 750;
 			winCount++;
-			Player::setWins(winCount);
 		}
 		else if (spin1 == symbols[4] && spin2 == symbols[4] && spin3 == symbols[4])
 		{
 			cout << "Winner! You spun three plums. Your award is $300" << endl;
 			award += 300;
 			winCount++;
-			Player::setWins(winCount);
 		}
 		else
 		{
 			cout << "No matching symbols were spun, no award given.\n";
 			lossCount++;
-			Player::setLosses(lossCount);
 		}
 
 		winCount = 0;
 
 		return award;
 	}
-};
