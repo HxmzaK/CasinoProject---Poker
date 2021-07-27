@@ -27,7 +27,7 @@ int Keno(Player player1){
 
     //Player & Game Variable
     // Player player1(1001, "Keno Player 1");
-    Game Keno;
+    Game Keno(2);
     
     //Player: set initial values of games played, wins, losses, amount won, and amount lost to 0
     player1.setGamesPlayed(0);
@@ -41,7 +41,7 @@ int Keno(Player player1){
 
     //Game: set initial values id, name
     Keno.SetName("Keno");
-    Keno.SetID(2);
+    //Keno.SetID(2);
 
     //DATABASE
     sqlite3* DB;

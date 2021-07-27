@@ -15,6 +15,9 @@ class Player {
         float amountWon;
         float amountLost;
         float bankAccount;
+        float deposit;
+        float withdraw;
+
 
     public:
 
@@ -273,6 +276,14 @@ class Player {
             bankAccount = inputBankAccount;
         }
 
+        void setDeposit(float inputDeposit){
+            deposit = inputDeposit;
+        }
+
+        void setWithdraw(float inputWithdraw){
+            withdraw = inputWithdraw;
+        }
+
         //Get Functions: All Attributes
         int getID(){
             return id;
@@ -307,6 +318,14 @@ class Player {
 
         float getBankAccount(){
             return bankAccount;
+        }
+
+        float getDeposit(){
+        return this->deposit;
+        }
+
+        float getWithdraw(){
+        return this->withdraw;
         }
 
 };

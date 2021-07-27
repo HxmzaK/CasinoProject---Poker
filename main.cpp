@@ -3,6 +3,7 @@
 #include <sqlite3.h>
 #include <string> 
 #include "blackjack.h"
+#include "Keno_Main.h"
 using namespace std;
 
 static int callbacklogin(void* data, int argc, char** argv, char** azColName){       
@@ -148,7 +149,7 @@ int main(){
                         }
                         case 2:
                         {
-                            cout << "Welcome to Keno!\n";
+                            Keno(player1);
                             break;
                         }
                         case 3:
