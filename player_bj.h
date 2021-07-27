@@ -1,3 +1,4 @@
+//AJ McMaritn
 #pragma once
 #include "deckofcards.h"
 #include <vector>
@@ -20,66 +21,31 @@ protected:
 	
 public:
 	//constuctor that initializes the player
-	 Player_BJ(string name){
+	 Player_BJ(int id, std::string name, std::string lname):Player(id,name,lname){
 	 	//AJ
-	 	this->name = name;
-	 	this->account = 500; //initilizes palyer to have $500 in account 
+	 	this->account = Getaccountdb(); //initilizes palyer to have $500 in account 
 	 }
 
-	// static int callbackUpdate(void* data, int argc, char** argv, char** azColName){               
- //    int i; 
-   
- //        for (i = 0; i < argc; i++) 
- //        { 
- //            printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL"); 
- //        } 
-  
- //        printf("\n"); 
-        
- //        return 0; 
- //    }
+	
 
-	//  static int callbackSelect(void* data, int argc, char** argv, char** azColName){       
-	// 	//AJ        
- //    	int i; 
- //        for (i = 0; i < argc; i++) 
- //        { 
- //            // https://stackoverflow.com/questions/60811670/how-do-i-store-into-a-c-variables-using-sqlite3
- //            auto &container = *static_cast<std::vector<std::string>*>(data);
- //            container.push_back(argv[i]); // stores the return of the selection to the container(4th arg of exec)
- //        } 
-        
- //        return 0; 
- //    }
+    //database funcs
+    int Getaccountdb(){
+    	sqlite3* DB;
+	    char* messageError;
+	    int exit = 0;
+	    exit = sqlite3_open("casinodata.db", &DB); //open the database
+    	std::string cmd("SELECT BALANCE FROM PLAYERS WHERE ID = "+std::to_string(id)+";");
+    	std::vector<std::string> container;
 
- //    //database funcs
- //    float Getaccountdb(){
- //    	sqlite3* DB;
-	//     char* messageError;
-	//     int exit = 0;
-	//     exit = sqlite3_open("casinodata.db", &DB); //open the database
- //    	std::string cmd("SELECT BALANCE FROM PLAYERS WHERE ID = "+std::to_string(id)+";");
- //    	std::vector<std::string> container;
+    	exit = sqlite3_exec(DB, cmd.c_str(), callbackSelect, &container, &messageError);
+    	sqlite3_close(DB);
 
- //    	exit = sqlite3_exec(DB, cmd.c_str(), callbackSelect, &container, &messageError);
- //    	float number = std::stof(container[0]);
- //    	return(number);
- //    }
-
-    // void Updateaccount(float value){
-    // 	sqlite3* DB;
-	   //  char* messageError;
-	   //  int exit = 0;
-	   //  exit = sqlite3_open("casinodata.db", &DB); //open the database
-
-    // 	std::string cmd("UPDATE PLAYERS SET BALANCE = "+std::to_string(value)+" WHERE ID = "+std::to_string(id)+";");
-    // 	std::vector<std::string> container;
-
-    // 	exit = sqlite3_exec(DB, cmd.c_str(), callbackUpdate, NULL, &messageError);
-    // }
+    	int number = std::stoi(container[0]);
+    	return(number);
+    }
 
 	 //Get functions
-	 string Getname(){
+	 std::string Getname(){
 	 	//AJ
 	 	return(name);
 	 }
@@ -335,12 +301,12 @@ public:
 
 
 
-class Dealer : public Player_BJ{
+class Dealer_BJ : public Player_BJ{
 private:
 
 public:
 	// dealer consturctor calls player constructor 
-	Dealer_BJ(std::string name):Player(name){
+	Dealer_BJ(int id, std::string name, std::string lname):Player_BJ(id,name,lname){
 	}
 	~Dealer_BJ(){
 	}

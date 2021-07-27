@@ -136,6 +136,32 @@ int main(){
         std::cout << "--------------------------------------------------------- \n";            
         std::cout << " Edited Successfully" << std::endl; 
     }
+
+    std::string Player("INSERT INTO PLAYERS VALUES(0000,'test','tester',1000.0,0.0,0.0,0,0,0,0);");
+    exit = sqlite3_exec(DB, Player.c_str(), NULL, 0, &messageError); //inserts a test user with an id of 0
+
+    std::string BlackJack("INSERT INTO GAMES VALUES(1,'BlackJack',0,0,0,0,0);");
+    exit = sqlite3_exec(DB, BlackJack.c_str(), NULL, 0, &messageError);//adds Black Jack to the table with ID 1
+
+    std::string Keno("INSERT INTO GAMES VALUES(2,'Keno',0,0,0,0,0);");
+    exit = sqlite3_exec(DB, Keno.c_str(), NULL, 0, &messageError);
+
+    std::string Poker("INSERT INTO GAMES VALUES(3,'Poker',0,0,0,0,0);");
+    exit = sqlite3_exec(DB, Poker.c_str(), NULL, 0, &messageError);
+
+    std::string Roulette("INSERT INTO GAMES VALUES(4,'Roulette',0,0,0,0,0);");
+    exit = sqlite3_exec(DB, Roulette.c_str(), NULL, 0, &messageError);
+
+    std::string Slots("INSERT INTO GAMES VALUES(5,'Slots',0,0,0,0,0);");
+    exit = sqlite3_exec(DB, Slots.c_str(), NULL, 0, &messageError);
+
+
+    std::string Bingo("INSERT INTO GAMES VALUES(6,'Bingo',0,0,0,0,0);");
+    exit = sqlite3_exec(DB, Bingo.c_str(), NULL, 0, &messageError);
+
+
+
+
     sqlite3_close(DB);//closes the database
         
         

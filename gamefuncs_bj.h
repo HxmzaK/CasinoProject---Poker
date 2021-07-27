@@ -9,13 +9,11 @@
 #include "baseclass.h"
 using namespace std;
 
-class blackjack: public Game{
+class Blackjack: public Game{
 public:
-	blackjack();
-	
-	
 
-
+	Blackjack(int id):Game(id){}
+	
 	void Makedeck(vector<Card*>& deck){ //passed by reference so it changes the original vector 
 		//AJ
 		char suit[4] = {'C','S','H','D'};//the 4 suits represented by caps
@@ -135,9 +133,15 @@ public:
 	void Betcalc(Player_BJ& player, int amount,int result){
 		//AJ
 		switch(result){
-			case 0: break;
+			case 0:{
+				AddLoss();// adds a loss to the players record
+				AddAmountwon(amount); //adds amount won to the game's total
+				break;
+			} 
 			case 1:{
 				player.Securebag(amount*2); //doubles the players bet
+				player.AddWin(); //adds a win to the counter
+				AddAmountLost(amount); //takes out the amount the house lost 
 				break;
 			}
 			case 2:{
@@ -146,12 +150,15 @@ public:
 			}
 			case 3:{
 				player.Securebag(amount*2.5); //if player gets a natural they get 2.5x their money back
+				player.AddWin(); //adds a win to the counter
+				AddAmountLost(amount*1.5); // house loses 1.5x the bet amount on a natural
+				break;
 			}
 		}
 	}
 
 	//Nick
-	void determineWinner(Player_BJ& player,Dealer& dealer, int bet, bool split = false){			//determines who has the higher value under 21
+	void determineWinner(Player_BJ& player,Dealer_BJ& dealer, int bet, bool split = false){			//determines who has the higher value under 21
 		dealer.showAll();
 		player.Showhand(split);
 		std::cout<<std::endl;
