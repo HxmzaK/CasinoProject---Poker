@@ -20,10 +20,10 @@
 ----------------------------------------------------------
 */
 
-int main(){
+void Keno(Player player1){
 
     //Player & Game Variable
-    Player player1(1001, "Keno Player 1");
+    // Player player1(1001, "Keno Player 1");
     Game Keno;
     
     //Player: set initial values of games played, wins, losses, amount won, and amount lost to 0
@@ -38,7 +38,7 @@ int main(){
 
     //Game: set initial values id, name
     Keno.SetName("Keno");
-    Keno.SetID(1001);
+    Keno.SetID(2);
 
     //DATABASE
     sqlite3* DB;
@@ -49,8 +49,8 @@ int main(){
     exit = sqlite3_open("casinodata.db", &DB); //open the database
 
     //Add Game & Player to Database
-    string addGame = "INSERT INTO GAMES VALUES(" + std::to_string(Keno.getID()) + ", '"+ Keno.getName() +"', " + std::to_string(Keno.getWins()) +", " + std::to_string(Keno.getLosses()) +", " + std::to_string(Keno.getGamesPlayed()) +", " + std::to_string(Keno.getAmountWon()) +", " + std::to_string(Keno.getAmountLost()) +" );";
-    editTable(DB, addGame, "Casino Database");
+    // string addGame = "INSERT INTO GAMES VALUES(" + std::to_string(Keno.getID()) + ", '"+ Keno.getName() +"', " + std::to_string(Keno.getWins()) +", " + std::to_string(Keno.getLosses()) +", " + std::to_string(Keno.getGamesPlayed()) +", " + std::to_string(Keno.getAmountWon()) +", " + std::to_string(Keno.getAmountLost()) +" );";
+    // editTable(DB, addGame, "Casino Database");
 
     string addPlayer = "INSERT INTO PLAYERS VALUES("+ std::to_string(player1.getID()) +", '"+ player1.getName() +"', '" + player1.getName() +"', " + std::to_string(player1.getBankAccount()) + ", "+ std::to_string(player1.getDeposit()) +", "+ std::to_string(player1.getWithdraw()) +", "+ std::to_string(player1.getGamePlayed()) +", "+ std::to_string(player1.getWins()) +", "+ std::to_string(player1.getLosses()) +", NULL)";
     editTable(DB, addPlayer, "Casino Database");
@@ -173,6 +173,7 @@ std::cout << "██╗    ██╗███████╗██╗      █�
 
                         srand(time(0)); //reset seed
                         winningNumbers(MAXWINNINGNUMBERS, winResult); //generate winning numbers and store them in winResult array
+
 
                         std::cout << "------------------------------------------------ \n";
 
