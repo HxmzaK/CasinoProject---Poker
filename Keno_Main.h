@@ -23,7 +23,7 @@
 ----------------------------------------------------------
 */
 
-void Keno(Player player1){
+int Keno(Player player1){
 
     //Player & Game Variable
     // Player player1(1001, "Keno Player 1");
