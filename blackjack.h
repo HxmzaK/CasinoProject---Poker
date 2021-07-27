@@ -27,7 +27,7 @@ int blackjack(Player& user){
 	std::string lastname = user.getLname();
 	int id = user.getID();
 	Player_BJ player1(id,name,lastname); // creates a BJ player from the information in the player passed into the function
-	int initialamount = player1.Getaccount();
+	int initialamount = player1.Getaccount(); //saves how much player has when they first sit at the table
 	Dealer_BJ deal(1,"Dealer","NA"); 	// creates a dealer named dealer
 	Blackjack game(1);							//creates a game object with id 1 for BlackJack
 	vector <Card*> deck;								// initiates vector that will become the deck
@@ -133,7 +133,7 @@ int blackjack(Player& user){
 			//dealerTurn(deck,deal);
 
 
-			//Nick
+			//Nick/AJ
 			if((game.checkWinLoss(player1) == false) || (game.checkWinLoss(player1,split) == false) ){						//if player1 < 21 dealer takes their turn
 			}else{
 				game.dealerTurn(deck,deal);
@@ -164,7 +164,7 @@ int blackjack(Player& user){
 
 		
 		//Nick
-		player1.AddGameplayed();//add a game played to the players total
+		player1.AddGameplayedPlayer();//add a game played to the players total
 		game.AddGameplayed();//add a game played to the game total
 		std::cout << "Do you want to play again?" << std::endl;
 		std::cout << "\t1. Yes" << std::endl;

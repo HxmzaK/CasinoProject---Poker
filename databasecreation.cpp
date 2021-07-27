@@ -159,6 +159,9 @@ int main(){
     std::string Bingo("INSERT INTO GAMES VALUES(6,'Bingo',0,0,0,0,0);");
     exit = sqlite3_exec(DB, Bingo.c_str(), NULL, 0, &messageError);
 
+    std::string Craps("INSERT INTO GAMES VALUES(7,'Craps',0,0,0,0,0);");
+    exit = sqlite3_exec(DB, Craps.c_str(), NULL, 0, &messageError);
+
 
 
 

@@ -92,8 +92,6 @@ int main(){
     int exit = 1; // will loop until the user chooses to stop it 
     int type = 0;//initializes type as 0
     Player player1(0,"","");
-    while (mainLoop == 1)
-    {
         //Login information for test:
        
 
@@ -130,7 +128,9 @@ int main(){
             std::cout << "Welcome To the Casino " << player1.getName() << "!\n";
             int Choice;
                     cout << "Casino Menu: \n";
-                    cout << "Enter '0' To Exit Menu\nEnter '1' for Blackjack\nEnter '2' for Keno\nEnter '3' for Poker\nEnter '4' for Roulette\nEnter '5' for Slots\nEnter '6' for Bingo\n";
+                    cout << "Enter '0' To Exit Menu\nEnter '1' for Blackjack\nEnter '2' for Keno\n"
+                            "Enter '3' for Poker\nEnter '4' for Roulette\nEnter '5' for Slots\n"
+                            "Enter '6' for Bingo\nEnter '7' for Craps\n";
                     cin >> Choice;
 
                     switch (Choice)
@@ -172,9 +172,12 @@ int main(){
                             cout << "Welcome to Bingo\n";
                             break;
                         }
+                        case 7:{
+                            break;
+                        }
+                        default: std::cout << "Invalid input\n";
                     }
         }
-    }
                         
 
     return 0;

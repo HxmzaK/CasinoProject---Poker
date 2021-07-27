@@ -134,13 +134,15 @@ public:
 		//AJ
 		switch(result){
 			case 0:{
-				AddLoss();// adds a loss to the players record
+				player.AddLossPlayer();// adds a loss to the players record
+				AddWin();
 				AddAmountwon(amount); //adds amount won to the game's total
 				break;
 			} 
 			case 1:{
 				player.Securebag(amount*2); //doubles the players bet
-				player.AddWin(); //adds a win to the counter
+				player.AddWinPlayer(); //adds a win to the counter
+				AddLoss();//adds a loss to the game total
 				AddAmountLost(amount); //takes out the amount the house lost 
 				break;
 			}
@@ -150,7 +152,8 @@ public:
 			}
 			case 3:{
 				player.Securebag(amount*2.5); //if player gets a natural they get 2.5x their money back
-				player.AddWin(); //adds a win to the counter
+				player.AddWinPlayer(); //adds a win to the counter
+				AddLoss();//adds a loss to the game total
 				AddAmountLost(amount*1.5); // house loses 1.5x the bet amount on a natural
 				break;
 			}

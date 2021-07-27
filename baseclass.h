@@ -34,13 +34,13 @@ class Player {
         }
         // count functions
         // AJ
-        void AddWin(){
+        void AddWinPlayer(){
             wins++;
         }
-        void AddLoss(){
+        void AddLossPlayer(){
             losses++;
         }
-        void AddGameplayed(){
+        void AddGameplayedPlayer(){
             gamesPlayed++;
         }
 
@@ -335,7 +335,7 @@ class Player {
 class Game {
 private:
     int ID;
-    std::string name;
+    std::string GameName;
     int wins;
     int losses;
     int gamesPlayed;
@@ -363,7 +363,7 @@ public:
         this->ID = ID;
     }
     void SetName(std::string name){
-        this->name = name;
+        this->GameName = name;
     }
     void SetWins(int wins){
         this->wins = wins;
@@ -392,7 +392,7 @@ public:
     }
     string getName()
     {
-        return this->name;
+        return this->GameName;
     }
     int getWins(){
         return this->wins;
@@ -602,7 +602,7 @@ public:
         int exit = 0;
         exit = sqlite3_open("casinodata.db", &DB); //open the database
 
-        std::string cmd("UPDATE GAMES SET AMOUNT_WON = "+std::to_string(gamesPlayed)+" WHERE ID = "+std::to_string(ID)+";");
+        std::string cmd("UPDATE GAMES SET AMOUNT_WON = "+std::to_string(amountWon)+" WHERE ID = "+std::to_string(ID)+";");
         std::vector<std::string> container;
 
         exit = sqlite3_exec(DB, cmd.c_str(), callbackUpdate, NULL, &messageError);
@@ -615,7 +615,7 @@ public:
         int exit = 0;
         exit = sqlite3_open("casinodata.db", &DB); //open the database
 
-        std::string cmd("UPDATE GAMES SET AMOUNT_LOST = "+std::to_string(amountWon)+" WHERE ID = "+std::to_string(ID)+";");
+        std::string cmd("UPDATE GAMES SET AMOUNT_LOST = "+std::to_string(amountLost)+" WHERE ID = "+std::to_string(ID)+";");
         std::vector<std::string> container;
 
         exit = sqlite3_exec(DB, cmd.c_str(), callbackUpdate, NULL, &messageError);
