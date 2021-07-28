@@ -7,7 +7,7 @@
 
 int main()
 {
-	Player player1(0, "Brendan");
+	Player player1(1, "Brendan", "Gibbons");
 
 	gameplay(player1);
 }
