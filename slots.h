@@ -16,7 +16,7 @@ int gameplay(Player player1)
 
 		int choice = 0, repeat = 1, catchEnter = 0;;
 
-		double winnings = 0;
+		int balance = Player::GetBalancedb();
 
 		while (repeat == 1)
 		{
@@ -28,16 +28,18 @@ int gameplay(Player player1)
 			case 1:
 
 				winnings += singleRow();
+				Player::UpdateBalance(int(balance + winnings));
 
 				break;
 			case 2:
 
 				winnings += doubleRow();
+				Player::UpdateBalance(int(balance + winnings));
 
 				break;
 			case 3:
 
-				//cout << "Player Statistics:\n\nWins: " << Player::wins << "\nLosses: " << Player::losses << "\nGames Played: " << Player::gamesPlayed << "\nAmount Won: " << Player::amountWon << "\nAmount Lost: " << Player::amountLost << endl;
+				cout << "Player Statistics:\n\nWins: " << Player::GetWinsdb() << "\nLosses: " << Player::GetLossesdb() << "\nGames Played: " << Player::GetGamesPlayeddb() << "\nBalance: " << Player::GetBalancedb() << "\n\n==================\n" << endl;
 
 				break;
 			case 4:
@@ -60,6 +62,17 @@ int gameplay(Player player1)
 
 		cout << "See you later! Thanks for playing slots!\n\n";
 
+
+		// Updates database as game exits
+		Game::UpdateAmountLost();
+		Game::UpdateAmountWon();
+		Game::UpdateGamesplayed();
+		Game::UpdateLosses();
+		Game::UpdateWins();
+		
+		Player::UpdateWins();
+		Player::UpdateLosses();
+		Player::UpdateGamesplayed();
 
 		return 0;
 	}
@@ -88,13 +101,16 @@ int gameplay(Player player1)
 
 			award += checkForMatches(spins[0], spins[1], spins[2]);
 
+			Player::AddGameplayedPlayer();
+			Game::AddGameplayed();
+
 			cout << "Continue playing? (1 for yes, 0 for no): ";
 			cin >> repeat;
 
 		}
 
 
-		cout << "\nYou have earned $" << award << ".";
+		cout << "\nYou have earned $" << award << " while playing double row slots. Exiting to main menu...\n\n";
 		return award;
 
 	}
@@ -130,6 +146,8 @@ int gameplay(Player player1)
 			award += checkForMatches(spins[0][0], spins[0][1], spins[0][2]);
 			award += checkForMatches(spins[1][0], spins[1][1], spins[1][2]);
 
+			Player::AddGameplayedPlayer();
+			Game::AddGameplayed();
 
 			cout << "Continue playing? (1 for yes, 0 for no): ";
 			cin >> repeat;
@@ -138,6 +156,8 @@ int gameplay(Player player1)
 
 		cout << "\nYou have earned $" << award << " while playing double row slots. Exiting to main menu...\n\n";
 		return award;
+
+
 	}
 
 
@@ -146,7 +166,7 @@ int gameplay(Player player1)
 		double award = 0;
 		string symbols[5] = { "Cherries", "Bar", "Oranges", "Melons", "Plums" };
 
-		int winCount = 0, lossCount = 0;
+		lossCount = 0;
 
 		cout << "\nChecking for matches...\n\n";
 
@@ -156,40 +176,53 @@ int gameplay(Player player1)
 		{
 			cout << "Winner! You spun three cherries. Your award is $250" << endl;
 			award += 250;
-			winCount++;
+			Game::AddLoss();
+			Player::AddWinPlayer();
 			
 		}
 		else if (spin1 == symbols[1] && spin2 == symbols[1] && spin3 == symbols[1])
 		{
 			cout << "Winner! You spun three bars. Your award is $5000" << endl;
 			award += 5000;
-			winCount++;
+			Game::AddLoss();
+			Player::AddWinPlayer();
+
 		}
 		else if (spin1 == symbols[2] && spin2 == symbols[2] && spin3 == symbols[2])
 		{
 			cout << "Winner! You spun three oranges. Your award is $500" << endl;
-			award += 500;
-			winCount++;
+			award += 500; 
+			Game::AddLoss();
+			Player::AddWinPlayer();
+
 		}
 		else if (spin1 == symbols[3] && spin2 == symbols[3] && spin3 == symbols[3])
 		{
 			cout << "Winner! You spun three melons. Your award is $750" << endl;
 			award += 750;
-			winCount++;
+			Game::AddLoss();
+			Player::AddWinPlayer();
+
 		}
 		else if (spin1 == symbols[4] && spin2 == symbols[4] && spin3 == symbols[4])
 		{
 			cout << "Winner! You spun three plums. Your award is $300" << endl;
 			award += 300;
-			winCount++;
+			Game::AddLoss();
+			Player::AddWinPlayer();
+
 		}
 		else
 		{
 			cout << "No matching symbols were spun, no award given.\n";
-			lossCount++;
+			losscount++;
+			Game::AddWin();
+			Player::AddLossPlayer();
+
 		}
 
-		winCount = 0;
+		Game::AddAmountLost(award);
+		Game::AddAmountWon(lossCount * 5);
 
 		return award;
 	}
