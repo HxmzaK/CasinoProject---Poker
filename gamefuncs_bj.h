@@ -19,7 +19,7 @@ public:
 		char suit[4] = {'C','S','H','D'};//the 4 suits represented by caps
 		char face[4] = {'J','Q','K','A'};// the 4 symbols to represent each face card
 		for (int j=0;j<4;j++){ // itterates for each suit 
-			for(int i=2;i<10;i++){ // iterates for each normal card value
+			for(int i=2;i<11;i++){ // iterates for each normal card value
 				deck.push_back(new Card(i,suit[j])); // creates the number cards for the suit starts at 2
 			}
 			for (int i=0;i<4;i++){ // iterates for each facecard symbol

@@ -101,10 +101,10 @@ int blackjack(Player& user){
 			deal.Showhand();
 			std::cout << std::endl;
 			std::cout << std::endl;
-			player1.Showhand();
 			std::cout << std::endl;
 
 			if(player1.CheckSplit()){
+				player1.Showhand();
 				std::cout << "Would you like to split (y/n)\n";
 				char schoice;
 				std::cin>> schoice;
