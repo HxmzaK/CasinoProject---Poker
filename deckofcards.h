@@ -88,8 +88,9 @@ public:
 	void printValue(){									//prints the symbol on the card
 			if(symbol == 'A'){
 				std::cout << symbol;
-			}else{
-				std::cout << symbol << " ";
+			}
+      else{
+				std::cout << symbol;
 			}
 		}
 	char Getsymbol(){
