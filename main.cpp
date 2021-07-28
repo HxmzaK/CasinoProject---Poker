@@ -7,6 +7,7 @@
 #include "Keno_Main.h"
 #include "Roulette.h"
 #include "craps.h"
+#include "slots.h"
 using namespace std;
 
 static int callbacklogin(void* data, int argc, char** argv, char** azColName) {
@@ -167,7 +168,7 @@ int main() {
         }
         case 5:
         {
-            cout << "Welcome to Slots!\n";
+            gameplay(player1);
             break;
         }
         case 6:
