@@ -2,8 +2,10 @@
 #include <stdio.h>
 #include <sqlite3.h>
 #include <string> 
+#include "baseclass.h"
+#include "blackjack.h"
+#include "Keno_Main.h"
 #include "craps.h"
-#include "Player.h"
 using namespace std;
 
 static int callbacklogin(void* data, int argc, char** argv, char** azColName) {
@@ -174,8 +176,9 @@ int main() {
         }
         case 7: {
             cout << "Welcome to Craps\n";
-            CrapsGame cgame("hadi", 500.00);
-            cgame.PlayGame();
+            //Note: Craps Code causing errors in MAIN 
+            //CrapsGame cgame("hadi", 500.00);
+            // cgame.PlayGame();
             break;
         }
         default: std::cout << "Invalid input\n";
