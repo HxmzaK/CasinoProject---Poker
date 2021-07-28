@@ -1,7 +1,7 @@
 //Poker Game 
 // Created by Hamza and Jason 
 #include "deckofcards.h"
-#include "player.h"
+#include "poker_player.h"
 #include "baseclass.h"
 #include <iostream>
 #include <vector> 
