@@ -5,6 +5,7 @@
 #include "baseclass.h"
 #include "blackjack.h"
 #include "Keno_Main.h"
+#include "Roulette.h"
 #include "craps.h"
 using namespace std;
 
@@ -161,7 +162,7 @@ int main() {
         }
         case 4:
         {
-            cout << "Welcome to Roulette!\n";
+            PlayRoulette(player1);
             break;
         }
         case 5:
