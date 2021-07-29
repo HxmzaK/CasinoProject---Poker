@@ -8,6 +8,7 @@
 #include "Roulette.h"
 #include "craps.h"
 #include "slots.h"
+#include "poker.h"
 using namespace std;
 
 static int callbacklogin(void* data, int argc, char** argv, char** azColName) {
@@ -158,7 +159,7 @@ int main() {
         }
         case 3:
         {
-            cout << "Welcome to Poker!\n";
+            Pokergame(player1);
             break;
         }
         case 4:
@@ -168,16 +169,17 @@ int main() {
         }
         case 5:
         {
+            //Slots
             gameplay(player1);
             break;
         }
         case 6:
         {
-            cout << "Welcome to Bingo\n";
+            cout << "Bingo is under construction\n";
             break;
         }
         case 7: {
-            cout << "Welcome to Craps\n";
+            cout << "Craps is coming soon\n";
             //Note: Craps Code causing errors in MAIN 
             //CrapsGame cgame("hadi", 500.00);
             // cgame.PlayGame();
