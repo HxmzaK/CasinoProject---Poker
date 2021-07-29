@@ -3,7 +3,7 @@
 #include <string>
 using namespace std;
 
-class Card{
+class Card_Poker{
 private:
 	 
 	int value; //value of the card face cards worth 10 aces 1 or 11
@@ -12,7 +12,7 @@ private:
 
 public:
 	// constructor to initalize non picture cards 
-	Card(int value, char suit){
+	Card_Poker(int value, char suit){
 		 
 		this->value = value;
 		this->suit = suit;
@@ -53,18 +53,18 @@ public:
 		 
 		cout << value << suit; // print card details both the value and the suit like 4D
 	}
-	~Card(){};
+	~Card_Poker(){};
 	
 };
 
-class FaceCard : public Card{
+class FaceCard_Poker : public Card_Poker{
 private:
 	 
 	char symbol; //symbol of face card like A K Q J
 
 public:
 	// constuctor to intialize face cards
-	FaceCard(char symbol, char suit):Card(10,suit){ // initilizes value to 10 but will be changed if Ace
+	FaceCard_Poker(char symbol, char suit):Card_Poker(10,suit){ // initilizes value to 10 but will be changed if Ace
 		 
 		if (symbol == 'A'){ 						// if card is Ace then initializes value as 11
 			Setvalue(11);
@@ -100,6 +100,6 @@ public:
 	void Print(){//Print function not used in final implementation but is useful for prototypes
 		cout << symbol << Getsuit(); //prints face card like QH (Queen of hearts)
 	}
-	~FaceCard(){};
+	~FaceCard_Poker(){};
 };
 
