@@ -41,6 +41,57 @@ class Roulette:public Game, public Player // Roulette Class Declaration, inherit
             int selection = rand()%36;
             return selection;
         }
+        void prettyDisplay(){
+        // First let's draw the top "wall", which is a solid 
+        // row of 80 stars, one at a time
+        for (int column = 0; column < 96; ++column)
+        {
+            if (column == 0){
+                std::cout << " ";
+            }else{
+                std::cout << "*";
+            }
+
+        }
+        // now print a carraige return, so we can start printing on the next line
+        std::cout << "\n";
+
+        // Now we're going to print the sides.
+        // There are 8 rows here.  Each row is a star, followed by
+        // 78 spaces, followed by another star and a carraige return.
+        for (int row = 0; row < 11; ++row)
+        {
+            // print the left "wall"
+            std::cout << "*";
+            // now print 78 spaces
+            for (int column = 0; column < 96; ++column)
+            {
+                if ((row == 3) || (row == 7)){
+                    std::cout << "*";
+                }
+                else if ((column%8 == 0) && (column != 0)){
+                    std::cout << "*";
+                }
+                else std::cout << " ";
+            }
+            // finally print the right "wall" and a carraige return
+            std::cout << "*\n";
+            // continue the for loop to print the next row
+        }
+
+        // Once the loop is done, we can print the bottom wall the same way we printed the top one.
+        for (int column = 0; column < 96; ++column)
+        {
+            if (column == 0){
+                std::cout << " ";
+            }else{
+                std::cout << "*";
+            }
+
+        }
+        // now print a carraige return, so we can start printing on the next line
+        std::cout << "\n";
+        }
         Roulette(int gameID, int ID, std::string n, std::string ln):Game(gameID),Player(ID, n, ln){ // Constructor for base Roulette object
 
         }
@@ -107,6 +158,7 @@ void PlayRoulette(Player &player){ // Main Game Function
                     std::cout << "Winning color is: " << dealerColor << std::endl;
                     if (playerRoulette.getColorBet() == dealerColor){
                         std::cout << "You Won!\n";
+                        playerRoulette.prettyDisplay();
                         newBal = (betAmount*2) + tempBal;
                         // Upon a win: Updates player balance, adds a win, and adds a game played
                         player.setBankAccount(newBal);
@@ -125,6 +177,7 @@ void PlayRoulette(Player &player){ // Main Game Function
                     std::cout << "Winning color is: " << dealerColor << std::endl;
                     if (playerRoulette.getColorBet() == dealerColor){
                         std::cout << "You Won!\n";
+                        playerRoulette.prettyDisplay();
                         newBal = (betAmount*2) + tempBal;
                         player.setBankAccount(newBal);
                         player.AddWinPlayer();
@@ -269,7 +322,7 @@ void PlayRoulette(Player &player){ // Main Game Function
                         }
                     }
                 }
-                if (columnFlag <= 0){ // Column bet loss message
+                else if (columnFlag <= 0){ // Column bet loss message
                     std::cout << "You lost! Better luck next time\n";
                     player.AddLossPlayer();
                     player.AddGameplayedPlayer();
