@@ -111,7 +111,7 @@ class straightTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots] = {};
+            int selectedNumbers[spots];
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -228,7 +228,7 @@ class splitTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots] = {};
+            int selectedNumbers[spots];
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -312,7 +312,7 @@ class wayTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots] = {};
+            int selectedNumbers[spots];
             bool checkRepeat = true;
 
             //fill array with valid user input

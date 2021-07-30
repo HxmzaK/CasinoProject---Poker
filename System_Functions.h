@@ -70,7 +70,7 @@ void winningNumbers(int spots, int * resultArray){
 
     //Variables
     int numChoice;
-    int winningNumbers[spots] = {};
+    int winningNumbers[spots];
     bool checkRepeat = true;
 
     //fill array with valid user input
