@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 #define MAXGRIDNUMBER 80
 #define MAXWINNINGNUMBERS 20
@@ -111,7 +112,7 @@ class straightTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots];
+            std::vector<int> selectedNumbers;
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -128,7 +129,7 @@ class straightTicket : public Ticket
                 {
                     for (int j = 0; j < i; j++) //iterate through entire array
                     {
-                        if (numChoice == selectedNumbers[j]) //determine if number selected is already present in the array
+                        if (numChoice == selectedNumbers[j]) //determine if number selected is already present in the vector
                         {
                             std::cout << "Repeating Value. Try Again \n";
                             checkRepeat = false;
@@ -142,7 +143,7 @@ class straightTicket : public Ticket
                     }
                     if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
                     {
-                        selectedNumbers[i] = numChoice;
+                        selectedNumbers.push_back(numChoice); //Add new number to vector
                         std::cout << "Number selected successfully \n";
                     }
                 }
@@ -228,7 +229,7 @@ class splitTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots];
+            std::vector<int> selectedNumbers;
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -271,7 +272,7 @@ class splitTicket : public Ticket
                     }
                     if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
                     {
-                        selectedNumbers[i] = numChoice;
+                        selectedNumbers.push_back(numChoice); //Add new number to vector
                         std::cout << "Number selected successfully \n";
                     }
                 }
@@ -312,7 +313,7 @@ class wayTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots];
+            std::vector<int> selectedNumbers;
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -343,7 +344,7 @@ class wayTicket : public Ticket
                     }
                     if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
                     {
-                        selectedNumbers[i] = numChoice;
+                        selectedNumbers.push_back(numChoice); //Add new number to vector
                         std::cout << "Number selected successfully \n";
                     }
                 }

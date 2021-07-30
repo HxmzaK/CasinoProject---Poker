@@ -70,7 +70,7 @@ void winningNumbers(int spots, int * resultArray){
 
     //Variables
     int numChoice;
-    int winningNumbers[spots];
+    std::vector<int> winningNumbers;
     bool checkRepeat = true;
 
     //fill array with valid user input
@@ -99,7 +99,7 @@ void winningNumbers(int spots, int * resultArray){
                 }
                 if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
                 {
-                    winningNumbers[i] = numChoice;
+                        winningNumbers.push_back(numChoice); //Add new number to vector
                 }
             }
         }
