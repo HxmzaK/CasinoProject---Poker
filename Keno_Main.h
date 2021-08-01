@@ -27,7 +27,7 @@ int Keno(Player player1){
 
     //Player & Game Variable
     // Player player1(1001, "Keno Player 1");
-    Game Keno;
+    Game Keno(2);
     
     //Player: set initial values of games played, wins, losses, amount won, and amount lost to 0
     player1.setGamesPlayed(0);
@@ -41,7 +41,6 @@ int Keno(Player player1){
 
     //Game: set initial values id, name
     Keno.SetName("Keno");
-    Keno.SetID(2);
 
     //DATABASE
     sqlite3* DB;
@@ -164,7 +163,8 @@ int Keno(Player player1){
                         //Process 4: pick numbers between 1-maxGridNumber based on # of spots selected
                         std::cout << "Select " << ticket1.getNumberofSpots() << " numbers between 1 and 80. Repeats are not allowed.\n";
 
-                        int selectedNumberResult[ticket1.getNumberofSpots()];
+
+                        int * selectedNumberResult = new int[ticket1.getNumberofSpots()]; //dynamic array created at runtime to avoid memory allocation errors
 
                         ticket1.selectNumbers(ticket1.getNumberofSpots(),selectedNumberResult); //call select numbers function and pass through ticket spots and store them in selectedNumberResult arrat
                         std::cout << "------------------------------------------------ \n";
@@ -223,8 +223,6 @@ int Keno(Player player1){
                             editTable(DB, uptWin_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon; //update and add money to spending amount
-
-                            //update accountbalance
 
                         }
                         else // if money won is less or equal to the cost of
@@ -327,9 +325,8 @@ int Keno(Player player1){
                         std::cout << "Choose Numbers for Ticket 1: \n";
                         std::cout << "Select " << ticket1.getNumberofSpots1() << " numbers between 1 and 80. Repeats are not allowed.\n";
                         
-                        int emptyArray[0];
-                        int selectedNumberResult1[ticket1.getNumberofSpots1()];
-                        ticket1.selectNumbers(ticket1.getNumberofSpots1(),0,selectedNumberResult1, emptyArray); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
+                        int * selectedNumberResult1 = new int[ticket1.getNumberofSpots()]; //selected number array created at runtime
+                        ticket1.selectNumbers(ticket1.getNumberofSpots1(),selectedNumberResult1); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
 
                         std::cout << "\n";
 
@@ -337,8 +334,8 @@ int Keno(Player player1){
                         std::cout << "Choose Numbers for Ticket 2: \n";
                         std::cout << "Select " << ticket1.getNumberofSpots2() << " numbers between 1 and 80. Repeats are not allowed.\n";
 
-                        int selectedNumberResult2[ticket1.getNumberofSpots2()];
-                        ticket1.selectNumbers(ticket1.getNumberofSpots2(),ticket1.getNumberofSpots1(),selectedNumberResult2, selectedNumberResult1); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
+                        int * selectedNumberResult2 = new int[ticket1.getNumberofSpots()]; //dynamic array created at runtime to avoid memory allocation errors
+                        ticket1.selectNumbers_split(ticket1.getNumberofSpots2(),ticket1.getNumberofSpots1(),selectedNumberResult2, selectedNumberResult1); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
 
                         std::cout << "------------------------------------------------ \n";
 
@@ -361,7 +358,7 @@ int Keno(Player player1){
                         }
                         else
                         {
-                            std::cout << "There were no matches :( \n";
+                            std::cout << "Ticket 1: There were no matches :( \n";
                         }
 
                         int matches2 = ticket1.searchMatches(selectedNumberResult2, winResult, ticket1);
@@ -372,7 +369,7 @@ int Keno(Player player1){
                         }
                         else
                         {
-                            std::cout << "There were no matches :( \n";
+                            std::cout << "Ticket 2: There were no matches :( \n";
                         }
 
                         //Process 9: Calculate Prizes, Amount Won, Amount Lost payout based on # of matches
@@ -407,8 +404,6 @@ int Keno(Player player1){
                             editTable(DB, uptWin_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon; //update and add money to spending amount
-
-                            //update accountbalance
 
                         }
                         else // if money won is less or equal to the cost of
@@ -510,7 +505,8 @@ int Keno(Player player1){
 
                     for (int i = 0; i < numberofTickets; i++)
                     {
-                        int selectedNumberResult[ticketVect[i].getNumberofSpots()];
+                        int * selectedNumberResult = new int[ticketVect[i].getNumberofSpots()]; //dynamic array selectedNumberResult - created at runtime to avoid memory allocation errors
+
                         std::cout << "Select Numbers for Ticket " << i << ":\n";
                         std::cout << "Select " << ticketVect[i].getNumberofSpots() << " numbers between 1 and 80. Repeats are not allowed.\n";
                         ticketVect[i].selectNumbers(ticketVect[i].getNumberofSpots(), selectedNumberResult);
@@ -580,8 +576,6 @@ int Keno(Player player1){
                             editTable(DB, uptWin_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon; //update and add money to spending amount
-
-                            //update accountbalance
 
                         }
                         else // if money won is less or equal to the cost of

@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <algorithm>
 
 #define MAXGRIDNUMBER 80
 #define MAXWINNINGNUMBERS 20
@@ -64,6 +66,57 @@ class Ticket {
             std::cout << "printTicket function was called \n";
         }
 
+        virtual void selectNumbers(int spots, int * resultArray){
+
+            //Variables
+            int numChoice;
+            std::vector<int> selectedNumbers;
+            bool checkRepeat = true;
+
+            //fill array with valid user input
+            for (int i = 0; i < spots; i++)
+            {
+                std::cin >> numChoice; //input number value
+
+                if (numChoice < 1 || numChoice > MAXGRIDNUMBER) //validate the number selected is within range (1-80)
+                {   
+                    std::cout << "Number Out Of Range. Try Again \n";
+                    i--; 
+                }
+                else
+                {
+                    for (int j = 0; j < i; j++) //iterate through entire array
+                    {
+                        if (numChoice == selectedNumbers[j]) //determine if number selected is already present in the vector
+                        {
+                            std::cout << "Repeating Value. Try Again \n";
+                            checkRepeat = false;
+                            i--;
+                            break;
+                        }
+                        else
+                        {
+                            checkRepeat = true; //if number selected is a new number set checkRepeat to true
+                        }
+                    }
+                    if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
+                    {
+                        selectedNumbers.push_back(numChoice); //Add new number to vector
+                        std::cout << "Number selected successfully \n";
+                    }
+                }
+            }
+            
+            //Print Selected Numbers To screen
+            std::cout << "You have selected the numbers: ";
+            for (int i = 0; i < spots; i++)
+            {
+                resultArray[i] = selectedNumbers[i];
+                std::cout << selectedNumbers[i] << ", ";
+            }
+            std::cout << "\n";
+        }
+
         virtual int searchMatches(int playerNumbers[], int winningNumbers[MAXWINNINGNUMBERS], Ticket targetTicket){
         
             int counter = 0; //indicates number of matches
@@ -111,7 +164,7 @@ class straightTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots] = {};
+            std::vector<int> selectedNumbers;
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -128,7 +181,7 @@ class straightTicket : public Ticket
                 {
                     for (int j = 0; j < i; j++) //iterate through entire array
                     {
-                        if (numChoice == selectedNumbers[j]) //determine if number selected is already present in the array
+                        if (numChoice == selectedNumbers[j]) //determine if number selected is already present in the vector
                         {
                             std::cout << "Repeating Value. Try Again \n";
                             checkRepeat = false;
@@ -142,7 +195,7 @@ class straightTicket : public Ticket
                     }
                     if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
                     {
-                        selectedNumbers[i] = numChoice;
+                        selectedNumbers.push_back(numChoice); //Add new number to vector
                         std::cout << "Number selected successfully \n";
                     }
                 }
@@ -224,16 +277,17 @@ class splitTicket : public Ticket
             return ticketCost2;
         }
 
-        void selectNumbers(int spots, int prevSpots, int * resultArray, int prevArray[]){
+        void selectNumbers_split(int spots, int prevSpots, int * resultArray, int prevArray[]){
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots] = {};
-            bool checkRepeat = true;
+            std::vector<int> selectedNumbers;
+            std::vector<int>::iterator it;
 
             //fill array with valid user input
             for (int i = 0; i < spots; i++)
             {
+                int valid = 0;
                 std::cin >> numChoice; //input number value
 
                 if (numChoice < 1 || numChoice > MAXGRIDNUMBER) //validate the number selected is within range (1-80)
@@ -243,38 +297,48 @@ class splitTicket : public Ticket
                 }
                 else
                 {
-                    for (int j = 0; j < prevSpots; j++) //iterate thrpugh previous ticket numbers
+                    for (int j = 0; j < prevSpots; j++) //iterate through previous ticket numbers
                     {
                         if (numChoice == prevArray[j]) //determine if number selected is already present in the previous ticket
                         {
                             std::cout << "Repeating Value. Try Again \n";
-                            checkRepeat = false;
+                            valid = 1;
                             i--;
                             break;                                    
-                        }                     
+                        }             
                     }
-                    
-                    for (int l = 0; l < i; l++) //iterate through entire array
-                    {
 
-                        if (numChoice == selectedNumbers[l]) //determine if number selected is already present in the array
+                    if (valid == 0)
+                    {
+                        if(selectedNumbers.empty()) //check if vector is empty (Segmentation fault may occur if this line is removed)
                         {
-                            std::cout << "Repeating Value. Try Again \n";
-                            checkRepeat = false;
-                            i--;
-                            break;                                    
+                            std::cout << "MESSAGE: Vector is empty \n";
+                            selectedNumbers.push_back(numChoice); //Add new number to vector
+                            std::cout << "Number selected successfully \n";
                         }
                         else
                         {
-                            checkRepeat = true; //if number selected is a new number set checkRepeat to true
+
+                            //find function: arguments - beginnning and end position iterators of a vector, and a constant interger value.  
+                            //Return value: Compares iterator value to const int value passed in and returns first value in vector equal to the int value. 
+                            //If int value is not found function returns the end position(reference: https://www.cplusplus.com/reference/algorithm/find/)
+
+                            it = std::find(selectedNumbers.begin(), selectedNumbers.end(), numChoice); 
+    
+                            if (it != selectedNumbers.end()) //determine iterator position is NOT at the end of the vector
+                            {
+                                std::cout << "Repeating Value. Try Again \n";
+                                i--;                                    
+                            }
+                            else
+                            {
+                                selectedNumbers.push_back(numChoice); //Add new number to vector
+                                std::cout << "Number selected successfully \n";
+                            }
+
                         }
                     }
-                    if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
-                    {
-                        selectedNumbers[i] = numChoice;
-                        std::cout << "Number selected successfully \n";
-                    }
-                }
+                }     
             }
             
             //Print Selected Numbers To screen
@@ -312,7 +376,7 @@ class wayTicket : public Ticket
 
             //Variables
             int numChoice;
-            int selectedNumbers[spots] = {};
+            std::vector<int> selectedNumbers;
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -343,7 +407,7 @@ class wayTicket : public Ticket
                     }
                     if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
                     {
-                        selectedNumbers[i] = numChoice;
+                        selectedNumbers.push_back(numChoice); //Add new number to vector
                         std::cout << "Number selected successfully \n";
                     }
                 }
@@ -358,7 +422,7 @@ class wayTicket : public Ticket
             }
             std::cout << "\n";
         }
-
+};
 
 // class Player {
 //     protected:
@@ -436,10 +500,5 @@ class wayTicket : public Ticket
 //         }
 
 // };
-
-
-};
-
-
 
 #endif
