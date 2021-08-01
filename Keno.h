@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>    
 #include <vector>
 
 #define MAXGRIDNUMBER 80
@@ -65,7 +66,7 @@ class Ticket {
             std::cout << "printTicket function was called \n";
         }
 
-        virtual int searchMatches(int playerNumbers[], int winningNumbers[MAXWINNINGNUMBERS], Ticket targetTicket){
+        virtual int searchMatches(vector <int> playerNumbers, int winningNumbers[MAXWINNINGNUMBERS], Ticket targetTicket){
         
             int counter = 0; //indicates number of matches
             for (int i = 0; i < MAXWINNINGNUMBERS; i++)
@@ -79,7 +80,25 @@ class Ticket {
                     }
                 }
             }
+
+            //https://www.cplusplus.com/reference/algorithm/sort/
+            //https://www.geeksforgeeks.org/how-to-find-common-elements-between-two-vector-using-stl-in-c/
+
+            // int counter = 0; //indicates number of matches
+            // vector <int> resultVector(playerNumbers.size() + winningNumbers.size());
+            // vector<int>::iterator it, end;
+
+            // sort(playerNumbers.begin(), playerNumbers.end());
+            // sort(winningNumbers.begin(), winningNumbers.end());
+
+            // it = set_intersection(playerNumbers.begin(), playerNumbers.end(), winningNumbers.begin(), winningNumbers.end(), resultVector.begin());
+
+            // for (end = resultVector.begin(); end != it; end++){
+            //     std::cout << *it << " ";
+            //     counter++;
+            // }
             
+
         return counter;
         }
 
@@ -108,7 +127,7 @@ class straightTicket : public Ticket
         }
 
 
-        void selectNumbers(int spots, int * resultArray){
+        void selectNumbers(int spots, vector <int> resultArray){
 
             //Variables
             int numChoice;
@@ -153,7 +172,7 @@ class straightTicket : public Ticket
             std::cout << "You have selected the numbers: ";
             for (int i = 0; i < spots; i++)
             {
-                resultArray[i] = selectedNumbers[i];
+                resultArray.push_back(selectedNumbers[i]);
                 std::cout << selectedNumbers[i] << ", ";
             }
             std::cout << "\n";
@@ -225,8 +244,8 @@ class splitTicket : public Ticket
             return ticketCost2;
         }
 
-        void selectNumbers(int spots, int prevSpots, int * resultArray, int prevArray[]){
-
+        void selectNumbers(int spots, int prevSpots, vector <int> resultArray, vector <int> prevArray)
+        {
             //Variables
             int numChoice;
             std::vector<int> selectedNumbers;
@@ -278,11 +297,11 @@ class splitTicket : public Ticket
                 }
             }
             
-            //Print Selected Numbers To screen
+            //Print Selected Numbers To screen and allocate memory for numbers to be accesed outside of the function call
             std::cout << "You have selected the numbers: ";
             for (int i = 0; i < spots; i++)
             {
-                resultArray[i] = selectedNumbers[i];
+                resultArray.push_back(selectedNumbers[i]);
                 std::cout << selectedNumbers[i] << ", ";
             }
             std::cout << "\n";
@@ -309,7 +328,7 @@ class wayTicket : public Ticket
             this -> ticketName = "Way Ticket";
         }
 
-        void selectNumbers(int spots, int * resultArray){
+        void selectNumbers(int spots, vector <int> resultArray){
 
             //Variables
             int numChoice;

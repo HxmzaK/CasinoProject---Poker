@@ -15,7 +15,7 @@
 #include <vector>
 #include "baseclass.h"
 #include "Keno.h"
-#include "System_Functions.h"
+#include "System_Functions.h" 
 
 /*
 ----------------------------------------------------------
@@ -164,8 +164,8 @@ int Keno(Player player1){
                         //Process 4: pick numbers between 1-maxGridNumber based on # of spots selected
                         std::cout << "Select " << ticket1.getNumberofSpots() << " numbers between 1 and 80. Repeats are not allowed.\n";
 
-                        int selectedNumberResult[ticket1.getNumberofSpots()];
-
+                        //int selectedNumberResult[ticket1.getNumberofSpots()];
+                        vector <int> selectedNumberResult;
                         ticket1.selectNumbers(ticket1.getNumberofSpots(),selectedNumberResult); //call select numbers function and pass through ticket spots and store them in selectedNumberResult arrat
                         std::cout << "------------------------------------------------ \n";
 
@@ -173,7 +173,6 @@ int Keno(Player player1){
                         std::cout << "Winning Numbers: \n";
 
                         int winResult[MAXWINNINGNUMBERS];
-
                         srand(time(0)); //reset seed
                         winningNumbers(MAXWINNINGNUMBERS, winResult); //generate winning numbers and store them in winResult array
 
@@ -327,8 +326,8 @@ int Keno(Player player1){
                         std::cout << "Choose Numbers for Ticket 1: \n";
                         std::cout << "Select " << ticket1.getNumberofSpots1() << " numbers between 1 and 80. Repeats are not allowed.\n";
                         
-                        int emptyArray[0];
-                        int selectedNumberResult1[ticket1.getNumberofSpots1()];
+                        vector <int> selectedNumberResult1;
+                        vector <int> emptyArray; //empty vector to pass through previous parameter
                         ticket1.selectNumbers(ticket1.getNumberofSpots1(),0,selectedNumberResult1, emptyArray); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
 
                         std::cout << "\n";
@@ -337,16 +336,18 @@ int Keno(Player player1){
                         std::cout << "Choose Numbers for Ticket 2: \n";
                         std::cout << "Select " << ticket1.getNumberofSpots2() << " numbers between 1 and 80. Repeats are not allowed.\n";
 
-                        int selectedNumberResult2[ticket1.getNumberofSpots2()];
-                        ticket1.selectNumbers(ticket1.getNumberofSpots2(),ticket1.getNumberofSpots1(),selectedNumberResult2, selectedNumberResult1); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
+                        vector <int> selectedNumberResult2;
+                        ticket1.selectNumbers(ticket1.getNumberofSpots2(),ticket1.getNumberofSpots1(), selectedNumberResult2, selectedNumberResult1); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
 
                         std::cout << "------------------------------------------------ \n";
 
                         //Process 7: draw 20 random numbers from 1-80
                         std::cout << "Winning Numbers: \n";
 
-                        int winResult[MAXWINNINGNUMBERS];
+                        //int winResult[MAXWINNINGNUMBERS];
+                        //vector <int> winResult;
 
+                        int winResult[MAXWINNINGNUMBERS];
                         srand(time(0)); //reset seed
                         winningNumbers(MAXWINNINGNUMBERS, winResult); //generate winning numbers and store them in winResult array
 
@@ -407,8 +408,6 @@ int Keno(Player player1){
                             editTable(DB, uptWin_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon; //update and add money to spending amount
-
-                            //update accountbalance
 
                         }
                         else // if money won is less or equal to the cost of
@@ -507,10 +506,10 @@ int Keno(Player player1){
                     }
 
                     //Process 4: pick numbers between 1-maxGridNumber based on # of spots selected
-
+                    vector <int> selectedNumberResult;
                     for (int i = 0; i < numberofTickets; i++)
                     {
-                        int selectedNumberResult[ticketVect[i].getNumberofSpots()];
+                        //int selectedNumberResult[ticketVect[i].getNumberofSpots()];
                         std::cout << "Select Numbers for Ticket " << i << ":\n";
                         std::cout << "Select " << ticketVect[i].getNumberofSpots() << " numbers between 1 and 80. Repeats are not allowed.\n";
                         ticketVect[i].selectNumbers(ticketVect[i].getNumberofSpots(), selectedNumberResult);
@@ -520,8 +519,10 @@ int Keno(Player player1){
                         //Process 7: draw 20 random numbers from 1-80
                         std::cout << "Winning Numbers For Ticket " << i << ": \n";
 
-                        int winResult[MAXWINNINGNUMBERS];
+                        //int winResult[MAXWINNINGNUMBERS];
+                        //vector <int> winResult;
 
+                        int winResult[MAXWINNINGNUMBERS];
                         srand(time(0)); //reset seed
                         winningNumbers(MAXWINNINGNUMBERS, winResult); //generate winning numbers and store them in winResult array
 
