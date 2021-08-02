@@ -30,13 +30,13 @@ int Keno(Player player1){
     Game Keno(2);
     
     //Player: set initial values of games played, wins, losses, amount won, and amount lost to 0
-    player1.setGamesPlayed(0);
-    player1.setWins(0);
-    player1.setLosses(0);
+    // player1.setGamesPlayed(0);
+    // player1.setWins(0);
+    // // player1.setLosses(0);
     player1.setAmountWon(0);
     player1.setAmountLost(0);
-    player1.setDeposit(0);
-    player1.setWithdraw(0);
+    // player1.setDeposit(0);
+    // player1.setWithdraw(0);
     //player1.setBankAccount(1000);
 
     //Game: set initial values id, name
@@ -54,8 +54,8 @@ int Keno(Player player1){
     // string addGame = "INSERT INTO GAMES VALUES(" + std::to_string(Keno.getID()) + ", '"+ Keno.getName() +"', " + std::to_string(Keno.getWins()) +", " + std::to_string(Keno.getLosses()) +", " + std::to_string(Keno.getGamesPlayed()) +", " + std::to_string(Keno.getAmountWon()) +", " + std::to_string(Keno.getAmountLost()) +" );";
     // editTable(DB, addGame, "Casino Database");
 
-    string addPlayer = "INSERT INTO PLAYERS VALUES("+ std::to_string(player1.getID()) +", '"+ player1.getName() +"', '" + player1.getName() +"', " + std::to_string(player1.getBankAccount()) + ", "+ std::to_string(player1.getDeposit()) +", "+ std::to_string(player1.getWithdraw()) +", "+ std::to_string(player1.getGamePlayed()) +", "+ std::to_string(player1.getWins()) +", "+ std::to_string(player1.getLosses()) +", NULL)";
-    editTable(DB, addPlayer, "Casino Database");
+  //string addPlayer = "INSERT INTO PLAYERS VALUES("+ std::to_string(player1.getID()) +", '"+ player1.getName() +"', '" + player1.getName() +"', " + std::to_string(player1.getBankAccount()) + ", "+ std::to_string(player1.getDeposit()) +", "+ std::to_string(player1.getWithdraw()) +", "+ std::to_string(player1.getGamePlayed()) +", "+ std::to_string(player1.getWins()) +", "+ std::to_string(player1.getLosses()) +", NULL)";
+  //editTable(DB, addPlayer, "Casino Database");
 
 
 
@@ -68,7 +68,7 @@ int Keno(Player player1){
     " ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝       ╚═╝    ╚═════╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ \n"
     "                                                                                                                           \n";
     std::cout << "--------------------------------------------------------------------------------------------------------------- \n";
-    std::cout << "Player Info: \nPlayer ID: " << player1.getID() << "\nPlayer Name: " << player1.getName() << "\nAccount Balance: $" << player1.getBankAccount() << std::endl; 
+    std::cout << "Player Info: \nPlayer ID: " << player1.getID() << "\nPlayer Name: " << player1.getName() << "\nAccount Balance: $" << player1.GetBalancedb() << std::endl; 
     std::cout << "------------------------------------------------ \n";
 
     int loopGame = 1;
@@ -80,6 +80,7 @@ int Keno(Player player1){
             float amountWon = 0; //initialize at 0
             float spendAmount;
             int bankInput = 1;
+            int exit = 0;
 
             while (bankInput != 0)
             {
@@ -87,10 +88,18 @@ int Keno(Player player1){
                 std::cout <<"Account Balance: $" << player1.getBankAccount() << "\nHow much would you like to withdraw?\n";
                 std::cin >> withdrawAmount;
                 player1.setWithdraw(withdrawAmount);
+                player1.UpdateWithdraw(withdrawAmount);
                 if (withdrawAmount > player1.getBankAccount())
                 {
-                    std::cout << "You do not have enough in your account. Try Again. \n";
-                    bankInput = 1;
+                    std::cout << "You do not have enough in your account. Press '1' to return to the menu. \n";
+                    //bankInput = 1;
+                    std::cin >> exit;
+                    if (exit > 0)
+                    {
+                        return 0;
+                    }
+                    
+
                 }
                 else if (withdrawAmount <= 0)
                 {
@@ -113,7 +122,7 @@ int Keno(Player player1){
             std::cout << "------------------------------------------------ \n";
 
 
-            std::cout << "Press '1' to begin '0' to exit \n";
+            std::cout << "Press '1' to begin\n";
             int uin; //User Input
             std::cin >> uin;
             
@@ -121,7 +130,7 @@ int Keno(Player player1){
             while (uin != 0)
             {
                 std::cout << "------------------------------------------------ \n";
-                std::cout << "Record: \nGames Played: " << player1.getGamePlayed() << "\nRecord: " << player1.getWins() << " - " << player1.getLosses() << "\nAmount Won: " << player1.getAmountWon() << "\nAmount Lost: " << player1.getAmountLost() << std::endl;
+                std::cout << "Record: \nGames Played: " << player1.getGamePlayed() << "\nRecord: " << player1.getWins() << " - " << player1.getLosses() << "\nAmount Won in Session: " << player1.getAmountWon() << "\nAmount Lost in Session: " << player1.getAmountLost() << std::endl;
                 std::cout << "------------------------------------------------- \n";
 
                 std::cout <<"Bank Account: \n";
@@ -197,8 +206,9 @@ int Keno(Player player1){
 
                         //add to gamesPlayed and update gamesPlayed
                         int addGames = player1.getGamePlayed() + 1;
+                        int addGames_Games = Keno.getGamesPlayed() + 1;
                         player1.setGamesPlayed(addGames);
-                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames_Games) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                         string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                         editTable(DB, uptGamesPlayed_Games, "Games Table");
                         editTable(DB, uptGamesPlayed_Players, "Players Table");
@@ -209,15 +219,16 @@ int Keno(Player player1){
                         {
 
                             //set new amountWon for player 1
-                            amountWon = player1.getAmountWon() + moneyWon; 
+                            amountWon = Keno.GetAmountWondb() + moneyWon; 
                             player1.setAmountWon(amountWon); 
                             string uptAmountWon = "UPDATE GAMES SET AMOUNT_WON = "+ std::to_string(amountWon) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             editTable(DB, uptAmountWon, "Games Table");
 
                             //set new win count
-                            int addWins = player1.getWins() + 1;
+                            int addWins = player1.GetWinsdb() + 1;
+                            int addWinsGame = Keno.GetWinsdb() + 1;
                             player1.setWins(addWins);
-                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWinsGame) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             string uptWin_Players = "UPDATE PLAYERS SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                             editTable(DB, uptWin_Games, "Games Table");
                             editTable(DB, uptWin_Players, "Players Table");
@@ -228,15 +239,17 @@ int Keno(Player player1){
                         else // if money won is less or equal to the cost of
                         {
                             //set new amountLost for player 1
-                            float amountLost = ticket1.getTicketCost();
+                            float amountLost = Keno.GetAmountLostdb() + ticket1.getTicketCost();
                             player1.setAmountLost(amountLost);
                             string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             editTable(DB, uptAmountLost, "Games Table");
                             
                             //set new loss count
-                            int addLoss = player1.getLosses() + 1;
+                            //int addLoss = player1.getLosses() + 1;
+                            int addLoss = player1.GetLossesdb() + 1;
+                            int addLossGame = Keno.GetLossesdb() + 1;
                             player1.setLosses(addLoss);
-                            string uptLost_Games = "UPDATE GAMES SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptLost_Games = "UPDATE GAMES SET LOSSES = "+ std::to_string(addLossGame) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             string uptLost_Players = "UPDATE PLAYERS SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                             editTable(DB, uptLost_Games, "Games Table");
                             editTable(DB, uptLost_Players, "Players Table");
@@ -378,8 +391,9 @@ int Keno(Player player1){
 
                         //add to gamesPlayed and update gamesPlayed
                         int addGames = player1.getGamePlayed() + 1;
+                        int addGames_Games = Keno.getGamesPlayed() + 1;
                         player1.setGamesPlayed(addGames);
-                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames_Games) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                         string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                         editTable(DB, uptGamesPlayed_Games, "Games Table");
                         editTable(DB, uptGamesPlayed_Players, "Players Table");
@@ -390,15 +404,16 @@ int Keno(Player player1){
                         {
 
                             //set new amountWon for player 1
-                            amountWon = player1.getAmountWon() + moneyWon; 
+                            amountWon = Keno.GetAmountWondb() + moneyWon; 
                             player1.setAmountWon(amountWon);
                             string uptAmountWon = "UPDATE GAMES SET AMOUNT_WON = "+ std::to_string(amountWon) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             editTable(DB, uptAmountWon, "Games Table"); 
 
                             //set new win count
-                            int addWins = player1.getWins() + 1;
+                            int addWins = player1.GetWinsdb() + 1;
+                            int addWinsGame = Keno.GetWinsdb() + 1;
                             player1.setWins(addWins);
-                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWinsGame) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             string uptWin_Players = "UPDATE PLAYERS SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                             editTable(DB, uptWin_Games, "Games Table");
                             editTable(DB, uptWin_Players, "Players Table");
@@ -409,19 +424,19 @@ int Keno(Player player1){
                         else // if money won is less or equal to the cost of
                         {
                             //set new amountLost for player 1
-                            float amountLost = ticket1.getTicketCost();
+                            float amountLost = Keno.GetAmountLostdb() + ticket1.getTicketCost();
                             player1.setAmountLost(amountLost);
                             string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             editTable(DB, uptAmountLost, "Games Table");
 
                             //set new loss count
-                            int addLoss = player1.getLosses() + 1;
+                            int addLoss = player1.GetLossesdb() + 1;
+                            int addLossGame = Keno.GetLossesdb() + 1;
                             player1.setLosses(addLoss);
-                            string uptLost_Games = "UPDATE GAMES SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptLost_Games = "UPDATE GAMES SET LOSSES = "+ std::to_string(addLossGame) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             string uptLost_Players = "UPDATE PLAYERS SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                             editTable(DB, uptLost_Games, "Games Table");
                             editTable(DB, uptLost_Players, "Players Table");
-
                             spendAmount = spendAmount + moneyWon;
                         }
 
@@ -540,8 +555,9 @@ int Keno(Player player1){
                         
                         //add to gamesPlayed and update gamesPlayed
                         int addGames = player1.getGamePlayed() + 1;
+                        int addGames_Games = Keno.getGamesPlayed() + 1;
                         player1.setGamesPlayed(addGames);
-                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                        string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames_Games) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                         string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                         editTable(DB, uptGamesPlayed_Games, "Games Table");
                         editTable(DB, uptGamesPlayed_Players, "Players Table");
@@ -562,15 +578,16 @@ int Keno(Player player1){
                         {
 
                             //set new amountWon for player 1
-                            amountWon = player1.getAmountWon() + moneyWon; 
+                            amountWon = Keno.GetAmountWondb() + moneyWon; 
                             player1.setAmountWon(amountWon); 
                             string uptAmountWon = "UPDATE GAMES SET AMOUNT_WON = "+ std::to_string(amountWon) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
-                            editTable(DB, uptAmountWon, "Games Table"); 
+                            editTable(DB, uptAmountWon, "Games Table");
 
                             //set new win count
-                            int addWins = player1.getWins() + 1;
+                            int addWins = player1.GetWinsdb() + 1;
+                            int addWinsGame = Keno.GetWinsdb() + 1;
                             player1.setWins(addWins);
-                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptWin_Games = "UPDATE GAMES SET WINS = "+ std::to_string(addWinsGame) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             string uptWin_Players = "UPDATE PLAYERS SET WINS = "+ std::to_string(addWins) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                             editTable(DB, uptWin_Games, "Games Table");
                             editTable(DB, uptWin_Players, "Players Table");
@@ -581,12 +598,19 @@ int Keno(Player player1){
                         else // if money won is less or equal to the cost of
                         {
                             //set new amountLost for player 1
-                            float amountLost = totalticketCost;
+                            float amountLost = Keno.GetAmountLostdb() + totalticketCost;
                             player1.setAmountLost(amountLost);
+                            string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            editTable(DB, uptAmountLost, "Games Table");
 
                             //set new loss count
-                            int addLoss = player1.getLosses() + 1;
+                            int addLoss = player1.GetLossesdb() + 1;
+                            int addLossGame = Keno.GetLossesdb() + 1;
                             player1.setLosses(addLoss);
+                            string uptLost_Games = "UPDATE GAMES SET LOSSES = "+ std::to_string(addLossGame) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
+                            string uptLost_Players = "UPDATE PLAYERS SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
+                            editTable(DB, uptLost_Games, "Games Table");
+                            editTable(DB, uptLost_Players, "Players Table");
 
                             spendAmount = spendAmount + moneyWon;
                         }
