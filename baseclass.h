@@ -3,7 +3,10 @@
 #include <string>
 #include <sqlite3.h>
 #include <vector>
+// #include "matplotlibcpp.h"
+// #include <cmath>
 using namespace std;
+
 
 class Player {
 protected:
@@ -103,6 +106,44 @@ public:
         int number = 0; //initializes number as 0
         exit = sqlite3_open("casinodata.db", &DB); //open the database
         std::string cmd("SELECT BALANCE FROM PLAYERS WHERE ID = " + std::to_string(id) + ";");
+        std::vector<std::string> container;
+
+        exit = sqlite3_exec(DB, cmd.c_str(), callbackSelect, &container, &messageError);
+        sqlite3_close(DB);
+
+        if (!container.empty()) {
+            number = std::stoi(container[0]);
+        }
+
+        return(number);
+    }
+    int GetDepositBalancedb() {
+        // Craigon
+        sqlite3* DB;
+        char* messageError;
+        int exit = 0;
+        int number = 0; //initializes number as 0
+        exit = sqlite3_open("casinodata.db", &DB); //open the database
+        std::string cmd("SELECT DEPOSIT FROM PLAYERS WHERE ID = " + std::to_string(id) + ";");
+        std::vector<std::string> container;
+
+        exit = sqlite3_exec(DB, cmd.c_str(), callbackSelect, &container, &messageError);
+        sqlite3_close(DB);
+
+        if (!container.empty()) {
+            number = std::stoi(container[0]);
+        }
+
+        return(number);
+    }
+        int GetWithdrawBalancedb() {
+        // Craigon
+        sqlite3* DB;
+        char* messageError;
+        int exit = 0;
+        int number = 0; //initializes number as 0
+        exit = sqlite3_open("casinodata.db", &DB); //open the database
+        std::string cmd("SELECT WITHDRAW FROM PLAYERS WHERE ID = " + std::to_string(id) + ";");
         std::vector<std::string> container;
 
         exit = sqlite3_exec(DB, cmd.c_str(), callbackSelect, &container, &messageError);
@@ -251,6 +292,7 @@ public:
         exit = sqlite3_exec(DB, cmd.c_str(), callbackUpdate, NULL, &messageError);
         sqlite3_close(DB);
     }
+
 
 
     //Set Functions: Games PLayed, Wins, Losses, Amount Won, Amount Lost
