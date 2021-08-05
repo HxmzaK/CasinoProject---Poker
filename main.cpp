@@ -9,6 +9,7 @@
 #include "craps.h"
 #include "slots.h"
 #include "poker.h"
+#include "bingo_final_1.h"
 using namespace std;
 
 static int callbacklogin(void* data, int argc, char** argv, char** azColName) {
@@ -132,6 +133,7 @@ int main() {
     {
         std::cout << "\nWelcome To the Casino " << player1.getName() << "!\n";
         int Choice;
+        cout << "You currently have $" << player1.getBankAccount() << "\n";
         cout << "Casino Menu: \n";
         cout << "Enter '0' To Exit Menu\nEnter '1' for Blackjack\nEnter '2' for Keno\n"
             "Enter '3' for Poker\nEnter '4' for Roulette\nEnter '5' for Slots\n"
@@ -175,7 +177,7 @@ int main() {
         }
         case 6:
         {
-            cout << "Bingo is under construction\n";
+            Bingo(player1);
             break;
         }
         case 7: {

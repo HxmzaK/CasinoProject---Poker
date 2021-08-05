@@ -71,7 +71,7 @@ string words[50] = {
 // The bots get a random chance to win, but they take a long time to get the win (by a stroke of luck)
 // The algorithm is tested and it works well now 
 
-int Bingo(Player player) {
+int Bingo(Player& player) {
   
      player.setBankAccount(1000);
      player.setGamesPlayed(0);
