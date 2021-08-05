@@ -32,7 +32,7 @@ Ticket Class (Base)
 
 class Ticket {
 
-    protected:
+    protected: //protected variables only accessed by members within the class/derived classes
         std::string ticketName;
         int numberofSpots;
         float wagerAmount;
@@ -46,6 +46,7 @@ class Ticket {
             this -> ticketCost = numberofSpots*wagerAmount;
         }
 
+        //Get Functions:
         std::string getTicketName(){
             return ticketName;
         }
@@ -62,15 +63,17 @@ class Ticket {
             return ticketCost;
         }
 
+        //Class Methods:
         virtual void printTicket(){
-            std::cout << "printTicket function was called \n";
+            std::cout << "printTicket() function was called \n"; //new feature added, print statement to ensure function was called for testing purposes 
         }
 
-        virtual void selectNumbers(int spots, int * resultArray){
+        virtual void selectNumbers(int spots, int * resultArray) //passes in number of ticket spots, and a pointer to pass the address of an array initialized outside the function call
+        {
 
             //Variables
-            int numChoice;
-            std::vector<int> selectedNumbers;
+            int numChoice; //user input of a selected number
+            std::vector<int> selectedNumbers; //vector of numbers selected by a user
             bool checkRepeat = true;
 
             //fill array with valid user input
@@ -78,20 +81,20 @@ class Ticket {
             {
                 std::cin >> numChoice; //input number value
 
-                if (numChoice < 1 || numChoice > MAXGRIDNUMBER) //validate the number selected is within range (1-80)
+                if (numChoice < 1 || numChoice > MAXGRIDNUMBER) //validate the number selected is within range (1-80)=
                 {   
                     std::cout << "Number Out Of Range. Try Again \n";
                     i--; 
                 }
                 else
                 {
-                    for (int j = 0; j < i; j++) //iterate through entire array
+                    for (int j = 0; j < i; j++) //iterate through entire vector to determine if there are any repeating values
                     {
                         if (numChoice == selectedNumbers[j]) //determine if number selected is already present in the vector
                         {
                             std::cout << "Repeating Value. Try Again \n";
-                            checkRepeat = false;
-                            i--;
+                            checkRepeat = false; //set checkRepeat to false
+                            i--; //set i to previous iteration
                             break;
                         }
                         else
@@ -99,7 +102,7 @@ class Ticket {
                             checkRepeat = true; //if number selected is a new number set checkRepeat to true
                         }
                     }
-                    if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
+                    if (checkRepeat == true) //if checkRepeat is true add numChoice to selectedNumbers vector
                     {
                         selectedNumbers.push_back(numChoice); //Add new number to vector
                         std::cout << "Number selected successfully \n";
@@ -111,15 +114,18 @@ class Ticket {
             std::cout << "You have selected the numbers: ";
             for (int i = 0; i < spots; i++)
             {
-                resultArray[i] = selectedNumbers[i];
+                resultArray[i] = selectedNumbers[i]; //store vector values into pointer address to be accessed outside the function
                 std::cout << selectedNumbers[i] << ", ";
             }
             std::cout << "\n";
         }
 
-        virtual int searchMatches(int playerNumbers[], int winningNumbers[MAXWINNINGNUMBERS], Ticket targetTicket){
+        virtual int searchMatches(int playerNumbers[], int winningNumbers[MAXWINNINGNUMBERS], Ticket targetTicket)
+        {
         
             int counter = 0; //indicates number of matches
+
+            //iterates through two arrays to determine like elements, if like elements are found then add 1 to the counter
             for (int i = 0; i < MAXWINNINGNUMBERS; i++)
             {
                 for (int j = 0; j < targetTicket.getNumberofSpots(); j++)
@@ -160,7 +166,8 @@ class straightTicket : public Ticket
         }
 
 
-        void selectNumbers(int spots, int * resultArray){
+        void selectNumbers(int spots, int * resultArray) //same as selectNumbers() in ticket parent class, included in its own class to be adapted later if need be
+        {
 
             //Variables
             int numChoice;
@@ -218,9 +225,12 @@ class straightTicket : public Ticket
 ------------------------------------------------------------------------------------
 SPLIT TICKET
 -Rules: With a keno split ticket, 
-        you can play two keno games in one. 
-        A single ticket is divided between the numbers you will use for each game. 
-        The drawback here is you cannot use the same number on both bets. 
+        you can play two keno games in one session. 
+        A single ticket is divided between the numbers you will use for each game.
+        Numbers can be have different wager amounts. The drawback here is you CANNOT 
+        use the same number on both bets.
+
+-Method: Account for two tickets in the istantiation of one object 
  
 ------------------------------------------------------------------------------------
 */
@@ -228,7 +238,7 @@ SPLIT TICKET
 class splitTicket : public Ticket 
 {
     protected:
-        int numberofSpots1;
+        int numberofSpots1; 
         int numberofSpots2;
         float wagerAmount1;
         float wagerAmount2;
@@ -243,7 +253,7 @@ class splitTicket : public Ticket
 
             this -> numberofSpots1 = numberofSpots1;
             this -> numberofSpots2 = numberofSpots2;
-            this -> numberofSpots = numberofSpots1 + numberofSpots2;
+            this -> numberofSpots = numberofSpots1 + numberofSpots2; 
 
             this -> wagerAmount1 = wagerAmount1;
             this -> wagerAmount2 = wagerAmount2;
@@ -252,6 +262,8 @@ class splitTicket : public Ticket
             this -> ticketCost2 = numberofSpots2*wagerAmount2;
             this -> ticketCost = ticketCost1 + ticketCost2; 
         }
+
+        //Get Functions: 
 
         int getNumberofSpots1(){
             return numberofSpots1;
@@ -277,12 +289,13 @@ class splitTicket : public Ticket
             return ticketCost2;
         }
 
-        void selectNumbers_split(int spots, int prevSpots, int * resultArray, int prevArray[]){
+        void selectNumbers_split(int spots, int prevSpots, int * resultArray, int prevArray[]) //pass in number of ticket spots, number of spots from a previous ticket, pointer to pass the address of an array, and previous array of selected numbers 
+        {
 
             //Variables
-            int numChoice;
-            std::vector<int> selectedNumbers;
-            std::vector<int>::iterator it;
+            int numChoice; //user input of a selected number
+            std::vector<int> selectedNumbers; //vector of numbers selected by a user
+            std::vector<int>::iterator it; //vector iterator
 
             //fill array with valid user input
             for (int i = 0; i < spots; i++)
@@ -293,35 +306,34 @@ class splitTicket : public Ticket
                 if (numChoice < 1 || numChoice > MAXGRIDNUMBER) //validate the number selected is within range (1-80)
                 {   
                     std::cout << "Number Out Of Range. Try Again \n";
-                    i--; 
+                    i--; //set i to previous iteration
                 }
                 else
                 {
                     for (int j = 0; j < prevSpots; j++) //iterate through previous ticket numbers
                     {
-                        if (numChoice == prevArray[j]) //determine if number selected is already present in the previous ticket
+                        if (numChoice == prevArray[j]) //determine if number selected is already present in the previous ticket (NO DUPLICATES)
                         {
                             std::cout << "Repeating Value. Try Again \n";
-                            valid = 1;
-                            i--;
+                            valid = 1; //set valid to 1 
+                            i--; //set i to previous iteration
                             break;                                    
                         }             
                     }
 
-                    if (valid == 0)
+                    if (valid == 0) //check if the number selected passed the initial loop
                     {
-                        if(selectedNumbers.empty()) //check if vector is empty (Segmentation fault may occur if this line is removed)
+                        if(selectedNumbers.empty()) //check if vector is empty if so add the user's choice to avoid pointing to an empty vector (Segmentation fault will occur if this is removed)
                         {
-                            std::cout << "MESSAGE: Vector is empty \n";
                             selectedNumbers.push_back(numChoice); //Add new number to vector
                             std::cout << "Number selected successfully \n";
                         }
                         else
                         {
 
-                            //find function: arguments - beginnning and end position iterators of a vector, and a constant interger value.  
-                            //Return value: Compares iterator value to const int value passed in and returns first value in vector equal to the int value. 
-                            //If int value is not found function returns the end position(reference: https://www.cplusplus.com/reference/algorithm/find/)
+                            //find function: Arguments - beginnning and end position iterators of a vector, and a constant interger value.  
+                            //Return value: Compares iterator value to const int value passed in and returns iterator of first value in vector equal to the int value. 
+                            //If int value is NOT found function it returns the end position (reference: https://www.cplusplus.com/reference/algorithm/find/)
 
                             it = std::find(selectedNumbers.begin(), selectedNumbers.end(), numChoice); 
     
@@ -360,6 +372,10 @@ class splitTicket : public Ticket
 WAY TICKET
 -Rules: Way tickets let you play more than one keno ticket at the same time. 
         A player can bet on their chosen numbers at once without needing to buy multiple tickets.
+
+-Method: Have user select number of tickets they would like to play in one sitting, store into a vector,
+        and iterate/call specific funtcions in main
+        (For simplicity create multiple Straight Tickets on a larger scale)
 ---------------------------------------------------------------------------------------------------
 */
 

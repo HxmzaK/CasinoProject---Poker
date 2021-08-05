@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <sqlite3.h>
+#include "Keno.h"
 
 static int callback(void* data, int argc, char** argv, char** azColName){               
     int i; 
@@ -25,7 +26,7 @@ EDIT TABLE FUNCTION:
 
 ARGUMENTS: pointer to database, sql command passed as a string, target table passed as a string
 
-Description: editTable() function will take in a database and edit the database based off the command
+Description: editTable() function will take in a database, and edit the database based off the command
              that was passed through. Ensure the command is correct syntax.
 
 --------------------------------------------------------------------------------------------------
@@ -62,6 +63,7 @@ Function: winningNumbers()
     -description: validates randomized input of numbers ranging from 1-80 and stores 
     numbers in an array. The array of numbers can be accessed outside of the function
     through the pointer array being passed through.
+    -based on selectNumbers() function in ticket class
 
 --------------------------------------------------------------------------------------
 */
@@ -70,7 +72,7 @@ void winningNumbers(int spots, int * resultArray){
 
     //Variables
     int numChoice;
-    std::vector<int> winningNumbers;
+    std::vector<int> winningNumbers; //winning numbers vector
     bool checkRepeat = true;
 
     //fill array with valid user input
@@ -121,7 +123,8 @@ Function: prizeCalculator()
     -description: input a target ticket, number of matches from the searchMatch()
     function to run through a series of case statements that determines the amount won
     based on the amount of numbers selected, number of matches and the wager amount
-    as a multiplier. Base numbers are based on 1$ wager amounts.
+    as a multiplier. Base numbers are based on 1$ wager amounts. 
+    -prizes based on Massachusetts Keno prizes
 
 -------------------------------------------------------------------------------
 */
