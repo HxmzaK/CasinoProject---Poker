@@ -133,7 +133,7 @@ int main() {
     {
         std::cout << "\nWelcome To the Casino " << player1.getName() << "!\n";
         int Choice;
-        cout << "You currently have $" << player1.getBankAccount() << "\n";
+        cout << "You currently have $" << player1.GetBalancedb() << "\n";
         cout << "Casino Menu: \n";
         cout << "Enter '0' To Exit Menu\nEnter '1' for Blackjack\nEnter '2' for Keno\n"
             "Enter '3' for Poker\nEnter '4' for Roulette\nEnter '5' for Slots\n"
