@@ -145,7 +145,7 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
            break;
         case 1: //1 Match
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
            break;
@@ -162,11 +162,11 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
            break;
         case 1: //1 Match
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 2: //2 Matches
             winAmount = 10 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
        default:
            break;
        }
@@ -179,11 +179,11 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
 
         case 2: //1 Match
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 3: //3 Matches
             winAmount = 25 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default: //No Matches
            winAmount = 0;
@@ -198,15 +198,15 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 2: //1 Match
             winAmount = 1 * wagerAmount; //$1 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 3: //3 Matches
             winAmount = 5 * wagerAmount; //$5 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 4: //3 Matches
             winAmount = 50 * wagerAmount; //$50 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
             winAmount = 0;
@@ -221,15 +221,15 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 3: //3 Matches
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 4: //4 Matches
             winAmount = 15 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 5: //5 Matches
             winAmount = 500 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
             winAmount = 0;
@@ -244,19 +244,19 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 3: //3 Matches
             winAmount = 1 * wagerAmount; //$1 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 4: //4 Matches
             winAmount = 5 * wagerAmount; //$5 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 5: //5 Matches
             winAmount = 50 * wagerAmount; //$50 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 6: //6 Matches
             winAmount = 1500 * wagerAmount; //$1500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
             winAmount = 0;
@@ -270,23 +270,23 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 3: //3 Matches
             winAmount = 1 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 4: //4 Matches
             winAmount = 2 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 5: //5 Matches
             winAmount = 15 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 6: //6 Matches
             winAmount = 150 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 7: //7 Matches
             winAmount = 5000 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
             winAmount = 0;
@@ -300,23 +300,23 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 4: //4 Matches
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 5: //5 Matches
             winAmount = 10 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 6: //6 Matches
             winAmount = 10 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 7: //7 Matches
             winAmount = 400 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 8: //8 Matches
             winAmount = 15000 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
             winAmount = 0;
@@ -330,27 +330,27 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 4: //4 Matches
             winAmount = 1 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 5: //5 Matches
             winAmount = 4 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 6: //6 Matches
             winAmount = 25 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 7: //7 Matches
             winAmount = 200 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 8: //8 Matches
             winAmount = 2500 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 9: //9 Matches
             winAmount = 25000 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
             winAmount = 0;
@@ -364,31 +364,31 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 0: //0 Matches
             winAmount = 3 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 5: //5 Matches
             winAmount = 3 * wagerAmount; //$3 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 6: //6 Matches
             winAmount = 10 * wagerAmount; //$10 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 7: //7 Matches
             winAmount = 50 * wagerAmount; //$50 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 8: //8 Matches
             winAmount = 500 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 9: //9 Matches
             winAmount = 10000 * wagerAmount; //$10000 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
         case 10: //10 Matches
             winAmount = 200000 * wagerAmount; //$200000 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            std::cout << "Prize: $" << winAmount << "!\n";
             break;
        default:
             winAmount = 0;

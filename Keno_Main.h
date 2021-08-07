@@ -73,23 +73,26 @@ int Keno(Player player1){
     {
             //Proccess 2: Bank Account -> Withdraw amount
             float withdrawAmount;
+            float uptWithdraw;
+            float uptDeposit;
             float accountBalance;
-            float amountWon = 0;
+            float moneyWon;
             float spendAmount;
+            float amountWon = 0;
             int bankInput = 1;
             int exit = 0;
             int validAmount = 0;
             int costChoice = 0;
             int newBalance = 0;
             int profit = 0;
+            int numberofSpots = 0; //numbers to be selected
+            float wagerAmount = 0; //dollar wager
 
             while (bankInput != 0)
             {
                 std::cout << "Let's Start By Taking Out Money. Here's Your Bank Account. \n";
                 std::cout <<"Account Balance: $" << player1.GetBalancedb() << "\nHow much would you like to withdraw?\n";
                 std::cin >> withdrawAmount;
-                player1.setWithdraw(withdrawAmount);
-                player1.UpdateWithdraw(withdrawAmount); //update withdraw amount in database
 
                 if (withdrawAmount > player1.GetBalancedb()) //check if user has enough money in their bankaccount. If they do not then the user is prompted to exit
                 {
@@ -97,6 +100,8 @@ int Keno(Player player1){
                     std::cin >> exit; 
                     if (exit == 1)
                     {
+                        newBalance = player1.GetBalancedb() + spendAmount;
+                        player1.UpdateBalance(newBalance); //update player account with remaining spending amount
                         return 0; //ends code
                     }
                     else
@@ -111,6 +116,10 @@ int Keno(Player player1){
                 }
                 else
                 {
+                    uptWithdraw = player1.GetWithdrawdb() + withdrawAmount;
+                    // player1.setWithdraw(withdrawAmount);
+                    player1.UpdateWithdraw(uptWithdraw); //update withdraw amount in database
+                    
                     spendAmount = withdrawAmount; //set spending amount (amount able to play with during session) equal to the withdrawAmount
                     accountBalance = player1.GetBalancedb() - withdrawAmount; //update new account balance
                     player1.setBankAccount(accountBalance);
@@ -118,14 +127,13 @@ int Keno(Player player1){
                     editTable(DB, uptBalance, "Players Table"); //run edit table function from System_Functions
 
                     std::cout << "Great you have $" << spendAmount << " spending money! Use it wisely. \n";
-                    bankInput = 0; //break while loop
+                    break;
                 }
             }
-            
             std::cout << "------------------------------------------------ \n";
 
             std::cout << "Press '1' to begin\n";
-            int uin; //User Input
+            int uin = 0; //User Input
             std::cin >> uin;
             
             while (uin != 0)
@@ -138,7 +146,7 @@ int Keno(Player player1){
                 //Print Player Account: Amount Withdrawn, Account Balance, Spending Amount
                 std::cout <<"Bank Account: \n";
                 std::cout << "Amount Withdrawn: $" << withdrawAmount << std::endl;
-                std::cout <<"Account Balance: $" << accountBalance << std::endl;
+                std::cout <<"Account Balance: $" << player1.GetBalancedb() << std::endl;
                 std::cout << "Spending Amount: $" << spendAmount << std::endl;
                 std::cout << "------------------------------------------------ \n";
 
@@ -151,12 +159,10 @@ int Keno(Player player1){
                     case 1: //STRAIGHT TICKET GAME
                     {
                         //Process 3: Fill In Ticket: Choose ticket type, Pick Number of Spots per Draw (1-10), Wager per draw ($1-10)
-                        int numberofSpots = 0; //numbers to be selected
-                        float wagerAmount = 0; //dollar wager
-                        
                         //Validate Input
-                        while (validAmount = 0)
+                        while (validAmount == 0)
                         {
+                            
                             std::cout << "How many spots would you like (Number between 1-10)?\n";
                             std::cin >> numberofSpots;
                             std::cout << "How much would you like to wager per draw ($1-10)\n";
@@ -167,13 +173,19 @@ int Keno(Player player1){
                             {
                                 std::cout << "Ticket costs more than amount available would you like to try again or return to the menu? (press '1' to try again or '2' to return to the menu).\n";
                                 std::cin >> costChoice;
-                                if (costChoice == 0)
+                                if (costChoice == 1)
                                 {
                                     validAmount = 0;
                                 }
                                 else
                                 {
+                                    std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                     newBalance = player1.GetBalancedb() + spendAmount;
+                                    uptDeposit = player1.GetDepositdb() + spendAmount;
+                                    uptWithdraw = player1.GetWithdrawdb() - spendAmount;
+
+                                    player1.UpdateWithdraw(uptWithdraw);
+                                    player1.UpdateDeposit(uptDeposit);
                                     player1.UpdateBalance(newBalance); //update player account with remaining spending amount
                                     return 0;
                                 }
@@ -181,14 +193,20 @@ int Keno(Player player1){
                             }
                             else
                             {
-                                validAmount = 1;
+                                break;
                             }
-                            
                         }
                         
                         straightTicket ticket1(numberofSpots,wagerAmount); //Create Straight Ticket Object with inputs (inputs to be changed to user inputs)
 
-                        spendAmount = spendAmount - ticket1.getTicketCost(); //update spending amount 
+                        spendAmount = spendAmount - ticket1.getTicketCost(); //update spending amount
+
+                        if (spendAmount < 0)
+                        {
+                            std::cout << "---------------------------------------------------------------------- \n";
+                            std::cout << "Warning: Your spending amount is below 0, you are now in debt >:(\n";
+                            std::cout << "---------------------------------------------------------------------- \n";
+                        }
 
                         std::cout << ticket1.getTicketName() + " Has Been Chosen\n"; //Print Ticket Type to Screen
                         std::cout << "Number of Spots: " << ticket1.getNumberofSpots() << std::endl; //Print Number of Spots Selected
@@ -199,7 +217,6 @@ int Keno(Player player1){
 
                         //Process 4: pick numbers between 1-maxGridNumber based on # of spots selected
                         std::cout << "Select " << ticket1.getNumberofSpots() << " numbers between 1 and 80. Repeats are not allowed.\n";
-
 
                         int * selectedNumberResult = new int[ticket1.getNumberofSpots()]; //array size is NOT constant so dynamic array created at runtime to avoid memory allocation errors 
 
@@ -213,7 +230,6 @@ int Keno(Player player1){
 
                         srand(time(0)); //reset seed for randomly generated numbers
                         winningNumbers(MAXWINNINGNUMBERS, winResult); //generate winning numbers and store them in winResult array
-
 
                         std::cout << "------------------------------------------------ \n";
 
@@ -230,7 +246,7 @@ int Keno(Player player1){
                         }
                         
                         //Process 9: Calculate Prizes, Amount Won, Amount Lost payout based on # of matches
-                        float moneyWon = prizeCalculator(ticket1, matches, wagerAmount); //assign prize value to amount of money won
+                        moneyWon = prizeCalculator(ticket1, matches, wagerAmount); //assign prize value to amount of money won
 
                         //add to gamesPlayed and update gamesPlayed
                         int addGames = player1.getGamePlayed() + 1; //store new value of Games Played for PLAYERS db table
@@ -249,10 +265,10 @@ int Keno(Player player1){
                         }
                         else
                         {
-                            std::cout << "You won is $" << profit << std::endl; //print profit
+                            std::cout << "You made $" << profit << std::endl; //print profit
                         }
 
-                        if (moneyWon > ticket1.getTicketCost()) //if the money won is greater than the cost of the ticket update amountWon, update Games Won 
+                        if (moneyWon >= ticket1.getTicketCost()) //if the money won is greater than or equal to the cost of the ticket update amountWon, update Games Won 
                         {
 
                             //set new amountWon for player 1
@@ -276,11 +292,11 @@ int Keno(Player player1){
                         else // if money won is less or equal to the cost of ticket
                         {
                             //set new amountLost for player 1
-                            float amountLost = Keno.GetAmountLostdb() + ticket1.getTicketCost();
+                            float amountLost = Keno.GetAmountLostdb() + std::abs(profit);
                             player1.setAmountLost(amountLost);
                             string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             editTable(DB, uptAmountLost, "Games Table");
-                            
+              
                             //set new loss count
                             int addLoss = player1.GetLossesdb() + 1;
                             int addLossGame = Keno.GetLossesdb() + 1;
@@ -301,11 +317,27 @@ int Keno(Player player1){
                             std::cin >> withdrawChoice;
                             if (withdrawChoice == 1)
                             {
-                                break;
+                                bankInput = 1; //reset withdraw checkpoint
+                                validAmount = 0; //resets validAmount checkpoint
+                                uin = 0; //reset begin game checkpoint
                             }
                             else if (withdrawChoice == 0)
                             {
-                                return 0;
+                                if (spendAmount < 0)
+                                {
+                                    std::cout << "The money owed has been taken out of your account. Thank you for playing!\n";
+                                    newBalance = player1.GetBalancedb() + spendAmount;
+                                    player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                    return 0;
+                                }
+                                else
+                                {
+                                    std::cout << "Your remaining spending money has been deposited to your account balance. Thank you for playing!\n";
+                                    newBalance = player1.GetBalancedb() + spendAmount;
+                                    player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                    player1.UpdateDeposit(spendAmount); //update deposit with spending amount
+                                    return 0;
+                                }
                             }
                         }
                         else
@@ -317,9 +349,16 @@ int Keno(Player player1){
                             std::cin >> choice; 
                             if (choice == 0)
                             {
+                                std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                 newBalance = player1.GetBalancedb() + spendAmount;
+                                uptDeposit = player1.GetDepositdb() + spendAmount;
                                 player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                player1.UpdateDeposit(uptDeposit); //update deposit with spending amount
                                 return 0;
+                            }
+                            else
+                            {
+                                validAmount = 0; //resets validAmount checkpoint
                             }                    
                         }
                     break;
@@ -343,13 +382,12 @@ int Keno(Player player1){
                         float wagerAmount = 0; //dollar wager
                         
                         //Validate Input
-                        while (validAmount = 0)
+                        while (validAmount == 0)
                         {
                             std::cout << "How many spots would you like for the first ticket (Number between 1-10)?\n";
                             std::cin >> numberofSpots1;
                             std::cout << "How much would you like to wager per draw for the first ticket ($1-10)\n";
                             std::cin >> wagerAmount1;
-
 
                             std::cout << "How many spots would you like for the second ticket (Number between 1-10)?\n";
                             std::cin >> numberofSpots2;
@@ -362,20 +400,26 @@ int Keno(Player player1){
                             {
                                 std::cout << "Ticket costs more than amount available would you like to try again or return to the menu? (press '1' to try again or '2' to return to the menu).\n";
                                 std::cin >> costChoice;
-                                if (costChoice == 0)
+                                if (costChoice == 1)
                                 {
                                     validAmount = 0;
                                 }
                                 else
                                 {
+                                    std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
+                                    uptDeposit = player1.GetDepositdb() + spendAmount;
+                                    uptWithdraw = player1.GetWithdrawdb() - spendAmount;
                                     newBalance = player1.GetBalancedb() + spendAmount;
+                                    
+                                    player1.UpdateWithdraw(uptWithdraw);
+                                    player1.UpdateDeposit(uptDeposit);
                                     player1.UpdateBalance(newBalance); //update player account with remaining spending amount
                                     return 0;
                                 }
                             }
                             else
                             {
-                                validAmount = 1;
+                                break;
                             }
                             
                         }
@@ -383,6 +427,13 @@ int Keno(Player player1){
                         splitTicket ticket1(numberofSpots1, numberofSpots2, wagerAmount1, wagerAmount2); //Create Split Ticket Object with inputs (inputs to be changed to user inputs)
 
                         spendAmount = spendAmount - ticket1.getTicketCost(); //update spending amount
+
+                        if (spendAmount < 0)
+                        {
+                            std::cout << "---------------------------------------------------------------------- \n";
+                            std::cout << "Warning: Your spending amount is below 0, you are now in debt >:(\n";
+                            std::cout << "---------------------------------------------------------------------- \n";
+                        }
 
                         std::cout << ticket1.getTicketName() + " Has Been Chosen\n"; //Print Ticket Type to Screen
                         std::cout << "TICKET 1 INFO: \n";
@@ -473,10 +524,10 @@ int Keno(Player player1){
                         }
                         else
                         {
-                            std::cout << "You won is $" << profit << std::endl; //print profit
+                            std::cout << "You made is $" << profit << std::endl; //print profit
                         }
 
-                        if (moneyWon > ticket1.getTicketCost()) //if the money won is greater than the cost of the ticket add to bank account, update amountWon, update Games Won 
+                        if (moneyWon >= ticket1.getTicketCost()) //if the money won is greater than the cost of the ticket add to bank account, update amountWon, update Games Won 
                         {
 
                             //set new amountWon for player 1
@@ -500,7 +551,7 @@ int Keno(Player player1){
                         else // if money won is less or equal to the cost of
                         {
                             //set new amountLost for player 1
-                            float amountLost = Keno.GetAmountLostdb() + ticket1.getTicketCost();
+                            float amountLost = Keno.GetAmountLostdb() + std::abs(profit);
                             player1.setAmountLost(amountLost);
                             string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             editTable(DB, uptAmountLost, "Games Table");
@@ -513,6 +564,7 @@ int Keno(Player player1){
                             string uptLost_Players = "UPDATE PLAYERS SET LOSSES = "+ std::to_string(addLoss) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
                             editTable(DB, uptLost_Games, "Games Table");
                             editTable(DB, uptLost_Players, "Players Table");
+
                             spendAmount = spendAmount + moneyWon;
                         }
 
@@ -524,11 +576,27 @@ int Keno(Player player1){
                             std::cin >> withdrawChoice;
                             if (withdrawChoice == 1)
                             {
-                                break;
+                                bankInput = 1; //reset withdraw checkpoint
+                                validAmount = 0; //resets validAmount checkpoint
+                                uin = 0; //reset begin game checkpoint
                             }
                             else if (withdrawChoice == 0)
                             {
-                                return 0;
+                                if (spendAmount < 0)
+                                {
+                                    std::cout << "The money owed has been taken out of your account. Thank you for playing!\n";
+                                    newBalance = player1.GetBalancedb() + spendAmount;
+                                    player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                    return 0;
+                                }
+                                else
+                                {
+                                    std::cout << "Your remaining spending money has been deposited to your account balance. Thank you for playing!\n";
+                                    newBalance = player1.GetBalancedb() + spendAmount;
+                                    player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                    player1.UpdateDeposit(spendAmount); //update deposit with spending amount
+                                    return 0;
+                                }
                             }
                         }
                         else
@@ -540,10 +608,17 @@ int Keno(Player player1){
                             std::cin >> choice; 
                             if (choice == 0)
                             {
+                                std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                 newBalance = player1.GetBalancedb() + spendAmount;
+                                uptDeposit = player1.GetDepositdb() + spendAmount;
                                 player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                player1.UpdateDeposit(uptDeposit); //update deposit with spending amount
                                 return 0;
-                            }                    
+                            }
+                            else
+                            {
+                                validAmount = 0; //resets validAmount checkpoint
+                            }                      
                         }
                     break;    
                     }
@@ -562,50 +637,52 @@ int Keno(Player player1){
 
                     std::vector<wayTicket> ticketVect; //initialize wayTicket vector to store all tickets 
 
-                    for (int i = 1; i < numberofTickets; i++) //iterate until reaches number of tickets requested by the user
+                    for (int i = 1; i < numberofTickets+1; i++) //iterate until reaches number of tickets requested by the user
                     {
 
-                        std::cout << "How many spots would you like for Ticket" << i << " (Number between 1-10)?\n";
+                        std::cout << "How many spots would you like for Ticket " << i << " (Number between 1-10)?\n";
                         std::cin >> numberofSpots;
-                        std::cout << "How much would you like to wager per draw for Ticket" << i << " ($1-10)?\n";
+                        std::cout << "How much would you like to wager per draw for Ticket " << i << " ($1-10)?\n";
                         std::cin >> wagerAmount;                        
+                        int cost = numberofSpots*wagerAmount;
 
                         //validate cost is within spending amount
-                        if (numberofSpots*wagerAmount > spendAmount)
+                        if (cost > spendAmount)
                         {
                             int continueTicket = 0;
-                            std::cout << "You do not have enough spending money. Would you like to try again, play with current amount of tickets, or return to the menu?\n(Press '1' to try again, '2' to play with current amount, '3' return to menu)\n";
+                            std::cout << "You do not have enough spending money. Would you like to try again, or play with current amount of tickets?\n(Press '1' to try again, '2' to play with current amount)\n";
                             std::cin >> continueTicket;
 
                             if (continueTicket == 1)
                             {
                                 i--; //set i to previous iteration
-                                break;
-                            }
-                            else if (continueTicket == 2)
-                            {
-                                break; //exit for loop
+                                // break;
                             }
                             else
                             {
-                                newBalance = player1.GetBalancedb() + spendAmount;
-                                player1.UpdateBalance(newBalance); //update player account with remaining spending amount
-                                return 0;
+                                break; //exit for loop
                             }
-                            
                         }
-                        
-                        wayTicket newTicket(numberofSpots,wagerAmount); //Create Ticket with user inputs 
-                        ticketVect.push_back(newTicket); //Add new ticket to vector
-                        spendAmount = spendAmount - ticketVect[i].getTicketCost(); //update spending amount
+                        else
+                        {
+                            wayTicket newTicket(numberofSpots,wagerAmount); //Create Ticket with user inputs 
+                            ticketVect.push_back(newTicket); //Add new ticket to vector
+                            spendAmount = spendAmount - ticketVect[i-1].getTicketCost(); //update spending amount
 
-                        std::cout << "Ticket " << i << " Info:" << std::endl; //Print Ticket Info
-                        std::cout << "Number of Spots: " << ticketVect[i].getNumberofSpots() << std::endl; //Print Number of Spots Selected
-                        std::cout << "Wager Selected: $" << ticketVect[i].getwagerAmount() << std::endl; //Print Wager Amount
-                        std::cout << "Ticket Cost: $" << ticketVect[i].getTicketCost() << std::endl; //Print Ticket Cost
-                        std::cout << "Spending Amount: $" << spendAmount<< std::endl; //Print spend amount balance
-                        std::cout << "------------------------------------------------ \n";
+                            if (spendAmount < 0)
+                            {
+                                std::cout << "---------------------------------------------------------------------- \n";
+                                std::cout << "Warning: Your spending amount is below 0, you are now in debt >:(\n";
+                                std::cout << "---------------------------------------------------------------------- \n";
+                            }
 
+                            std::cout << "Ticket " << i << " Info:" << std::endl; //Print Ticket Info
+                            std::cout << "Number of Spots: " << ticketVect[i-1].getNumberofSpots() << std::endl; //Print Number of Spots Selected
+                            std::cout << "Wager Selected: $" << ticketVect[i-1].getwagerAmount() << std::endl; //Print Wager Amount
+                            std::cout << "Ticket Cost: $" << ticketVect[i-1].getTicketCost() << std::endl; //Print Ticket Cost
+                            std::cout << "Spending Amount: $" << spendAmount << std::endl; //Print spend amount balance
+                            std::cout << "------------------------------------------------ \n";  
+                        }
                     }
 
                     //Process 4: pick numbers between 1-maxGridNumber based on # of spots selected
@@ -614,7 +691,7 @@ int Keno(Player player1){
                     {
                         int * selectedNumberResult = new int[ticketVect[i].getNumberofSpots()]; //dynamic array selectedNumberResult - created at runtime to avoid memory allocation errors
 
-                        std::cout << "Select Numbers for Ticket " << i << ":\n";
+                        std::cout << "Select Numbers for Ticket " << i+1 << ":\n";
                         std::cout << "Select " << ticketVect[i].getNumberofSpots() << " numbers between 1 and 80. Repeats are not allowed.\n";
                         ticketVect[i].selectNumbers(ticketVect[i].getNumberofSpots(), selectedNumberResult);
 
@@ -671,10 +748,10 @@ int Keno(Player player1){
                         }
                         else
                         {
-                            std::cout << "You won is $" << profit << std::endl; //print profit
+                            std::cout << "You made $" << profit << std::endl; //print profit
                         }
 
-                        if (moneyWon > totalticketCost) //if the money won is greater than the cost of the ticket add to bank account, update amountWon, update Games Won 
+                        if (moneyWon >= totalticketCost) //if the money won is greater than the cost of the ticket add to bank account, update amountWon, update Games Won 
                         {
 
                             //set new amountWon for player 1
@@ -698,7 +775,7 @@ int Keno(Player player1){
                         else // if money won is less or equal to the cost of
                         {
                             //set new amountLost for player 1
-                            float amountLost = Keno.GetAmountLostdb() + totalticketCost;
+                            float amountLost = Keno.GetAmountLostdb() + std::abs(profit);
                             player1.setAmountLost(amountLost);
                             string uptAmountLost = "UPDATE GAMES SET AMOUNT_LOST = "+ std::to_string(amountLost) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                             editTable(DB, uptAmountLost, "Games Table");
@@ -715,8 +792,6 @@ int Keno(Player player1){
                             spendAmount = spendAmount + moneyWon;
                         }
 
-                        
-
                         //check if there's enough spending money
                         if (spendAmount <= 0)
                         {
@@ -725,11 +800,27 @@ int Keno(Player player1){
                             std::cin >> withdrawChoice;
                             if (withdrawChoice == 1)
                             {
-                                break;
+                                bankInput = 1; //reset withdraw checkpoint
+                                validAmount = 0; //resets validAmount checkpoint
+                                uin = 0; //reset begin game checkpoint
                             }
                             else if (withdrawChoice == 0)
                             {
-                                return 0;
+                                if (spendAmount < 0)
+                                {
+                                    std::cout << "The money owed has been taken out of your account. Thank you for playing!\n";
+                                    newBalance = player1.GetBalancedb() + spendAmount;
+                                    player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                    return 0;
+                                }
+                                else
+                                {
+                                    std::cout << "Your remaining spending money has been deposited to your account balance. Thank you for playing!\n";
+                                    newBalance = player1.GetBalancedb() + spendAmount;
+                                    player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                    player1.UpdateDeposit(spendAmount); //update deposit with spending amount
+                                    return 0;
+                                }
                             }
                         }
                         else
@@ -741,10 +832,17 @@ int Keno(Player player1){
                             std::cin >> choice; 
                             if (choice == 0)
                             {
+                               std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                 newBalance = player1.GetBalancedb() + spendAmount;
+                                uptDeposit = player1.GetDepositdb() + spendAmount;
                                 player1.UpdateBalance(newBalance); //update player account with remaining spending amount
+                                player1.UpdateDeposit(uptDeposit); //update deposit with spending amount
                                 return 0;
-                            }                    
+                            }
+                            else
+                            {
+                                validAmount = 0; //resets validAmount checkpoint
+                            }                      
                         }                    
                         break;
                     }
