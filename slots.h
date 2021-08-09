@@ -107,8 +107,19 @@ using namespace std;
 		}
 
 		award = award - (playcount * 5);
-		cout << "\nYou have earned $" << award << " while playing double row slots. Exiting to main menu...\n\n";
-		return award;
+    
+    if (award >= 0)
+    {
+      cout << "\nYou have earned $" << award << " while playing single row slots. Exiting to main menu...\n\n";
+		  return award;
+    }
+    else if (award < 0)
+    {
+      cout << "\nYou have lost $" << award << " while playing single row slots. Exiting to main menu...\n\n";
+      return award;
+    }
+   
+		
 
 	}
 
@@ -152,8 +163,17 @@ using namespace std;
 		}
 
 		award = award - (playcount * 5);
-		cout << "\nYou have earned $" << award << " while playing double row slots. Exiting to main menu...\n\n";
-		return award;
+		
+    if (award >= 0)
+    {
+      cout << "\nYou have earned $" << (award*-1) << " while playing double row slots. Exiting to main menu...\n\n";
+		  return award;
+    }
+    else if (award < 0)
+    {
+      cout << "\nYou have lost $" << (award*-1) << " while playing double row slots. Exiting to main menu...\n\n";
+      return award;
+    }
 
 
 	}
@@ -200,7 +220,18 @@ int gameplay(Player player1)
 				break;
 
 			case 5:
-				exit(0);
+      
+    		Slots.UpdateAmountLost();
+		    Slots.UpdateAmountwon();
+		    Slots.UpdateGamesplayed();
+		    Slots.UpdateLosses();
+		    Slots.UpdateWins();
+		
+		    player1.UpdateWins();
+		    player1.UpdateLosses();
+		    player1.UpdateGamesplayed();
+        
+        return 0;
 				break;
 
 			default:
