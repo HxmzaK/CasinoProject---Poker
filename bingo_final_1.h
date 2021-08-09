@@ -162,12 +162,14 @@ int Bingo(Player& player) {
                     betChoice = false;
                 }
                 else {
-                    cout << "\nPlease enter a valid bet" << endl;
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                     cout << "\nPlease enter a valid bet" << endl;
                 }
             }
 
            
-            cout << "\nEnter 5 unique words from the list (use 0 for FS) : ";
+            cout << "\nEnter 5 unique words from the list (use 0 for FS) (Enter a word or 0 for Free Space, then press Enter for each word) : ";
 
             cin >> result[0] >> result[1] >> result[2] >> result[3] >> result[4];
 
