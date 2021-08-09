@@ -5,3 +5,5 @@ blackjack.exe
 test.o
 blacktest.cpp
 maintest.cpp
+casinodata.db
+pls.o
