@@ -116,6 +116,7 @@ public:
     }
 
     int GetWithdrawdb() {
+        //Julian
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -135,6 +136,7 @@ public:
     }
 
     int GetDepositdb() {
+        //Julian
         sqlite3* DB;
         char* messageError;
         int exit = 0;

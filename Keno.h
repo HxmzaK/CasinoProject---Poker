@@ -14,6 +14,7 @@
 -------------------------------------------------
 
 KENO HEADER FILE
+Author: Julian
 
 Contents:
 
@@ -64,8 +65,111 @@ class Ticket {
         }
 
         //Class Methods:
-        virtual void printTicket(){
-            std::cout << "printTicket() function was called \n"; //new feature added, print statement to ensure function was called for testing purposes 
+        virtual void printTicket()
+        {
+            //print KENO Ticket
+            cout << "\n\n\n\n-----------------------------------------------------------------------------------\n";
+            cout << "|                                KENO TICKET                                      |\n";
+            cout << "-----------------------------------------------------------------------------------\n";
+            cout << "| 1. HOW MANY SPOTS (NUMBERS) DO YOU WANT TO PLAY?                                |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 11; i++)
+            {
+                cout << "|  " << i << "  ";
+            }
+            cout << "|                    |\n-----------------------------------------------------------------------------------\n";
+            cout << "| 2. HOW MUCH DO YOU WANT TO WAGER PER DRAW?                                      |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 11; i++)
+            {
+                cout << "|  $" << i << "  ";
+            }
+            cout << "|          |\n-----------------------------------------------------------------------------------\n";
+            cout << "| 3. PICK YOUR OWN SPOTS?                                                         |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 81; i++)
+            {
+                cout << "| " << i << " |";
+                if (i == 10) printf("                               |");
+                if( i % 10 == 0 && i != 0 ) printf("                      |\n");
+            }
+            cout << "-----------------------------------------------------------------------------------\n\n\n\n";        
+        }
+
+        virtual void printTicketColor(Ticket targetTicket, int * numberChoices)
+        {
+            //print KENO Ticket
+            cout << "\n\n\n\n-----------------------------------------------------------------------------------\n";
+            cout << "|                                KENO TICKET                                      |\n";
+            cout << "-----------------------------------------------------------------------------------\n";
+            cout << "| 1. HOW MANY SPOTS (NUMBERS) DO YOU WANT TO PLAY?                                |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 11; i++)
+            {
+                if (targetTicket.getNumberofSpots() == i)
+                {
+                    cout << "|  ";
+                    printf("\033[0;31m"); //print red text to terminal
+                    cout << i;
+                    printf("\033[0;37m"); //revert back to white
+                    cout << "  ";   
+                }
+                else
+                {
+                    cout << "|  " << i << "  ";
+                }
+            }
+
+            cout << "|                    |\n-----------------------------------------------------------------------------------\n";
+            cout << "| 2. HOW MUCH DO YOU WANT TO WAGER PER DRAW?                                      |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 11; i++)
+            {
+                if (targetTicket.getwagerAmount() == i)
+                {
+                    
+                    cout << "|  ";
+                    printf("\033[0;31m"); //print red text to terminal
+                    cout << " $"<<i;
+                    printf("\033[0;37m"); //revert back to white
+                    cout << "  ";
+                }
+                else
+                {
+                    cout << "|  $" << i << "  ";
+                }
+            }
+
+            cout << "|         |\n-----------------------------------------------------------------------------------\n";
+            cout << "| 3. PICK YOUR OWN SPOTS?                                                         |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 81; i++)
+            {
+                int counter = 0;
+
+                for (int j = 0; j < targetTicket.getNumberofSpots(); j++)
+                {
+                    if (numberChoices[j] == i && counter == 0)
+                    {
+                        counter++;
+                        cout << "| ";
+                        printf("\033[0;36m"); //print cyan text to terminal
+                        cout<< i;
+                        printf("\033[0;37m"); //revert back to white
+                        cout << " |";
+                        if (i == 10) printf("                               |");
+                        if( i % 10 == 0 && i != 0 ) printf("                      |\n");
+                    }
+                }
+
+                if(counter == 0)
+                    {
+                        cout << "| " << i << " |";
+                        if (i == 10) printf("                               |");
+                        if( i % 10 == 0 && i != 0 ) printf("                      |\n");
+                    }
+            }
+            cout << "-----------------------------------------------------------------------------------\n\n\n\n";  
         }
 
         virtual void selectNumbers(int spots, int * resultArray) //passes in number of ticket spots, and a pointer to pass the address of an array initialized outside the function call
@@ -361,6 +465,114 @@ class splitTicket : public Ticket
                 std::cout << selectedNumbers[i] << ", ";
             }
             std::cout << "\n";
+        }
+
+        void printTicketColor(splitTicket targetTicket, int * numberChoices1, int * numberChoices2)
+        {
+            //print KENO Ticket
+            cout << "\n\n\n\n-----------------------------------------------------------------------------------\n";
+            cout << "|                                KENO TICKET                                      |\n";
+            cout << "-----------------------------------------------------------------------------------\n";
+            cout << "| 1. HOW MANY SPOTS (NUMBERS) DO YOU WANT TO PLAY?                                |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 11; i++)
+            {
+                if (targetTicket.getNumberofSpots1() == i)
+                {
+                    cout << "|  ";
+                    printf("\033[0;31m"); //print red text to terminal
+                    cout << i;
+                    printf("\033[0;37m"); //revert back to white
+                    cout << "  ";   
+                }
+                else if (targetTicket.getNumberofSpots2() == i)
+                {
+                    cout << "|  ";
+                    printf("\033[0;32m"); //print green text to terminal
+                    cout << i;
+                    printf("\033[0;37m"); //revert back to white
+                    cout << "  ";   
+                }
+                else
+                {
+                    cout << "|  " << i << "  ";
+                }
+            }
+
+            cout << "|                    |\n-----------------------------------------------------------------------------------\n";
+            cout << "| 2. HOW MUCH DO YOU WANT TO WAGER PER DRAW?                                      |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 11; i++)
+            {
+                if (targetTicket.getWagerAmount1() == i)
+                {
+                    
+                    cout << "|  ";
+                    printf("\033[0;31m"); //print red text to terminal
+                    cout << " $"<<i;
+                    printf("\033[0;37m"); //revert back to white
+                    cout << "  ";
+                }
+                else if (targetTicket.getWagerAmount2() == i)
+                {
+                    
+                    cout << "|  ";
+                    printf("\033[0;32m"); //print green text to terminal
+                    cout << " $"<<i;
+                    printf("\033[0;37m"); //revert back to white
+                    cout << "  ";
+                }
+                else
+                {
+                    cout << "|  $" << i << "  ";
+                }
+            }
+
+            cout << "|         |\n-----------------------------------------------------------------------------------\n";
+            cout << "| 3. PICK YOUR OWN SPOTS?                                                         |\n|";
+            cout << "                                                                                 |\n";
+            for (int i = 1; i < 81; i++)
+            {
+                int counter = 0;
+
+                for (int j = 0; j < targetTicket.getNumberofSpots1(); j++)
+                {
+                    if (numberChoices1[j] == i && counter == 0)
+                    {
+                        counter++;
+                        cout << "| ";
+                        printf("\033[0;36m"); //print cyan text to terminal
+                        cout<< i;
+                        printf("\033[0;37m"); //revert back to white
+                        cout << " |";
+                        if (i == 10) printf("                               |");
+                        if( i % 10 == 0 && i != 0 ) printf("                      |\n");
+                    }
+                }
+
+                for (int j = 0; j < targetTicket.getNumberofSpots2(); j++)
+                {
+                    if (numberChoices2[j] == i && counter == 0)
+                    {
+                        counter++;
+                        cout << "| ";
+                        printf("\033[0;36m"); //print cyan text to terminal
+                        cout<< i;
+                        printf("\033[0;37m"); //revert back to white
+                        cout << " |";
+                        if (i == 10) printf("                               |");
+                        if( i % 10 == 0 && i != 0 ) printf("                      |\n");
+                    }
+                }
+
+                if(counter == 0)
+                    {
+                        cout << "| " << i << " |";
+                        if (i == 10) printf("                               |");
+                        if( i % 10 == 0 && i != 0 ) printf("                      |\n");
+                    }
+            }
+            cout << "-----------------------------------------------------------------------------------\n\n\n\n";  
         }
 
 };

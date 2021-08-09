@@ -7,6 +7,7 @@
                     KENO
 
 -------------------------------------------------
+Author: Julian Fontes
 */
 
 #include <stdio.h>
@@ -30,41 +31,61 @@ int Keno(Player player1){
     Keno.SetName("Keno");
 
     //Player: set initial values of games played, wins, losses, amount won, and amount lost to 0
+    player1.setAmountWon(0); //amountWon tracks player winnings during a session
+    player1.setAmountLost(0); //amountLost tracks player losses during a session
     // player1.setGamesPlayed(0);
     // player1.setWins(0);
     // player1.setLosses(0);
-    player1.setAmountWon(0); //amountWon tracks player winnings during a session
-    player1.setAmountLost(0); //amountLost tracks player losses during a session
     // player1.setDeposit(0);
     // player1.setWithdraw(0);
-    //player1.setBankAccount(1000);
+    // player1.setBankAccount(1000);
 
     //OPEN DATABASE
     sqlite3* DB; 
 	int exit = 0;		
     exit = sqlite3_open("casinodata.db", &DB); //open the database
 
-    //Add Game & Player to Database
-    // string addGame = "INSERT INTO GAMES VALUES(" + std::to_string(Keno.getID()) + ", '"+ Keno.getName() +"', " + std::to_string(Keno.getWins()) +", " + std::to_string(Keno.getLosses()) +", " + std::to_string(Keno.getGamesPlayed()) +", " + std::to_string(Keno.getAmountWon()) +", " + std::to_string(Keno.getAmountLost()) +" );";
-    // editTable(DB, addGame, "Casino Database");
-
-    //string addPlayer = "INSERT INTO PLAYERS VALUES("+ std::to_string(player1.getID()) +", '"+ player1.getName() +"', '" + player1.getName() +"', " + std::to_string(player1.getBankAccount()) + ", "+ std::to_string(player1.getDeposit()) +", "+ std::to_string(player1.getWithdraw()) +", "+ std::to_string(player1.getGamePlayed()) +", "+ std::to_string(player1.getWins()) +", "+ std::to_string(player1.getLosses()) +", NULL)";
-    //editTable(DB, addPlayer, "Casino Database");
-
-
     //Process 1: begin game (bank account starts with $1000, print player Info: ID, Name, Account Balance)
 
     //Warm Welcome :)
-    std::cout << "██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗    ████████╗ ██████╗     ██╗  ██╗███████╗███╗   ██╗ ██████╗ \n"
+
+    //Linux Terminal Print:
+    printf("\033[0;33m"); //print yellow text to terminal
+    std::cout << 
+    
+    "██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗    ████████╗ ██████╗     ██╗  ██╗███████╗███╗   ██╗ ██████╗ \n"
     "██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝    ╚══██╔══╝██╔═══██╗    ██║ ██╔╝██╔════╝████╗  ██║██╔═══██╗\n"
     "██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗         ██║   ██║   ██║    █████╔╝ █████╗  ██╔██╗ ██║██║   ██║\n"
     "██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝         ██║   ██║   ██║    ██╔═██╗ ██╔══╝  ██║╚██╗██║██║   ██║\n"
     "╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗       ██║   ╚██████╔╝    ██║  ██╗███████╗██║ ╚████║╚██████╔╝\n"
     " ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝       ╚═╝    ╚═════╝     ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝ \n"
-    "                                                                                                                           \n";
+    "                                                                                                                           " 
+    << std::endl;
+    
+    // //Windows Terminal Print:
+    // printf("\033[0;33m"); //print yellow text to terminal
+    // std::cout <<
+
+    //     "____    __    ____  _______  __        ______   ______   .___  ___.  _______    .___________.  ______       __  ___  _______ .__   __.   ______    __  \n"
+    //     "\\   \\  /  \\  /   / |   ____||  |      /      | /  __  \\  |   \\/   | |   ____|   |           | /  __  \\     |  |/  / |   ____||  \\ |  |  /  __  \\  |  | \n"
+    //     " \\   \\/    \\/   /  |  |__   |  |     |  ,----'|  |  |  | |  \\  /  | |  |__      `---|  |----`|  |  |  |    |  '  /  |  |__   |   \\|  | |  |  |  | |  | \n"
+    //     "  \\            /   |   __|  |  |     |  |     |  |  |  | |  |\\/|  | |   __|         |  |     |  |  |  |    |    <   |   __|  |  . `  | |  |  |  | |  | \n"
+    //     "   \\    /\\    /    |  |____ |  `----.|  `----.|  `--'  | |  |  |  | |  |____        |  |     |  `--'  |    |  .  \\  |  |____ |  |\\   | |  `--'  | |__| \n"
+    //     "    \\__/  \\__/     |_______||_______| \\______| \\______/  |__|  |__| |_______|       |__|      \\______/     |__|\\__\\ |_______||__| \\__|  \\______/  (__) \n"
+    //     "                                                                                                                                                       "
+    // << std::endl;
+
+    std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- \n";
+    std::cout << "RULES: To play Keno select the desired number of spots ranging from 1-10, and the wager amount for each drawing from $1-10 as well. \n";
+    std::cout << "Once these numbers are selected it is time to choose the numbers the user would like to play with. The user can select numbers from 1-80 corresponding with the \n"; 
+    std::cout << "number of spots the user would like to play. Twenty winning numbers will then be picked, and the amount of money won depends on the number of matches multiplied\n"; 
+    std::cout << "the wager amount. The user is also able to choose a ticket type from 3 options: Straight Ticket where a straight bet is a bet with a specific amount of numbers chosen,\n"; 
+    std::cout << "Ticket where the user may play two tickets at once but cannot use the same numbers twice, and a Way Ticket where the user may play multiple tickets at the same time.\n";
+    std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- \n\n";
+    printf("\033[0;37m"); //print white text to terminal
 
     //Print Player's Info to screen
-    std::cout << "--------------------------------------------------------------------------------------------------------------- \n";
+    std::cout << "----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- \n";
     std::cout << "Player Info: \nPlayer ID: " << player1.getID() << "\nPlayer Name: " << player1.getName() << "\nAccount Balance: $" << player1.GetBalancedb() << std::endl; 
     std::cout << "------------------------------------------------ \n";
 
@@ -87,6 +108,7 @@ int Keno(Player player1){
             int profit = 0;
             int numberofSpots = 0; //numbers to be selected
             float wagerAmount = 0; //dollar wager
+            Ticket nullTicket(0,0); //dummy object 
 
             while (bankInput != 0)
             {
@@ -153,9 +175,11 @@ int Keno(Player player1){
                 std::cout << "Which ticket would you like to play with?\n1) Straight Ticket\n2) Split Ticket\n3) Way Ticket \n";
                 int ticketType = 0; //Choose Ticket: 1 = Straight Ticket, 2 = Split Ticket, 3 = Way Ticket
                 std::cin >> ticketType;
+                nullTicket.printTicket(); //print keno ticket
 
                 switch (ticketType) //large case statement that specifically runs script dependent on type of ticket
                 {
+                    
                     case 1: //STRAIGHT TICKET GAME
                     {
                         //Process 3: Fill In Ticket: Choose ticket type, Pick Number of Spots per Draw (1-10), Wager per draw ($1-10)
@@ -221,6 +245,7 @@ int Keno(Player player1){
                         int * selectedNumberResult = new int[ticket1.getNumberofSpots()]; //array size is NOT constant so dynamic array created at runtime to avoid memory allocation errors 
 
                         ticket1.selectNumbers(ticket1.getNumberofSpots(),selectedNumberResult); //call select numbers function and pass through ticket spots and store them in selectedNumberResult array
+                        ticket1.printTicketColor(ticket1, selectedNumberResult); //print ticket with colors
                         std::cout << "------------------------------------------------ \n";
 
                         //Process 7: draw 20 random numbers from 1-80
@@ -261,11 +286,15 @@ int Keno(Player player1){
 
                         if (profit < 0)
                         {
+                            printf("\033[0;31m"); //print red text to terminal
                             std::cout << "You lost $" << std::abs(profit) << "\n";
+                            printf("\033[0;37m"); //revert back to white
                         }
                         else
                         {
+                            printf("\033[0;32m"); //print green text to terminal
                             std::cout << "You made $" << profit << std::endl; //print profit
+                            printf("\033[0;37m"); //revert back to white
                         }
 
                         if (moneyWon >= ticket1.getTicketCost()) //if the money won is greater than or equal to the cost of the ticket update amountWon, update Games Won 
@@ -469,7 +498,7 @@ int Keno(Player player1){
                         ticket1.selectNumbers_split(ticket1.getNumberofSpots2(),ticket1.getNumberofSpots1(),selectedNumberResult2, selectedNumberResult1); //call selectNumbers function specified for SPlit Ticket class to pass through prev & new ticket spots, prev ticket values, and store valid inputs in selectedNumberResult2 array
 
                         std::cout << "------------------------------------------------ \n";
-
+                        ticket1.printTicketColor(ticket1, selectedNumberResult1, selectedNumberResult2);
                         //Process 7: draw 20 random numbers from 1-80
                         std::cout << "Winning Numbers: \n";
 
@@ -520,11 +549,16 @@ int Keno(Player player1){
 
                         if (profit < 0)
                         {
+                            printf("\033[0;31m"); //print red text to terminal
                             std::cout << "You lost $" << std::abs(profit) << "\n";
+                            printf("\033[0;37m"); //revert back to white
+
                         }
                         else
                         {
-                            std::cout << "You made is $" << profit << std::endl; //print profit
+                            printf("\033[0;32m"); //print green text to terminal
+                            std::cout << "You made $" << profit << std::endl; //print profit
+                            printf("\033[0;37m"); //revert back to white
                         }
 
                         if (moneyWon >= ticket1.getTicketCost()) //if the money won is greater than the cost of the ticket add to bank account, update amountWon, update Games Won 
@@ -695,6 +729,7 @@ int Keno(Player player1){
                         std::cout << "Select " << ticketVect[i].getNumberofSpots() << " numbers between 1 and 80. Repeats are not allowed.\n";
                         ticketVect[i].selectNumbers(ticketVect[i].getNumberofSpots(), selectedNumberResult);
 
+                        ticketVect[i].printTicketColor(ticketVect[i], selectedNumberResult);
                         std::cout << "------------------------------------------------ \n";
 
                         //Process 7: draw 20 random numbers from 1-80
@@ -744,11 +779,16 @@ int Keno(Player player1){
 
                         if (profit < 0)
                         {
+                            printf("\033[0;31m"); //print red text to terminal
                             std::cout << "You lost $" << std::abs(profit) << "\n";
+                            printf("\033[0;37m"); //revert back to white
                         }
                         else
                         {
+                            printf("\033[0;32m"); //print green text to terminal
                             std::cout << "You made $" << profit << std::endl; //print profit
+                            printf("\033[0;37m"); //revert back to white
+                            
                         }
 
                         if (moneyWon >= totalticketCost) //if the money won is greater than the cost of the ticket add to bank account, update amountWon, update Games Won 
