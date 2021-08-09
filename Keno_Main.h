@@ -138,7 +138,7 @@ int Keno(Player player1){
                 }
                 else
                 {
-                    uptWithdraw = player1.GetWithdrawdb() + withdrawAmount;
+                    uptWithdraw = player1.GetWithdrawBalancedb() + withdrawAmount;
                     // player1.setWithdraw(withdrawAmount);
                     player1.UpdateWithdraw(uptWithdraw); //update withdraw amount in database
                     
@@ -205,8 +205,8 @@ int Keno(Player player1){
                                 {
                                     std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                     newBalance = player1.GetBalancedb() + spendAmount;
-                                    uptDeposit = player1.GetDepositdb() + spendAmount;
-                                    uptWithdraw = player1.GetWithdrawdb() - spendAmount;
+                                    uptDeposit = player1.GetDepositBalancedb() + spendAmount;
+                                    uptWithdraw = player1.GetWithdrawBalancedb() - spendAmount;
 
                                     player1.UpdateWithdraw(uptWithdraw);
                                     player1.UpdateDeposit(uptDeposit);
@@ -380,7 +380,7 @@ int Keno(Player player1){
                             {
                                 std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                 newBalance = player1.GetBalancedb() + spendAmount;
-                                uptDeposit = player1.GetDepositdb() + spendAmount;
+                                uptDeposit = player1.GetDepositBalancedb() + spendAmount;
                                 player1.UpdateBalance(newBalance); //update player account with remaining spending amount
                                 player1.UpdateDeposit(uptDeposit); //update deposit with spending amount
                                 return 0;
@@ -436,8 +436,8 @@ int Keno(Player player1){
                                 else
                                 {
                                     std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
-                                    uptDeposit = player1.GetDepositdb() + spendAmount;
-                                    uptWithdraw = player1.GetWithdrawdb() - spendAmount;
+                                    uptDeposit = player1.GetDepositBalancedb() + spendAmount;
+                                    uptWithdraw = player1.GetWithdrawBalancedb() - spendAmount;
                                     newBalance = player1.GetBalancedb() + spendAmount;
                                     
                                     player1.UpdateWithdraw(uptWithdraw);
@@ -644,7 +644,7 @@ int Keno(Player player1){
                             {
                                 std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                 newBalance = player1.GetBalancedb() + spendAmount;
-                                uptDeposit = player1.GetDepositdb() + spendAmount;
+                                uptDeposit = player1.GetDepositBalancedb() + spendAmount;
                                 player1.UpdateBalance(newBalance); //update player account with remaining spending amount
                                 player1.UpdateDeposit(uptDeposit); //update deposit with spending amount
                                 return 0;
@@ -874,7 +874,7 @@ int Keno(Player player1){
                             {
                                std::cout << "Your remanining spending money has been deposited to your account balance. Thank you for playing!\n";
                                 newBalance = player1.GetBalancedb() + spendAmount;
-                                uptDeposit = player1.GetDepositdb() + spendAmount;
+                                uptDeposit = player1.GetDepositBalancedb() + spendAmount;
                                 player1.UpdateBalance(newBalance); //update player account with remaining spending amount
                                 player1.UpdateDeposit(uptDeposit); //update deposit with spending amount
                                 return 0;
