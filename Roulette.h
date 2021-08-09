@@ -44,75 +44,6 @@ class Roulette // Roulette Class Declaration, inherits Player and Game Classes
             int selection = rand()%36;
             return selection;
         }
-        // Did not use grid
-        // void prettyDisplay(){
-        // // First let's draw the top "wall", which is a solid 
-        // // row of 80 stars, one at a time
-        // for (int column = 0; column < 96; ++column)
-        // {
-        //     if (column == 0){
-        //         std::cout << " ";
-        //     }else{
-        //         std::cout << "*";
-        //     }
-
-        // }
-        // // now print a carraige return, so we can start printing on the next line
-        // std::cout << "\n";
-
-        // // Now we're going to print the sides.
-        // // There are 8 rows here.  Each row is a star, followed by
-        // // 78 spaces, followed by another star and a carraige return.
-        // for (int row = 0; row < 11; ++row)
-        // {
-        //     // print the left "wall"
-        //     std::cout << "*";
-        //     // Print 96 spaces
-        //     for (int column = 0; column < 96; ++column)
-        //     {
-        //         if ((row == 3) || (row == 7)){
-        //             std::cout << "*";
-        //         }
-        //         else if ((column%8 == 0) && (column != 0)){
-        //             std::cout << "*";
-        //         }
-        //         else std::cout << " ";
-        //         // addNumbersDisplay();
-        //     }
-        //     // finally print the right "wall" and a carraige return
-        //     std::cout << "*\n";
-        //     // continue the for loop to print the next row
-        // }
-
-        // // Once the loop is done, we can print the bottom wall the same way we printed the top one.
-        // for (int column = 0; column < 96; ++column)
-        // {
-        //     if (column == 0){
-        //         std::cout << " ";
-        //     }else{
-        //         std::cout << "*";
-        //     }
-
-        // }
-        // // now print a carraige return, so we can start printing on the next line
-        // std::cout << "\n";
-        // }
-        // void addNumbersDisplay(){
-        //     for (int row = 0; row < 11; ++row)
-        // {
-        //     for (int column = 0; column < 96; ++column)
-        //     {
-        //         if (row == 0){
-        //             if ((column == 0) || (column == 9) || (column == 17) || (column == 25) || (column == 33) || (column == 41) || (column == 49) || (column == 57) || (column == 65) || (column == 73) || (column == 81) || (column == 90)){
-        //                 std::cout << "1";
-        //             }
-        //         }
-        //     }
-        // }
-        // }
-        // Roulette(int gameID, int ID, std::string n, std::string ln):Game(gameID),Player(ID, n, ln){ // Constructor for base Roulette object
-
-        // }
         Roulette(){
 
         }
@@ -124,10 +55,10 @@ class Roulette // Roulette Class Declaration, inherits Player and Game Classes
 void PlayRoulette(Player &player){ // Main Game Function
     srand(time(NULL)); // Random seed for dealer selections
     // Player attributes are passed to Roulette class object
-    int ID = player.getID();
     std::string name = player.getName();
     std::string lname = player.getLname();
     Roulette playerRoulette;
+    player.setBankAccount(player.GetBalancedb()); // Initialize account value 
     Game Roulette(4);
    // Roulette playerRoulette(4, ID, name, lname); // Default Game ID of 4
     int x; // Switch case for Roulette menu
@@ -135,8 +66,7 @@ void PlayRoulette(Player &player){ // Main Game Function
     bool gameOn = true; // Condition for continuous play 
     std::cout << "Welcome to Roulette: " << name << " " << lname << "!\n"; // Welcome message
     while ((gameOn != false)){ // Loop while game is not exited by user 
-        float playerBal = player.getBankAccount(); // Stores player balance and is printed to console
-        std::cout << "Balance: " << playerBal << std::endl;
+        std::cout << "Balance: " << player.getBankAccount() << std::endl;
         std::cout << "Select 1 to place a color bet, 2 for a number bet, 3 for a column bet, or 0 to exit: ";  // Roulette selector
         std::cin >> x;
         switch(x){ // Switch case for Roulette options
