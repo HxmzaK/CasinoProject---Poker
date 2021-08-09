@@ -1,0 +1,37 @@
+# CasinoProject
+Applied Programming final project
+Casino Simulation Beta Version Tutorial
+7/27/21
+ 
+Welcome to the Wentworth Casino! This tutorial will help users learn the rules of the casino, games we offer, and how to navigate the casino.
+Requirement: g++ (Ubuntu 9.3.0-17ubuntu1~20.04) Version 9.3.0 or higher
+Note: to find out which version g++ is run the command “g++ --version” 
+Getting Started: To install the casino clone the Github repository found at the link below. Once the repository is locally cloned you must compile the program using the command  ‘g++ main.o -lsqlite3’ into a Unix terminal. The program can then be run by entering the command ‘./a’.  For a first-time log-in, the user will be prompted to insert their first and last name and a new player will be created in the database. For future logins as the same player the user will enter the id assigned to them when they create an account
+Repository Link: https://github.com/amcmartin/CasinoProject
+Rules:
+Players must create an account to access the casino.
+There are maximum and minimum bet limits for the games.
+Every game played by a user is tracked, wins, losses, and player balances are recorded in a database.
+
+Games:  Below are a list and brief description of the games our casino currently offers.
+ Blackjack- Get a hand whose cards sum to as close to 21 as possible without going over. Face cards are worth 10 and aces are worth either 1 or 11 depending on what is most beneficial.Player plays against the dealer. Initially player is dealt 2 cards and can either receive another card(hit) or keep the cards(stay) this choice is repeated until player goes over 21(busts) or stays.If the player busts they lose automatically.If the player is closer to 21 than the dealer then the player wins.The deal must hit while their sum <= to 16.
+
+·         Slots- To play slots, you will be prompted with a main menu in which you can select which type of slots games you would like to play. There is an option to play with a single row, as well as a double row.. The single row will roll one row of slots, and check if they match up, and give an award accordingly. The double row functions very similarly to this, except there are two rows, which increases the amount of money the player can win. When using these two different game modes, you will spend $5 per spin. If you win any awards, the loss amount will be deducted from the winnings, and be reflected accordingly in the balance for the player. You can continue to spin as many times as you’d like, but make sure to check your balance from time to time to ensure you aren’t depleting your funds.
+·         Keno- To play Keno select the desired number of spots ranging from 1-10, and the wager amount for each drawing from $1-10 as well. Once these numbers are selected it is time to choose the numbers the user would like to play with. The user can select numbers from 1-80 corresponding with the number of spots the user would like to play. Twenty winning numbers will then be picked, and the amount of money won depends on the number of matches multiplied by the wager amount. The user is also able to choose a ticket type from 3 options: Straight Ticket where a straight bet is a bet with a specific amount of numbers chosen, Split Ticket where the user may play two tickets at once but cannot use the same numbers twice, and a Way Ticket where the user may play multiple tickets at the same time.
+·         Roulette- Bet red or black and/or numbers on a revolving wheel that a small ball comes to rest in. A ball will always land on a number and have an assigned color.The user can place bets for a color, specific number, and column. 
+·         Craps- (Sara)
+·         Poker- This Poker game models the old Poker variation called 5 Card Draw with more simple rules. In this game you are dealt your full hand of 5 cards and you are told what your hand is when it is dealt. This comes before you bet. After you are shown your hand you have the ability to bet. This bet would generally be based on how good of a chance you think your hand has to win against the other player’s hands. After your bet is placed each player has a turn placing their bet based on their hand that is not known to you. Once each player has successfully placed their bet the winner is announced and the pot total goes to them. Really the only thing that is needed to know how to play this game is knowledge of poker hands. In order from weakest to strongest hand the hands go, High card is ___, Found a pair, Found two pairs, found three of a kind, found a straight, found a flush, full house, found four of a kind, and found a straight flush. To win a round of poker you need to have a better hand rank than the rest of the players. If you have the same hand rank, whoever has the highest card of that hand rank wins.
+·         Bingo-  This Bingo game differs from normal bingo games and is more of a guessing game. There will be a menu when the game starts up. Type in 1 to play the game, 2 to print the list of 50 words that will be randomly taken from to create the bingo card, and 3 to exit the game. After the wordlist is printed, the menu option will come back up again. After 1 is selected during the menu screen, it will print the amount of times played, the amount of times that the game was won and lost, and the amount lost and won. You will then be prompted to enter a bet from $2-$500 and then you will be prompted to type in 5 unique words(the free space can be one of these words) and then a randomized bingo card will be shown and if you got a bingo with those 5 unique words vertically, horizontally, or diagonally, you will see a winner message and you will be paid out depending on how much you bet. The menu screen will then come back up with the updated user balance, updated amount of games played, updated amount of times won, and updated amount of money won and lost. There will be 2 bots that will also be playing as well and will randomly guess words and will randomly win money if their random words create a bingo on the randomly generated board. 
+
+
+
+
+
+
+
+How to Play: 
+Within a compiled main.cpp, enter the casino by providing your unique player credentials. If an account has not yet been created, see “Getting Started” to create an account. Upon a successful log-in, you will be prompted with a menu selector for the casino’s games.
+
+Figure 3: Casino Menu Selector 
+Simply input a matching number from the selection list to begin playing a casino game! 
+
