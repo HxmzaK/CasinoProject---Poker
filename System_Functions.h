@@ -1,9 +1,11 @@
+//Author: Julian Fontes
 #ifndef SYSTEM_FUNCTIONS_H
 #define SYSTEM_FUNCTIONS_H
 
 #include <iostream>
 #include <string>
 #include <sqlite3.h>
+#include "Keno.h"
 
 static int callback(void* data, int argc, char** argv, char** azColName){               
     int i; 
@@ -25,7 +27,7 @@ EDIT TABLE FUNCTION:
 
 ARGUMENTS: pointer to database, sql command passed as a string, target table passed as a string
 
-Description: editTable() function will take in a database and edit the database based off the command
+Description: editTable() function will take in a database, and edit the database based off the command
              that was passed through. Ensure the command is correct syntax.
 
 --------------------------------------------------------------------------------------------------
@@ -42,14 +44,14 @@ void editTable(sqlite3 * db, string command, string target)
 
         if (exit != SQLITE_OK) 
         { 
-            cout << "--------------------------------------------------------- \n";
-            cout << "System Message: Error Editing " + target << std::endl; 
-            sqlite3_free(messageError); 
+            // cout << "--------------------------------------------------------- \n";
+            // cout << "System Message: Error Editing " + target << std::endl; 
+            // sqlite3_free(messageError); 
         } 
         else
         {
-            cout << "--------------------------------------------------------- \n";            
-            cout << "System Message: "<< target +" Edited Successfully" << std::endl; 
+            // cout << "--------------------------------------------------------- \n";            
+            // cout << "System Message: "<< target +" Edited Successfully" << std::endl; 
         }
 }
 
@@ -62,6 +64,7 @@ Function: winningNumbers()
     -description: validates randomized input of numbers ranging from 1-80 and stores 
     numbers in an array. The array of numbers can be accessed outside of the function
     through the pointer array being passed through.
+    -based on selectNumbers() function in ticket class
 
 --------------------------------------------------------------------------------------
 */
@@ -70,7 +73,7 @@ void winningNumbers(int spots, int * resultArray){
 
     //Variables
     int numChoice;
-    int winningNumbers[spots] = {};
+    std::vector<int> winningNumbers; //winning numbers vector
     bool checkRepeat = true;
 
     //fill array with valid user input
@@ -99,7 +102,7 @@ void winningNumbers(int spots, int * resultArray){
                 }
                 if (checkRepeat == true) //if checkRepeat is true set number in array to User's Choice
                 {
-                    winningNumbers[i] = numChoice;
+                        winningNumbers.push_back(numChoice); //Add new number to vector
                 }
             }
         }
@@ -108,7 +111,9 @@ void winningNumbers(int spots, int * resultArray){
     for (int i = 0; i < spots; i++)
     {
         resultArray[i] = winningNumbers[i]; //store numbers in pointer of resultArray to be called outside of function
+        printf("\033[0;33m"); //print yellow text to terminal
         std::cout << winningNumbers[i] << ", ";
+        printf("\033[0;37m"); //print yellow text to terminal
     }
     std::cout << "\n";
 }
@@ -121,7 +126,8 @@ Function: prizeCalculator()
     -description: input a target ticket, number of matches from the searchMatch()
     function to run through a series of case statements that determines the amount won
     based on the amount of numbers selected, number of matches and the wager amount
-    as a multiplier. Base numbers are based on 1$ wager amounts.
+    as a multiplier. Base numbers are based on 1$ wager amounts. 
+    -prizes based on Massachusetts Keno prizes
 
 -------------------------------------------------------------------------------
 */
@@ -138,11 +144,15 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
        case 0: //No Matches
             winAmount = 0;
-           std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
         case 1: //1 Match
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
            break;
@@ -155,15 +165,21 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
        case 0: //No Matches
             winAmount = 0;
-           std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
         case 1: //1 Match
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 2: //2 Matches
             winAmount = 10 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
        default:
            break;
        }
@@ -176,15 +192,21 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
 
         case 2: //1 Match
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 3: //3 Matches
             winAmount = 25 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default: //No Matches
            winAmount = 0;
-           std::cout << "No Money Won \n";
+           printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
@@ -195,19 +217,27 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 2: //1 Match
             winAmount = 1 * wagerAmount; //$1 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 3: //3 Matches
             winAmount = 5 * wagerAmount; //$5 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 4: //3 Matches
             winAmount = 50 * wagerAmount; //$50 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
             winAmount = 0;
-            std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
@@ -218,19 +248,27 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 3: //3 Matches
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 4: //4 Matches
             winAmount = 15 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 5: //5 Matches
             winAmount = 500 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
             winAmount = 0;
-            std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
@@ -241,23 +279,33 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 3: //3 Matches
             winAmount = 1 * wagerAmount; //$1 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 4: //4 Matches
             winAmount = 5 * wagerAmount; //$5 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 5: //5 Matches
             winAmount = 50 * wagerAmount; //$50 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 6: //6 Matches
             winAmount = 1500 * wagerAmount; //$1500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
             winAmount = 0;
-            std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
@@ -267,27 +315,39 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 3: //3 Matches
             winAmount = 1 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 4: //4 Matches
             winAmount = 2 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 5: //5 Matches
             winAmount = 15 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 6: //6 Matches
             winAmount = 150 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 7: //7 Matches
             winAmount = 5000 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
             winAmount = 0;
-            std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
@@ -297,27 +357,39 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 4: //4 Matches
             winAmount = 2 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 5: //5 Matches
             winAmount = 10 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 6: //6 Matches
             winAmount = 10 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 7: //7 Matches
             winAmount = 400 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 8: //8 Matches
             winAmount = 15000 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
             winAmount = 0;
-            std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
@@ -327,31 +399,45 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 4: //4 Matches
             winAmount = 1 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 5: //5 Matches
             winAmount = 4 * wagerAmount; //$15 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 6: //6 Matches
             winAmount = 25 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 7: //7 Matches
             winAmount = 200 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 8: //8 Matches
             winAmount = 2500 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 9: //9 Matches
             winAmount = 25000 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
             winAmount = 0;
-            std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
@@ -361,35 +447,51 @@ float prizeCalculator(Ticket targetTicket, int matches, float wagerAmount){
        {
         case 0: //0 Matches
             winAmount = 3 * wagerAmount; //$2 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 5: //5 Matches
             winAmount = 3 * wagerAmount; //$3 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 6: //6 Matches
             winAmount = 10 * wagerAmount; //$10 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 7: //7 Matches
             winAmount = 50 * wagerAmount; //$50 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 8: //8 Matches
             winAmount = 500 * wagerAmount; //$500 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 9: //9 Matches
             winAmount = 10000 * wagerAmount; //$10000 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
         case 10: //10 Matches
             winAmount = 200000 * wagerAmount; //$200000 dollar prize with a wager amount multiplier
-            std::cout << "You won $" << winAmount << "!\n";
+            printf("\033[0;33m"); //print yellow text to terminal
+            std::cout << "Prize: $" << winAmount << "!\n";
+            printf("\033[0;37m"); //print yellow text to terminal
             break;
        default:
             winAmount = 0;
-            std::cout << "No Money Won \n";
+            printf("\033[0;31m"); //print red text to terminal
+            std::cout << "No Money Won \n";        
+            printf("\033[0;37m"); //revert back to white
            break;
        }
     break;
