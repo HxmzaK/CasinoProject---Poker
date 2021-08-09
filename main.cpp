@@ -188,7 +188,7 @@ int main() {
             break;
         }
         case 8: { // Craigon Confer, Deposit/Withdraw functionality
-            std::cout << "Your current Balance is: " << player1.getBankAccount() << std::endl;
+            std::cout << "Your current Balance is: " << player1.GetBalancedb() << std::endl;
             std::cout << "Enter '0' to exit, input '1' to deposit cash,'2' to withdraw cash:" << std::endl;
             int y; 
             std::cin >> y;
@@ -205,7 +205,7 @@ int main() {
                     std::cout << "Deposit selected\n";
                     std::cout << "Max Deposit is $10,000. Enter deposit value: ";
                     std::cin >> depositMoney;
-                    float tempBal = player1.getBankAccount(); // Stores current balance
+                    float tempBal = player1.GetBalancedb(); // Stores current balance
                     if ((depositMoney <= 0) || (depositMoney > 100000)){
                         std::cout << "Invalid deposit amount\n";
                         break;
@@ -223,7 +223,7 @@ int main() {
                     std::cout << "Withdraw selected\n";
                     std::cout << "Enter withdrawl value: ";
                     std::cin >> withdrawMoney;
-                    float tempBal = player1.getBankAccount();
+                    float tempBal = player1.GetBalancedb();
                     if ((withdrawMoney > tempBal) || (withdrawMoney <= 0)){
                         std::cout << "Invalid withdraw amount\n";
                         break;
