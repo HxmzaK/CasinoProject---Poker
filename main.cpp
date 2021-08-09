@@ -134,12 +134,17 @@ int main() {
         std::cout << "\nWelcome To the Casino " << player1.getName() << "!\n";
         int Choice;
         cout << "You currently have $" << player1.GetBalancedb() << "\n";
-        cout << "Casino Menu: \n";
-        cout << "Enter '0' To Exit Menu\nEnter '1' for Blackjack\nEnter '2' for Keno\n"
-            "Enter '3' for Poker\nEnter '4' for Roulette\nEnter '5' for Slots\n"
-            "Enter '6' for Bingo\nEnter '7' for Craps\nEnter '8' to deposit/withdraw cash\n";
-        cin >> Choice;
-
+        if (player1.GetBalancedb() >= 2){ //ensures the player has enough money to play a game 
+            cout << "Casino Menu: \n";
+            cout << "Enter '0' To Exit Menu\nEnter '1' for Blackjack\nEnter '2' for Keno\n"
+                "Enter '3' for Poker\nEnter '4' for Roulette\nEnter '5' for Slots\n"
+                "Enter '6' for Bingo\nEnter '7' for Craps\nEnter '8' to deposit/withdraw cash\n";
+            cin >> Choice;
+        }
+        else{ // if player doesnt have enough money to play they are automatically brought to the ATM 
+            Choice = 8;
+            std::cout << "You must add money to your account to be able to play a game\n";
+        }
         switch (Choice)
         {
         case 0:
