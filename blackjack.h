@@ -27,7 +27,7 @@ int blackjack(Player& user){
 	std::string lastname = user.getLname();
 	int id = user.getID();
 	Player_BJ player1(id,name,lastname); // creates a BJ player from the information in the player passed into the function
-	int initialamount = player1.Getaccount(); //saves how much player has when they first sit at the table
+	int initialamount = player1.GetBalancedb(); //saves how much player has when they first sit at the table
 	Dealer_BJ deal(1,"Dealer","NA"); 	// creates a dealer named dealer
 	Blackjack game(1);							//creates a game object with id 1 for BlackJack
 	vector <Card*> deck;								// initiates vector that will become the deck
