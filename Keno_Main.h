@@ -162,7 +162,7 @@ int Keno(Player player1){
             {
                 //Print player Record: Games Played, Wins to Losses, and Amount Won/Lost (during session)
                 std::cout << "------------------------------------------------ \n";
-                std::cout << "Record: \nGames Played: " << player1.getGamePlayed() << "\nRecord: " << player1.getWins() << " - " << player1.getLosses() << "\nAmount Won in Session: " << player1.getAmountWon() << "\nAmount Lost in Session: " << player1.getAmountLost() << std::endl;
+                std::cout << "Record: \nGames Played: " << player1.GetGamesPlayeddb() << "\nRecord: " << player1.GetWinsdb() << " - " << player1.GetLossesdb() << "\nAmount Won in Session: " << player1.getAmountWon() << "\nAmount Lost in Session: " << player1.getAmountLost() << std::endl;
                 std::cout << "------------------------------------------------- \n";
 
                 //Print Player Account: Amount Withdrawn, Account Balance, Spending Amount
@@ -274,8 +274,8 @@ int Keno(Player player1){
                         moneyWon = prizeCalculator(ticket1, matches, wagerAmount); //assign prize value to amount of money won
 
                         //add to gamesPlayed and update gamesPlayed
-                        int addGames = player1.getGamePlayed() + 1; //store new value of Games Played for PLAYERS db table
-                        int addGames_Games = Keno.getGamesPlayed() + 1; //store new value of Games Played for GAMES db table
+                        int addGames = player1.GetGamesPlayeddb() + 1; //store new value of Games Played for PLAYERS db table
+                        int addGames_Games = Keno.GetGamesPlayeddb() + 1; //store new value of Games Played for GAMES db table
                         player1.setGamesPlayed(addGames);
                         string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames_Games) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";"; //update gamesplayed GAMES db
                         string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";"; //update gameplayed PLAYERS db
@@ -537,8 +537,8 @@ int Keno(Player player1){
                         float moneyWon = prizeCalculator(ticket1, matches1, wagerAmount1) + prizeCalculator(ticket1, matches2, wagerAmount2); //set moneyWon to sum of prizes from both tickets
 
                         //add to gamesPlayed and update gamesPlayed
-                        int addGames = player1.getGamePlayed() + 1;
-                        int addGames_Games = Keno.getGamesPlayed() + 1;
+                        int addGames = player1.GetGamesPlayeddb() + 1;
+                        int addGames_Games = Keno.GetGamesPlayeddb() + 1;
                         player1.setGamesPlayed(addGames);
                         string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames_Games) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                         string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
@@ -759,8 +759,8 @@ int Keno(Player player1){
                     }
 
                         //add to gamesPlayed and update gamesPlayed
-                        int addGames = player1.getGamePlayed() + 1;
-                        int addGames_Games = Keno.getGamesPlayed() + 1;
+                        int addGames = player1.GetGamesPlayeddb() + 1;
+                        int addGames_Games = Keno.GetGamesPlayeddb() + 1;
                         player1.setGamesPlayed(addGames);
                         string uptGamesPlayed_Games = "UPDATE GAMES SET GAMESPLAYED = "+ std::to_string(addGames_Games) + " WHERE ID = "+ std::to_string(Keno.getID()) + ";";
                         string uptGamesPlayed_Players = "UPDATE PLAYERS SET GAMESPLAYED = "+ std::to_string(addGames) + " WHERE ID = "+ std::to_string(player1.getID()) + ";";
