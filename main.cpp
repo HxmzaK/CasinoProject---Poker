@@ -26,6 +26,7 @@ static int callbacklogin(void* data, int argc, char** argv, char** azColName) {
 }
 
 Player login() {
+    // AJ
     Player player(0, "", "");
     int id;
     std::cout << "Please enter your ID\n";
@@ -49,6 +50,7 @@ Player login() {
 }
 
 int GetNextid() {
+    // AJ
     sqlite3* DB;
     char* messageError;
     int exit = 0;

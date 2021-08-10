@@ -100,6 +100,7 @@ public:
     }
 
     int GetBalancedb() {
+        //AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -157,6 +158,7 @@ public:
     }
 
     int GetWinsdb() {
+        //AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -176,6 +178,7 @@ public:
     }
 
     int GetLossesdb() {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -195,6 +198,7 @@ public:
     }
 
     int GetGamesPlayeddb() {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -216,6 +220,7 @@ public:
 
 
     void UpdateBalance(int value) {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -229,6 +234,7 @@ public:
     }
 
     void UpdateDeposit(float value) {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -242,6 +248,7 @@ public:
     }
 
     void UpdateWithdraw(float value) {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -255,6 +262,7 @@ public:
     }
 
     void UpdateWins() {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -268,6 +276,7 @@ public:
     }
 
     void UpdateLosses() {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
@@ -281,6 +290,7 @@ public:
     }
 
     void UpdateGamesplayed() {
+        // AJ
         sqlite3* DB;
         char* messageError;
         int exit = 0;
