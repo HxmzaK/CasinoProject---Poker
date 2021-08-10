@@ -7,6 +7,7 @@
 #include "Keno_Main.h"
 #include "Roulette.h"
 #include "craps.h"
+#include "craps.cpp"
 #include "slots.h"
 #include "poker.h"
 #include "bingo_final_1.h"
@@ -188,10 +189,7 @@ int main() {
             break;
         }
         case 7: {
-            cout << "Craps is coming soon\n";
-            //Note: Craps Code causing errors in MAIN 
-            //CrapsGame cgame("hadi", 500.00);
-            // cgame.PlayGame();
+            PlayCraps(player1);
             break;
         }
         case 8: { // Craigon Confer, Deposit/Withdraw functionality
