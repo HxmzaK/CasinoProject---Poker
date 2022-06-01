@@ -1,5 +1,5 @@
 //Poker Game 
-// Created by Hamza and Jason 
+// Created by Hamza and AJ  
 #include "poker_deckofcards.h"
 #include "player_poker.h"
 #include "baseclass.h"
