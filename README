@@ -1,3 +1,14 @@
+This project was a semester long project for Applied Programming Concepts 
+where myself and 7 others were tasked with creating a full casino with playable games and a 
+functional database with players, balances, etc. The parts of the project that I contributed
+to were all of the Poker files as this was my assigned game. I was in charge of coding poker 
+and implementing it with the database. I created a version of poker where a user is drawn 5 
+cards and then has the ability to bet based on the hand they were given. If the hand they had 
+ranked higher than the other users hands that player one. We used SQLite to implement the 
+database within our C++ code. All of the poker files along with some parts of the system
+functions files were my contributions. Please read below for installation instructions
+
+
 # CasinoProject
 Applied Programming final project
 Casino Simulation Beta Version Tutorial
